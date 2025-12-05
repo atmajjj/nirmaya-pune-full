@@ -1,23 +1,35 @@
 import { useState } from "react";
-import { Droplets, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Droplets, Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface LoginFormProps {
-  onSubmit: (username: string, password: string) => void;
+  onSubmit: (email: string, password: string) => void;
   isLoading: boolean;
+  error?: string | null;
+  onClearError?: () => void;
 }
 
-export const LoginForm = ({ onSubmit, isLoading }: LoginFormProps) => {
-  const [username, setUsername] = useState("");
+export const LoginForm = ({ onSubmit, isLoading, error, onClearError }: LoginFormProps) => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!username || !password) return;
-    onSubmit(username, password);
+    if (!email || !password) return;
+    onSubmit(email, password);
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (error && onClearError) onClearError();
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+    if (error && onClearError) onClearError();
   };
 
   return (
@@ -36,28 +48,44 @@ export const LoginForm = ({ onSubmit, isLoading }: LoginFormProps) => {
           </p>
         </div>
 
+        {/* Error Alert */}
+        {error && (
+          <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-red-800">Login Failed</p>
+              <p className="text-sm text-red-600 mt-0.5">{error}</p>
+            </div>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Username Field */}
+          {/* Email Field */}
           <div className="relative">
             <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onFocus={() => setFocusedField('username')}
+              id="email"
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              onFocus={() => setFocusedField('email')}
               onBlur={() => setFocusedField(null)}
-              className={`peer w-full h-14 px-4 pt-5 pb-2 rounded-xl border-2 outline-none transition-all duration-300 bg-white border-slate-200 text-slate-800 focus:border-[#0A3D62] focus:shadow-lg focus:shadow-[#0A3D62]/10 ${focusedField === 'username' ? 'ring-4 ring-[#0A3D62]/10' : ''}`}
+              className={`peer w-full h-14 px-4 pt-5 pb-2 rounded-xl border-2 outline-none transition-all duration-300 bg-white text-slate-800 ${
+                error 
+                  ? 'border-red-300 focus:border-red-500' 
+                  : 'border-slate-200 focus:border-[#0A3D62]'
+              } focus:shadow-lg focus:shadow-[#0A3D62]/10 ${focusedField === 'email' ? 'ring-4 ring-[#0A3D62]/10' : ''}`}
               placeholder=" "
+              autoComplete="email"
             />
             <label
-              htmlFor="username"
+              htmlFor="email"
               className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-                username || focusedField === 'username'
+                email || focusedField === 'email'
                   ? 'top-2 text-xs font-medium text-[#0A3D62]'
                   : 'top-1/2 -translate-y-1/2 text-sm text-slate-400'
               }`}
             >
-              Username
+              Email Address
             </label>
           </div>
 
@@ -67,11 +95,16 @@ export const LoginForm = ({ onSubmit, isLoading }: LoginFormProps) => {
               id="password"
               type={showPassword ? "text" : "password"}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePasswordChange}
               onFocus={() => setFocusedField('password')}
               onBlur={() => setFocusedField(null)}
-              className={`peer w-full h-14 px-4 pt-5 pb-2 pr-12 rounded-xl border-2 outline-none transition-all duration-300 bg-white border-slate-200 text-slate-800 focus:border-[#0A3D62] focus:shadow-lg focus:shadow-[#0A3D62]/10 ${focusedField === 'password' ? 'ring-4 ring-[#0A3D62]/10' : ''}`}
+              className={`peer w-full h-14 px-4 pt-5 pb-2 pr-12 rounded-xl border-2 outline-none transition-all duration-300 bg-white text-slate-800 ${
+                error 
+                  ? 'border-red-300 focus:border-red-500' 
+                  : 'border-slate-200 focus:border-[#0A3D62]'
+              } focus:shadow-lg focus:shadow-[#0A3D62]/10 ${focusedField === 'password' ? 'ring-4 ring-[#0A3D62]/10' : ''}`}
               placeholder=" "
+              autoComplete="current-password"
             />
             <label
               htmlFor="password"
@@ -95,9 +128,9 @@ export const LoginForm = ({ onSubmit, isLoading }: LoginFormProps) => {
           {/* Login Button */}
           <Button 
             type="submit" 
-            disabled={isLoading || !username || !password}
+            disabled={isLoading || !email || !password}
             className={`w-full h-14 text-base font-semibold rounded-xl transition-all duration-300 gap-2 ${
-              isLoading || !username || !password
+              isLoading || !email || !password
                 ? 'opacity-50 cursor-not-allowed'
                 : 'hover:shadow-xl hover:shadow-[#0A3D62]/25'
             } bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg`}

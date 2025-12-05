@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { BarChart3, Beaker, MapPin, LayoutGrid, Grid3X3 } from "lucide-react";
+import NIRAChatbot from "@/components/NIRAChatbot";
 import { OverviewHeader } from "@/components/scientist/Overview/OverviewHeader";
 import { StatsCards } from "@/components/scientist/Overview/StatsCards";
 import { HMPIBarChart } from "@/components/scientist/Overview/HMPIBarChart";
