@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
+import { showSuccessToast } from "@/lib/toast-utils";
 
 interface NavItem {
   title: string;
@@ -70,7 +71,7 @@ const getDashboardTitle = (userRole: string): string => {
 
 const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps) => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   
   const [sidebarOpen, setSidebarOpen] = useState(() => {
     try {
@@ -81,12 +82,23 @@ const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps)
     }
   });
 
-  const userInfo = getUserInfo(userRole);
+  // Use actual user info from auth context if available, otherwise fallback to role-based defaults
+  const defaultUserInfo = getUserInfo(userRole);
+  const userInfo = user ? {
+    name: user.name,
+    email: user.email,
+    role: `${userRole.charAt(0).toUpperCase() + userRole.slice(1)} Dashboard`,
+    initials: user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2),
+    department: defaultUserInfo.department
+  } : defaultUserInfo;
+  
   const dashboardTitle = getDashboardTitle(userRole);
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
+  const handleLogout = async () => {
+    const userName = user?.name || 'User';
+    await logout();
+    showSuccessToast("Logged out", `Goodbye, ${userName}!`);
+    navigate("/", { replace: true });
   };
 
   const handleToggleSidebar = () => {

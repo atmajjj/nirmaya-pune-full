@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Droplets } from "lucide-react";
 import { LoginSlideshow, LoginBranding, LoginForm } from "@/components/auth";
+import { showSuccessToast, showErrorToast } from "@/lib/toast-utils";
+import { Toaster } from "@/components/ui/toaster";
+import { ApiError } from "@/services/api";
+import type { UserRole } from "@/types/auth.types";
 
 // Background images for slideshow
 const backgroundImages = [
@@ -28,11 +32,36 @@ const backgroundImages = [
   },
 ];
 
+/**
+ * Get the dashboard route based on user role
+ */
+const getDashboardRoute = (role: UserRole): string => {
+  const roleRoutes: Record<UserRole, string> = {
+    admin: '/admin/system-overview',
+    scientist: '/scientist/overview',
+    researcher: '/researcher/overview',
+    policymaker: '/policymaker/risk-alerts',
+  };
+  return roleRoutes[role] || '/scientist/overview';
+};
+
 const Login = () => {
   const navigate = useNavigate();
-  const auth = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const { login, isLoading, error, clearError, isAuthenticated, role, user } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [hasJustLoggedIn, setHasJustLoggedIn] = useState(false);
+
+  // Redirect if already authenticated (only show toast on fresh login)
+  useEffect(() => {
+    if (isAuthenticated && role) {
+      const dashboardRoute = getDashboardRoute(role);
+      // Only show welcome toast if user just logged in (not on page load when already authenticated)
+      if (hasJustLoggedIn) {
+        showSuccessToast("Welcome!", `Logged in as ${user?.name || role}`);
+      }
+      navigate(dashboardRoute, { replace: true });
+    }
+  }, [isAuthenticated, role, user, navigate, hasJustLoggedIn]);
 
   // Auto-advance slideshow
   useEffect(() => {
@@ -52,15 +81,26 @@ const Login = () => {
     setCurrentImageIndex((prev) => (prev + 1) % backgroundImages.length);
   };
 
-  const handleLogin = (username: string, password: string) => {
-    setIsLoading(true);
-    
-    // TODO: Replace with actual API call
-    setTimeout(() => {
-      auth.login("scientist");
-      navigate("/scientist/overview");
-      setIsLoading(false);
-    }, 1200);
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      setHasJustLoggedIn(true);
+      await login({ email, password });
+      // Navigation and success toast are handled by the useEffect above
+    } catch (err) {
+      setHasJustLoggedIn(false);
+      // Show appropriate error toast
+      if (err instanceof ApiError) {
+        if (err.status === 401) {
+          showErrorToast("Invalid Credentials", "The email or password you entered is incorrect.");
+        } else if (err.status === 0) {
+          showErrorToast("Connection Error", "Unable to connect to the server. Please check your internet connection.");
+        } else {
+          showErrorToast("Login Failed", err.message);
+        }
+      } else {
+        showErrorToast("Login Failed", "An unexpected error occurred. Please try again.");
+      }
+    }
   };
 
   return (
@@ -87,7 +127,7 @@ const Login = () => {
         {/* Floating Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-40 right-20 w-80 h-80 bg-[#6EDFF6]/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-40 right-20 w-80 h-80 bg-brand-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
           <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-blue-300/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }} />
         </div>
 
@@ -98,17 +138,25 @@ const Login = () => {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 relative bg-gradient-to-b from-slate-50 to-white">
         {/* Mobile Logo */}
         <div className="absolute top-6 left-6 lg:hidden flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-[#0A3D62] to-[#0d4a75] shadow-lg">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-brand to-brand-light shadow-lg">
             <Droplets className="w-5 h-5 text-white" />
           </div>
           <span className="font-bold text-xl text-slate-800">Nirmaya</span>
         </div>
 
-        <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
+        <LoginForm 
+          onSubmit={handleLogin} 
+          isLoading={isLoading} 
+          error={error}
+          onClearError={clearError}
+        />
 
         {/* Bottom decoration for mobile */}
         <div className="absolute bottom-0 left-0 right-0 h-32 lg:hidden bg-gradient-to-t from-slate-100 to-transparent" />
       </div>
+      
+      {/* Toast notifications */}
+      <Toaster />
     </div>
   );
 };
