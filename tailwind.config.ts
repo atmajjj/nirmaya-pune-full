@@ -80,6 +80,18 @@ export default {
           "5": "hsl(var(--chart-5))",
         },
       },
+      // Custom font sizes - improved readability scale
+      // Use these instead of default Tailwind sizes for consistency
+      fontSize: {
+        xs: ['var(--font-size-xs)', { lineHeight: '1.4' }],      // 13px
+        sm: ['var(--font-size-sm)', { lineHeight: '1.5' }],      // 15px
+        base: ['var(--font-size-base)', { lineHeight: '1.6' }],  // 16px
+        lg: ['var(--font-size-lg)', { lineHeight: '1.5' }],      // 18px
+        xl: ['var(--font-size-xl)', { lineHeight: '1.4' }],      // 20px
+        '2xl': ['var(--font-size-2xl)', { lineHeight: '1.3' }],  // 24px
+        '3xl': ['var(--font-size-3xl)', { lineHeight: '1.2' }],  // 30px
+        '4xl': ['var(--font-size-4xl)', { lineHeight: '1.1' }],  // 36px
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

@@ -127,6 +127,66 @@ export const SHADOWS = {
   button: `0 4px 14px ${BRAND_COLORS.primary}40`,
 } as const;
 
+/**
+ * Typography Scale
+ * Font sizes optimized for readability
+ * These match the CSS variables in index.css
+ */
+export const TYPOGRAPHY = {
+  // Font sizes in rem (matching CSS variables)
+  fontSize: {
+    xs: '0.875rem',     // 14px - captions, badges
+    sm: '1rem',         // 16px - secondary text
+    base: '1.0625rem',  // 17px - body text
+    lg: '1.1875rem',    // 19px - emphasized text
+    xl: '1.375rem',     // 22px - subheadings
+    '2xl': '1.625rem',  // 26px - section headers
+    '3xl': '2rem',      // 32px - page titles
+    '4xl': '2.5rem',    // 40px - hero text
+  },
+  // Line heights
+  lineHeight: {
+    tight: 1.2,
+    snug: 1.3,
+    normal: 1.5,
+    relaxed: 1.6,
+  },
+  // Font weights
+  fontWeight: {
+    normal: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700,
+  },
+} as const;
+
+/**
+ * Typography Class Presets
+ * Ready-to-use Tailwind class combinations for common text styles
+ */
+export const TEXT_STYLES = {
+  // Page elements
+  pageTitle: 'text-3xl font-bold text-foreground',
+  sectionTitle: 'text-2xl font-semibold text-foreground',
+  cardTitle: 'text-xl font-semibold text-foreground',
+  subsectionTitle: 'text-lg font-medium text-foreground',
+  
+  // Body text
+  body: 'text-base text-foreground',
+  bodyMuted: 'text-base text-muted-foreground',
+  secondary: 'text-sm text-muted-foreground',
+  caption: 'text-xs text-muted-foreground',
+  
+  // Labels and badges
+  label: 'text-sm font-medium text-foreground',
+  badge: 'text-xs font-medium',
+  
+  // Stats and metrics
+  statValue: 'text-2xl font-bold text-foreground',
+  statValueLg: 'text-3xl font-bold text-foreground',
+  statLabel: 'text-sm text-muted-foreground',
+} as const;
+
 // Type exports for TypeScript support
 export type BrandColor = keyof typeof BRAND_COLORS;
 export type ChartColorSet = keyof typeof CHART_COLORS;
