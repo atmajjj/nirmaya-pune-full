@@ -127,7 +127,7 @@ const Login = () => {
         {/* Floating Elements */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute top-20 left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-40 right-20 w-80 h-80 bg-[#6EDFF6]/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+          <div className="absolute bottom-40 right-20 w-80 h-80 bg-brand-accent/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
           <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-blue-300/10 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }} />
         </div>
 
@@ -138,7 +138,7 @@ const Login = () => {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 relative bg-gradient-to-b from-slate-50 to-white">
         {/* Mobile Logo */}
         <div className="absolute top-6 left-6 lg:hidden flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-[#0A3D62] to-[#0d4a75] shadow-lg">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-brand to-brand-light shadow-lg">
             <Droplets className="w-5 h-5 text-white" />
           </div>
           <span className="font-bold text-xl text-slate-800">Nirmaya</span>

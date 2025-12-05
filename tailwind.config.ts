@@ -19,11 +19,20 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        // Custom brand colors for Nirmaya
+        // Nirmaya Brand Colors - Water Theme
+        // Use these instead of hardcoded hex values
         brand: {
-          DEFAULT: "#0A3D62",
-          light: "#0d4a75",
-          accent: "#6EDFF6",
+          DEFAULT: "#0A3D62",      // Deep Water Blue - Primary
+          light: "#0d4a75",        // Lighter Blue - Hover/Secondary
+          dark: "#082d49",         // Darker Blue - Active states
+          accent: "#6EDFF6",       // Light Aqua - Highlights
+          "accent-hover": "#4FD3E7", // Aqua Hover state
+          secondary: "#00A8E8",    // Aqua Blue
+          "secondary-dark": "#007EA7", // Darker Aqua
+          muted: "#A7B4BE",        // Muted text on dark bg
+          surface: "#DDE3E8",      // Light surface color
+          navy: "#102E46",         // Sidebar background
+          "navy-light": "#1a5276", // Navy border/lighter
         },
         primary: {
           DEFAULT: "hsl(var(--primary))",

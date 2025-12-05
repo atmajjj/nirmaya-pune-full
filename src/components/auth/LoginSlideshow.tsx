@@ -39,8 +39,8 @@ export const LoginSlideshow = ({
       ))}
       
       {/* Gradient overlays */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0A3D62]/70 via-[#0A3D62]/50 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0A3D62]/80 via-transparent to-[#0A3D62]/40" />
+      <div className="absolute inset-0 bg-gradient-to-r from-brand/70 via-brand/50 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-brand/80 via-transparent to-brand/40" />
 
       {/* Navigation Arrows */}
       <button
@@ -71,7 +71,7 @@ export const LoginSlideshow = ({
               onClick={() => onDotClick(index)}
               className={`h-2.5 rounded-full transition-all duration-300 shadow-md ${
                 index === currentIndex 
-                  ? 'bg-[#6EDFF6] w-8' 
+                  ? 'bg-brand-accent w-8' 
                   : 'bg-white/50 w-2.5 hover:bg-white/80'
               }`}
               aria-label={`Go to slide ${index + 1}`}

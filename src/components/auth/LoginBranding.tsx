@@ -6,11 +6,11 @@ export const LoginBranding = () => {
       {/* Logo */}
       <div className="flex items-center gap-4 mb-10">
         <div className="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center border border-white/30 shadow-xl">
-          <Droplets className="w-7 h-7 text-[#6EDFF6]" />
+          <Droplets className="w-7 h-7 text-brand-accent" />
         </div>
         <div>
           <h1 className="text-3xl font-bold tracking-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">Nirmaya</h1>
-          <p className="text-[#6EDFF6] text-sm font-medium drop-shadow-md">Groundwater Intelligence</p>
+          <p className="text-brand-accent text-sm font-medium drop-shadow-md">Groundwater Intelligence</p>
         </div>
       </div>
 
@@ -18,7 +18,7 @@ export const LoginBranding = () => {
       <h2 className="text-4xl font-bold leading-tight mb-5 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
         Protecting India's
         <br />
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6EDFF6] to-cyan-200 drop-shadow-none">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-cyan-200 drop-shadow-none">
           Water Future
         </span>
       </h2>
