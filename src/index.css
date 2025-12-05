@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system - Water-Themed Professional Palette for Nirmaya
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Cloud White - Page Background */
+    --background: 210 33% 98%;
+    --foreground: 203 46% 21%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 203 46% 21%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 203 46% 21%;
+
+    /* Deep Water Blue - Primary Brand (#0A3D62) */
+    --primary: 203 80% 21%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Aqua Blue - Secondary (#00A8E8) */
+    --secondary: 197 100% 45%;
+    --secondary-foreground: 0 0% 100%;
+
+    /* Neutral Gray - Muted backgrounds */
+    --muted: 210 20% 96%;
+    --muted-foreground: 207 15% 55%;
+
+    /* Light Aqua - Accent/Hover States (#6EDFF6) */
+    --accent: 189 88% 70%;
+    --accent-foreground: 203 46% 15%;
+
+    /* Red - Danger/High Risk */
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 25% 90%;
+    --input: 210 25% 90%;
+    --ring: 197 100% 45%;
+
+    --radius: 0.75rem;
+
+    /* Chart Colors - Water Theme */
+    --chart-1: 203 80% 21%; /* Deep Water Blue */
+    --chart-2: 197 100% 45%; /* Aqua Blue */
+    --chart-3: 189 88% 70%; /* Light Aqua */
+    --chart-4: 200 75% 35%; /* Medium Blue */
+    --chart-5: 122 39% 49%; /* Green for safe */
+
+    /* Sidebar - Soft Marine Navy (#102E46) */
+    --sidebar-background: 205 63% 17%;
+    --sidebar-foreground: 210 25% 92%;
+    --sidebar-primary: 197 100% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    /* Light Aqua for active state (#6EDFF6) */
+    --sidebar-accent: 189 88% 70%;
+    --sidebar-accent-foreground: 203 46% 15%;
+    --sidebar-border: 205 50% 25%;
+    --sidebar-ring: 189 88% 70%;
+    /* Hover state (#4FD3E7) */
+    --sidebar-hover: 187 78% 61%;
+
+    /* Custom Water Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(203 80% 21%), hsl(200 75% 32%));
+    --gradient-aqua: linear-gradient(135deg, hsl(197 100% 45%), hsl(200 75% 35%));
+    --gradient-water-surface: linear-gradient(90deg, hsl(203 80% 21%), hsl(200 75% 35%), hsl(193 100% 43%));
+    
+    /* Shadows */
+    --shadow-card: 0 2px 8px hsl(203 80% 21% / 0.1);
+    --shadow-hover: 0 4px 16px hsl(197 100% 45% / 0.15);
+  }
+
+  .dark {
+    --background: 205 63% 8%;
+    --foreground: 210 25% 95%;
+
+    --card: 205 55% 12%;
+    --card-foreground: 210 25% 95%;
+
+    --popover: 205 55% 12%;
+    --popover-foreground: 210 25% 95%;
+
+    --primary: 197 100% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 189 88% 70%;
+    --secondary-foreground: 203 46% 15%;
+
+    --muted: 205 50% 18%;
+    --muted-foreground: 210 20% 65%;
+
+    /* Light Aqua - Accent/Hover States */
+    --accent: 189 88% 70%;
+    --accent-foreground: 203 46% 15%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 205 50% 22%;
+    --input: 205 50% 18%;
+    --ring: 197 100% 45%;
+
+    /* Dark mode sidebar */
+    --sidebar-background: 205 63% 12%;
+    --sidebar-foreground: 210 25% 92%;
+    --sidebar-primary: 197 100% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 189 88% 70%;
+    --sidebar-accent-foreground: 203 46% 15%;
+    --sidebar-border: 205 50% 20%;
+    --sidebar-ring: 189 88% 70%;
+    --sidebar-hover: 187 78% 61%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
