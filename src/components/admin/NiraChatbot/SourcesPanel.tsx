@@ -256,8 +256,8 @@ const SourcesPanel = ({ sources, setSources, collapsed, onToggleCollapse }: Sour
 
   return (
     <div className={cn(
-      "bg-white/80 backdrop-blur-lg border border-gray-200/50 rounded-2xl shadow-lg transition-all duration-300 flex flex-col overflow-hidden",
-      collapsed ? "w-0 overflow-hidden" : "w-96"
+      "bg-white/80 backdrop-blur-lg border border-gray-200/50 rounded-2xl shadow-lg transition-all duration-300 flex flex-col overflow-hidden h-[calc(100vh-250px)]",
+      collapsed ? "w-0 overflow-hidden" : "w-full"
     )}>
       {/* Training Documents Header */}
       <div className="p-5 border-b border-gray-200/50 bg-gradient-to-r from-slate-50 to-blue-50">
@@ -269,14 +269,6 @@ const SourcesPanel = ({ sources, setSources, collapsed, onToggleCollapse }: Sour
             </h2>
             <p className="text-xs text-slate-500 mt-1">Upload documents to enhance NIRA</p>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={onToggleCollapse}
-            className="text-gray-600 hover:text-gray-800"
-          >
-            <X className="w-4 h-4" />
-          </Button>
         </div>
         
         {/* Upload Button */}
