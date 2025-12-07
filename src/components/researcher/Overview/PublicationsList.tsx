@@ -11,7 +11,7 @@ interface PublicationsListProps {
 export const PublicationsList = ({ publications }: PublicationsListProps) => {
   const getStatusBadge = (status: string, color: string) => {
     const colorClasses = {
-      green: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+      green: 'bg-brand/10 text-brand border-brand/30',
       yellow: 'bg-amber-50 text-amber-700 border-amber-200',
       red: 'bg-red-50 text-red-700 border-red-200'
     };
@@ -31,12 +31,12 @@ export const PublicationsList = ({ publications }: PublicationsListProps) => {
       <CardHeader className="border-b border-slate-100 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-emerald-600" />
+            <div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
+              <BookOpen className="w-5 h-5 text-brand" />
             </div>
             <h3 className="text-lg font-bold text-slate-800">Recent Publications</h3>
           </div>
-          <Button variant="outline" size="sm" className="bg-white/70 border-slate-300 text-slate-600 hover:bg-slate-50">
+          <Button variant="outline" size="sm" className="bg-white/70 border-brand/30 text-brand hover:bg-brand/10">
             View All
           </Button>
         </div>
@@ -65,7 +65,7 @@ export const PublicationsList = ({ publications }: PublicationsListProps) => {
                     <span>{pub.citations} citations</span>
                   </div>
                 </div>
-                <Button variant="ghost" size="sm" className="text-teal-600 hover:text-teal-700 hover:bg-teal-50 h-7 text-xs">
+                <Button variant="ghost" size="sm" className="text-brand hover:text-brand-light hover:bg-brand/10 h-7 text-xs">
                   <ExternalLink className="w-3 h-3 mr-1" />
                   View
                 </Button>

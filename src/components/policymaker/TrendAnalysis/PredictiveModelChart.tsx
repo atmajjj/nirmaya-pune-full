@@ -15,9 +15,9 @@ return (
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl flex items-center justify-center">
             <Activity className="w-5 h-5 text-white" />
           </div>
-          "Predictive Forecast"
+          Predictive Forecast
         </CardTitle>
-        <p className="text-slate-600 mt-2">"Predictive Subtitle"</p>
+        <p className="text-slate-600 mt-2">Predictive Subtitle</p>
       </CardHeader>
       <CardContent className="p-6">
         <ResponsiveContainer width="100%" height={350}>

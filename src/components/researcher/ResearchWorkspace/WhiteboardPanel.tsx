@@ -33,7 +33,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
       content: 'Key Finding: Arsenic levels correlate with depth >50m in Gujarat region',
       x: 400,
       y: 120,
-      color: 'bg-green-100 border-green-300'
+      color: 'bg-brand/10 border-brand/30'
     },
     {
       id: '3',
@@ -57,7 +57,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
       content: 'Data shows 23% increase in lead contamination near industrial zones',
       x: 500,
       y: 300,
-      color: 'bg-green-100 border-green-300'
+      color: 'bg-brand/10 border-brand/30'
     },
     {
       id: '6',
@@ -90,7 +90,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
   const addNote = (type: 'hypothesis' | 'finding' | 'idea' | 'question') => {
     const colorMap = {
       hypothesis: 'bg-amber-100 border-amber-300',
-      finding: 'bg-green-100 border-green-300',
+      finding: 'bg-brand/10 border-brand/30',
       idea: 'bg-blue-100 border-blue-300',
       question: 'bg-purple-100 border-purple-300'
     };
@@ -118,7 +118,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
           <Button 
             variant="outline" 
             size="sm" 
-            className={`border-slate-300 rounded-md text-xs ${selectedTool === 'text' ? 'bg-teal-50 border-teal-300' : ''}`}
+            className={`border-slate-300 rounded-md text-xs ${selectedTool === 'text' ? 'bg-brand/10 border-brand/30 text-brand' : ''}`}
             onClick={() => setSelectedTool('text')}
           >
             <Type className="w-4 h-4 mr-1" />
@@ -127,7 +127,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
           <Button 
             variant="outline" 
             size="sm" 
-            className={`border-slate-300 rounded-md text-xs ${selectedTool === 'draw' ? 'bg-teal-50 border-teal-300' : ''}`}
+            className={`border-slate-300 rounded-md text-xs ${selectedTool === 'draw' ? 'bg-brand/10 border-brand/30 text-brand' : ''}`}
             onClick={() => setSelectedTool('draw')}
           >
             <Pencil className="w-4 h-4 mr-1" />
@@ -176,7 +176,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
                 <div className="flex gap-2 mt-4">
                   <Button 
                     size="sm" 
-                    className="bg-teal-600 text-white hover:bg-teal-700 rounded-md"
+                    className="bg-brand text-white hover:bg-brand-light rounded-md"
                     onClick={() => addNote('hypothesis')}
                   >
                     <Plus className="w-4 h-4 mr-1" />
@@ -242,7 +242,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
                 <span>Hypothesis</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-green-200 rounded border border-green-400"></div>
+                <div className="w-3 h-3 rounded border border-brand/30 bg-brand/20"></div>
                 <span>Finding</span>
               </div>
               <div className="flex items-center gap-1">
@@ -270,7 +270,7 @@ export const WhiteboardPanel = ({ whiteboardContent, setWhiteboardContent }: Whi
         </Button>
         <Button 
           variant="outline" 
-          className="bg-green-50 border-green-200 text-green-700 hover:bg-green-100 rounded-md text-sm h-12"
+          className="bg-brand/10 border-brand/30 text-brand hover:bg-brand/20 rounded-md text-sm h-12"
           onClick={() => addNote('finding')}
         >
           <Plus className="w-4 h-4 mr-2" />

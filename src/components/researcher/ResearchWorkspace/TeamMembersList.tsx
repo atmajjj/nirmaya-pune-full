@@ -46,7 +46,7 @@ export const TeamMembersList = ({
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
                   <div className="relative">
-                    <div className="w-11 h-11 bg-teal-600 rounded-lg flex items-center justify-center">
+                    <div className="w-11 h-11 bg-brand rounded-lg flex items-center justify-center">
                       <span className="text-sm font-semibold text-white">{member.avatar}</span>
                     </div>
                     <div className={`absolute -bottom-0.5 -right-0.5 w-3 h-3 ${getStatusColor(member.status)} border-2 border-white rounded-full`}></div>
@@ -88,7 +88,7 @@ export const TeamMembersList = ({
               type="email"
               className="bg-white border-slate-300 rounded-md text-sm"
             />
-            <Button className="w-full bg-teal-600 text-white hover:bg-teal-700 rounded-md text-sm">
+            <Button className="w-full bg-brand text-white hover:bg-brand-light rounded-md text-sm">
               <UserPlus className="w-4 h-4 mr-2" />
               Send Invitation
             </Button>

@@ -17,13 +17,13 @@ const steps = [
   return (
     <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <CardHeader className="border-b border-slate-100 pb-4">
-        <CardTitle className="text-slate-800 text-lg font-semibold">"Analysis Progress"</CardTitle>
-        <p className="text-sm text-slate-500 mt-1">"Real Time Status"</p>
+        <CardTitle className="text-slate-800 text-lg font-semibold">Analysis Progress</CardTitle>
+        <p className="text-sm text-slate-500 mt-1">Real Time Status</p>
       </CardHeader>
       <CardContent className="p-6">
         <div className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-slate-700">"Overall Progress"</span>
+            <span className="text-sm font-medium text-slate-700">Overall Progress</span>
             <span className="text-sm font-bold text-teal-600">{progress}%</span>
           </div>
           <Progress value={progress} className="h-2" />

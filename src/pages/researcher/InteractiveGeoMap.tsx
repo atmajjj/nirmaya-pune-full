@@ -247,7 +247,7 @@ const InteractiveGeoMap = () => {
                 {/* Map Header */}
                 <div className="flex items-center justify-between p-3 border-b border-slate-200">
                   <div className="flex items-center gap-2">
-                    <Globe className="w-5 h-5 text-teal-600" />
+                    <Globe className="w-5 h-5 text-brand" />
                     <span className="font-semibold text-slate-900">India - Groundwater Quality Monitoring</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -351,7 +351,7 @@ const InteractiveGeoMap = () => {
                   {/* Site Counter Overlay */}
                   <div className="absolute top-4 right-4 bg-white rounded-lg border border-slate-200 px-3 py-2 z-[1000]">
                     <span className="text-xs text-slate-500">Showing </span>
-                    <span className="text-sm font-semibold text-teal-600">{filteredSites.length}</span>
+                    <span className="text-sm font-semibold text-brand">{filteredSites.length}</span>
                     <span className="text-xs text-slate-500"> sites</span>
                   </div>
                 </div>

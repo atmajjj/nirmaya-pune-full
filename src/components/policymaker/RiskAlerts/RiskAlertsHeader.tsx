@@ -18,8 +18,8 @@ return (
             <AlertTriangle className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">"Risk Alerts"</h1>
-            <p className="text-sm text-slate-600">"Monitor and manage contamination risks"</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">Risk Alerts</h1>
+            <p className="text-sm text-slate-600">Monitor and manage contamination risks</p>
           </div>
         </div>
         
@@ -30,7 +30,7 @@ return (
             onClick={onRefresh}
           >
             <RefreshCw className="w-4 h-4" />
-            "Refresh"
+            Refresh
           </Button>
           <Button 
             variant="outline" 
@@ -38,7 +38,7 @@ return (
             onClick={onExport}
           >
             <Download className="w-4 h-4" />
-            "Export"
+            Export
           </Button>
         </div>
       </div>

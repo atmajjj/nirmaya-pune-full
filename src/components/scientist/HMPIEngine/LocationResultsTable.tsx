@@ -10,22 +10,22 @@ export const LocationResultsTable = ({ data }: LocationResultsTableProps) => {
 return (
     <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <CardHeader className="border-b border-slate-100 pb-4">
-        <CardTitle className="text-slate-800 text-lg font-semibold">"Location Results"</CardTitle>
-        <p className="text-sm text-slate-500 mt-1">"Detailed Breakdown"</p>
+        <CardTitle className="text-slate-800 text-lg font-semibold">Location Results</CardTitle>
+        <p className="text-sm text-slate-500 mt-1">Detailed Breakdown</p>
       </CardHeader>
       <CardContent className="p-6">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-200">
-                <th className="text-left p-3 text-slate-700 font-semibold">"Id"</th>
-                <th className="text-left p-3 text-slate-700 font-semibold">"Location"</th>
-                <th className="text-left p-3 text-slate-700 font-semibold">"Arsenic Label"</th>
-                <th className="text-left p-3 text-slate-700 font-semibold">"Chromium Label"</th>
-                <th className="text-left p-3 text-slate-700 font-semibold">"Lead Label"</th>
-                <th className="text-left p-3 text-slate-700 font-semibold">"Cadmium Label"</th>
+                <th className="text-left p-3 text-slate-700 font-semibold">Id</th>
+                <th className="text-left p-3 text-slate-700 font-semibold">Location</th>
+                <th className="text-left p-3 text-slate-700 font-semibold">As (mg/L)</th>
+                <th className="text-left p-3 text-slate-700 font-semibold">Cr (mg/L)</th>
+                <th className="text-left p-3 text-slate-700 font-semibold">Pb (mg/L)</th>
+                <th className="text-left p-3 text-slate-700 font-semibold">Cd (mg/L)</th>
                 <th className="text-left p-3 text-slate-700 font-semibold">HMPI</th>
-                <th className="text-left p-3 text-slate-700 font-semibold">"Status"</th>
+                <th className="text-left p-3 text-slate-700 font-semibold">Status</th>
               </tr>
             </thead>
             <tbody>

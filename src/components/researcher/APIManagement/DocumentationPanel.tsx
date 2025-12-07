@@ -26,15 +26,15 @@ export const DocumentationPanel = () => {
             </p>
             <ul className="space-y-1.5 text-xs text-slate-600">
               <li className="flex items-start gap-2">
-                <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-3 h-3 text-brand mt-0.5 flex-shrink-0" />
                 <span>Register on the respective government portal</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-3 h-3 text-brand mt-0.5 flex-shrink-0" />
                 <span>Request API access credentials if required</span>
               </li>
               <li className="flex items-start gap-2">
-                <CheckCircle className="w-3 h-3 text-green-600 mt-0.5 flex-shrink-0" />
+                <CheckCircle className="w-3 h-3 text-brand mt-0.5 flex-shrink-0" />
                 <span>Follow the specific API documentation for authentication methods</span>
               </li>
             </ul>
@@ -53,7 +53,7 @@ export const DocumentationPanel = () => {
             <div className="bg-slate-50 rounded-md p-3 border border-slate-200">
               <h5 className="text-xs font-medium text-slate-700 mb-2">Using cURL</h5>
               <div className="bg-slate-800 rounded p-3">
-                <code className="text-xs text-emerald-400 font-mono">
+                <code className="text-xs text-brand-accent font-mono">
                   curl -X GET "https://api.example.com/groundwater/quality" \<br />
                   &nbsp;&nbsp;-H "Accept: application/json"
                 </code>
@@ -62,7 +62,7 @@ export const DocumentationPanel = () => {
             <div className="bg-slate-50 rounded-md p-3 border border-slate-200">
               <h5 className="text-xs font-medium text-slate-700 mb-2">Using Python</h5>
               <div className="bg-slate-800 rounded p-3">
-                <code className="text-xs text-emerald-400 font-mono">
+                <code className="text-xs text-brand-accent font-mono">
                   import requests<br /><br />
                   response = requests.get(<br />
                   &nbsp;&nbsp;"https://api.example.com/groundwater/quality"<br />
@@ -74,7 +74,7 @@ export const DocumentationPanel = () => {
             <div className="bg-slate-50 rounded-md p-3 border border-slate-200">
               <h5 className="text-xs font-medium text-slate-700 mb-2">Using JavaScript</h5>
               <div className="bg-slate-800 rounded p-3">
-                <code className="text-xs text-emerald-400 font-mono">
+                <code className="text-xs text-brand-accent font-mono">
                   fetch('https://api.example.com/groundwater/quality')<br />
                   &nbsp;&nbsp;.then(response =&gt; response.json())<br />
                   &nbsp;&nbsp;.then(data =&gt; console.log(data));
@@ -87,8 +87,8 @@ export const DocumentationPanel = () => {
         {/* Best Practices */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-              <AlertCircle className="w-4 h-4 text-emerald-600" />
+            <div className="w-8 h-8 bg-brand/10 rounded-lg flex items-center justify-center">
+              <AlertCircle className="w-4 h-4 text-brand" />
             </div>
             <h4 className="text-sm font-semibold text-slate-900">Best Practices</h4>
           </div>

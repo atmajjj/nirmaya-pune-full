@@ -74,7 +74,7 @@ export const SiteDetails = ({ site, getRiskBadge, getMetalStatus }: SiteDetailsP
           </div>
         </div>
 
-        <Button className="w-full bg-teal-600 text-white hover:bg-teal-700 rounded-md text-sm">
+        <Button className="w-full bg-brand text-white hover:bg-brand-light rounded-md text-sm">
           <Eye className="w-4 h-4 mr-2" />
           View Full Report
         </Button>

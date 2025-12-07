@@ -9,8 +9,8 @@ export const AvailableVariables = ({ variables }: AvailableVariablesProps) => {
 return (
     <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <CardHeader className="border-b border-slate-100 pb-4">
-        <CardTitle className="text-slate-800 text-lg font-semibold">"Available Variables"</CardTitle>
-        <p className="text-sm text-slate-500 mt-1">"Available Variables Subtitle"</p>
+        <CardTitle className="text-slate-800 text-lg font-semibold">Available Variables</CardTitle>
+        <p className="text-sm text-slate-500 mt-1">Variables you can use in your formulas</p>
       </CardHeader>
       <CardContent className="p-6">
         <div className="space-y-3">

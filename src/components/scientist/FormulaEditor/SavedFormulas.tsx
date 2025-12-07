@@ -11,8 +11,8 @@ export const SavedFormulas = ({ formulas }: SavedFormulasProps) => {
 return (
     <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <CardHeader className="border-b border-slate-100 pb-4">
-        <CardTitle className="text-slate-800 text-lg font-semibold">"Saved Formulas"</CardTitle>
-        <p className="text-sm text-slate-500 mt-1">"Saved Formulas Subtitle"</p>
+        <CardTitle className="text-slate-800 text-lg font-semibold">Saved Formulas</CardTitle>
+        <p className="text-sm text-slate-500 mt-1">Previously saved analysis formulas</p>
       </CardHeader>
       <CardContent className="p-6">
         <div className="space-y-3">
@@ -31,8 +31,8 @@ return (
                 {formula.expression}
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500">"Last Used": {formula.lastUsed}</span>
-                <Button variant="outline" size="sm">"Load"</Button>
+                <span className="text-xs text-slate-500">Last Used: {formula.lastUsed}</span>
+                <Button variant="outline" size="sm">Load</Button>
               </div>
             </div>
           ))}

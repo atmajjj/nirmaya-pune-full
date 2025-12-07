@@ -20,7 +20,7 @@ interface MetricCardData {
 export const OverviewMetrics = ({ teamCount, notesCount, whiteboardCount, discussionsCount }: OverviewMetricsProps) => {
   const metrics: MetricCardData[] = [
     { title: "Team Members", value: String(teamCount), icon: Users, color: "text-blue-600", bgColor: "bg-blue-50" },
-    { title: "Research Notes", value: String(notesCount), icon: FileText, color: "text-emerald-600", bgColor: "bg-emerald-50" },
+    { title: "Research Notes", value: String(notesCount), icon: FileText, color: "text-brand", bgColor: "bg-brand/10" },
     { title: "Whiteboard Items", value: String(whiteboardCount), icon: Clipboard, color: "text-purple-600", bgColor: "bg-purple-50" },
     { title: "Active Discussions", value: String(discussionsCount), icon: MessageCircle, color: "text-orange-600", bgColor: "bg-orange-50" }
   ];

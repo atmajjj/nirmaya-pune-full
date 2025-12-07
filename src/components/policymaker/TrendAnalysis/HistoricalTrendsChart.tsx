@@ -15,9 +15,9 @@ return (
           <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-blue-600 rounded-2xl flex items-center justify-center">
             <BarChart3 className="w-6 h-6 text-white" />
           </div>
-          "Historical Trends"
+          Historical Trends
         </CardTitle>
-        <p className="text-slate-600 text-lg mt-2">"Historical Trends Subtitle"</p>
+        <p className="text-slate-600 text-lg mt-2">Historical Trends Subtitle</p>
       </CardHeader>
       <CardContent className="p-8">
         <ResponsiveContainer width="100%" height={450}>

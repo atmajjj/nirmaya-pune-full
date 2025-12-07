@@ -138,16 +138,16 @@ const ResearcherOverview = () => {
               {chartTypes.map((chart) => (
                 <Card
                   key={chart.id}
-                  className={`p-6 cursor-pointer transition-all hover:border-teal-300 ${
+                  className={`p-6 cursor-pointer transition-all hover:border-brand/40 ${
                     selectedChartType === chart.id 
-                      ? 'border-2 border-teal-600 bg-teal-50' 
+                      ? 'border-2 border-brand bg-brand/10' 
                       : 'border border-slate-200'
                   }`}
                   onClick={() => setSelectedChartType(chart.id)}
                 >
                   <div className="flex flex-col items-center gap-3">
-                    <chart.icon className={`w-8 h-8 ${selectedChartType === chart.id ? 'text-teal-600' : 'text-slate-600'}`} />
-                    <span className={`text-sm font-medium ${selectedChartType === chart.id ? 'text-teal-700' : 'text-slate-700'}`}>
+                    <chart.icon className={`w-8 h-8 ${selectedChartType === chart.id ? 'text-brand' : 'text-slate-600'}`} />
+                    <span className={`text-sm font-medium ${selectedChartType === chart.id ? 'text-brand' : 'text-slate-700'}`}>
                       {chart.name}
                     </span>
                   </div>
@@ -159,7 +159,7 @@ const ResearcherOverview = () => {
                 Cancel
               </Button>
               <Button 
-                className="bg-teal-600 text-white hover:bg-teal-700"
+                className="bg-brand text-white hover:bg-brand-light"
                 disabled={!selectedChartType}
                 onClick={() => {
                   // Handle adding visualization
@@ -186,7 +186,7 @@ const ResearcherOverview = () => {
                 <Switch 
                   checked={dashboardSettings.keyResearchMetrics}
                   onCheckedChange={() => toggleSetting('keyResearchMetrics')}
-                  className="data-[state=checked]:bg-teal-600"
+                  className="data-[state=checked]:bg-brand"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -194,7 +194,7 @@ const ResearcherOverview = () => {
                 <Switch 
                   checked={dashboardSettings.researchTrendChart}
                   onCheckedChange={() => toggleSetting('researchTrendChart')}
-                  className="data-[state=checked]:bg-teal-600"
+                  className="data-[state=checked]:bg-brand"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -202,7 +202,7 @@ const ResearcherOverview = () => {
                 <Switch 
                   checked={dashboardSettings.topResearchAreas}
                   onCheckedChange={() => toggleSetting('topResearchAreas')}
-                  className="data-[state=checked]:bg-teal-600"
+                  className="data-[state=checked]:bg-brand"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -210,7 +210,7 @@ const ResearcherOverview = () => {
                 <Switch 
                   checked={dashboardSettings.recentPublications}
                   onCheckedChange={() => toggleSetting('recentPublications')}
-                  className="data-[state=checked]:bg-teal-600"
+                  className="data-[state=checked]:bg-brand"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -218,7 +218,7 @@ const ResearcherOverview = () => {
                 <Switch 
                   checked={dashboardSettings.hypothesisDistribution}
                   onCheckedChange={() => toggleSetting('hypothesisDistribution')}
-                  className="data-[state=checked]:bg-teal-600"
+                  className="data-[state=checked]:bg-brand"
                 />
               </div>
             </div>
@@ -232,7 +232,7 @@ const ResearcherOverview = () => {
                 Reset to Default
               </Button>
               <Button 
-                className="bg-teal-600 text-white hover:bg-teal-700"
+                className="bg-brand text-white hover:bg-brand-light"
                 onClick={() => setShowCustomizeDashboard(false)}
               >
                 <Save className="w-4 h-4 mr-2" />

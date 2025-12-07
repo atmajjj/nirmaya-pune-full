@@ -158,10 +158,10 @@ export const HMPIBarChart = ({ data = defaultCityData }: HMPIBarChartProps) => {
         <div className="flex items-center justify-between">
           <div>
             <CardTitle className="text-slate-800 text-lg font-semibold">
-              "Heavy Metal Pollution Index"
+              Heavy Metal Pollution Index
             </CardTitle>
             <p className="text-sm text-slate-500 mt-1">
-              "HMPI values across monitoring locations"
+              HMPI values across monitoring locations
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -417,7 +417,7 @@ export const HMPIBarChart = ({ data = defaultCityData }: HMPIBarChartProps) => {
         {/* Footer Info */}
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-500 bg-slate-50 p-3 rounded-lg">
           <span>
-            "Hover over bars for detailed information"
+            Hover over bars for detailed information
           </span>
           <span className="text-xs text-slate-400">
             Data from {chartData.length} industrial cities • Scale 0-100

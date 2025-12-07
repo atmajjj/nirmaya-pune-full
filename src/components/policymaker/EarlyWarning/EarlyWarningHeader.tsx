@@ -18,19 +18,19 @@ return (
             <Brain className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">"Early Warning System"</h1>
-            <p className="text-sm text-slate-600">"Predictive alerts and monitoring"</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">Early Warning System</h1>
+            <p className="text-sm text-slate-600">Predictive alerts and monitoring</p>
           </div>
         </div>
         
         <div className="flex items-center gap-3">
           <Button variant="outline" onClick={onRefresh} className="bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700 gap-2">
             <RefreshCw className="w-4 h-4" />
-            "Refresh"
+            Refresh
           </Button>
           <Button className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300 gap-2">
             <Download className="w-4 h-4" />
-            "Export"
+            Export
           </Button>
         </div>
       </div>

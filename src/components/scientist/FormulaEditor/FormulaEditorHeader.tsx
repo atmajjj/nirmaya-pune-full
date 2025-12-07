@@ -11,14 +11,14 @@ return (
             <Calculator className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">"Formula Editor"</h1>
-            <p className="text-sm text-slate-600">"Create and manage custom analysis formulas"</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">Formula Editor</h1>
+            <p className="text-sm text-slate-600">Create and manage custom analysis formulas</p>
           </div>
         </div>
         
         <div className="flex items-center gap-3">
-          <button className="px-4 py-2 bg-white/70 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-md transition-all text-sm font-medium">"Load Template"</button>
-          <button className="px-4 py-2 bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white rounded-md shadow-lg hover:shadow-xl transition-all duration-300 text-sm font-medium">"Save Formula"</button>
+          <button className="px-4 py-2 bg-white/70 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-md transition-all text-sm font-medium">Load Template</button>
+          <button className="px-4 py-2 bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white rounded-md shadow-lg hover:shadow-xl transition-all duration-300 text-sm font-medium">Save Formula</button>
         </div>
       </div>
     </div>
