@@ -1,10 +1,12 @@
 import { Bot, User } from "lucide-react";
+import type { ChatSource } from "@/types/chatbot.types";
 
 interface Message {
   id: string;
   content: string;
   isBot: boolean;
   timestamp: Date;
+  sources?: ChatSource[];
 }
 
 interface ChatMessageProps {
@@ -39,8 +41,18 @@ export const ChatMessage = ({ message, isFullScreen }: ChatMessageProps) => {
         >
           {message.content}
         </div>
+        {message.sources && message.sources.length > 0 && (
+          <div className="mt-2 pt-2 border-t border-slate-300">
+            <div className="text-xs text-slate-500 mb-1">Sources:</div>
+            {message.sources.map((source, index) => (
+              <div key={index} className="text-xs text-slate-600">
+                📄 {source.documentName} (Relevance: {(source.relevance * 100).toFixed(1)}%)
+              </div>
+            ))}
+          </div>
+        )}
         <div
-          className={`text-xs mt-2 ${
+          className={`text-xs mt-2 ${message.sources ? 'mt-1' : 'mt-2'} ${
             message.isBot ? 'text-slate-500' : 'text-blue-100'
           }`}
         >

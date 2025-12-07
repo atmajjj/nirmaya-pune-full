@@ -2,7 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageCircle, X, Bot, Minimize2, Maximize2, Expand, Shrink } from 'lucide-react';
-import { ChatMessage, TypingIndicator, ChatInput, generateNIRAResponse, type Message } from '@/components/chatbot';
+import { ChatMessage, TypingIndicator, ChatInput, type Message } from '@/components/chatbot';
+import { chatbotService } from '@/services/api';
+import { useToast } from '@/hooks/use-toast';
 
 interface NIRAChatbotProps {
   className?: string;
@@ -17,13 +19,15 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: "Hello! I'm NIRA (NEERA AI Assistant) 🤖. I'm here to help you with HMPI data analysis, groundwater insights, and policy recommendations. How can I assist you today?",
+      content: "Hello! I'm NIRA (NEERA AI Assistant) 🤖. I'm here to help you with groundwater insights and policy recommendations based on uploaded documents. How can I assist you today?",
       isBot: true,
       timestamp: new Date()
     }
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const [currentSessionId, setCurrentSessionId] = useState<number | undefined>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -40,7 +44,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
     });
   };
 
-  const handleSendMessage = (inputMessage: string) => {
+  const handleSendMessage = async (inputMessage: string) => {
     const userMessage: Message = {
       id: Date.now().toString(),
       content: inputMessage,
@@ -51,18 +55,99 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
     addMessage(userMessage);
     setIsTyping(true);
 
-    setTimeout(() => {
-      const botResponse = generateNIRAResponse(inputMessage);
-      const botMessage: Message = {
+    console.log('🚀 NIRAChatbot: Sending message', {
+      message: inputMessage,
+      sessionId: currentSessionId,
+      timestamp: new Date().toISOString()
+    });
+
+    try {
+      const response = await chatbotService.sendMessage({
+        message: inputMessage,
+        sessionId: currentSessionId
+      });
+
+      console.log('📩 NIRAChatbot: API Response received', {
+        fullResponse: response,
+        success: response?.success,
+        hasData: !!response?.data,
+        dataKeys: response?.data ? Object.keys(response.data) : [],
+      });
+
+      if (response.success && response.data) {
+        // Extract message from either response.data.message or response.data.assistantMessage.content
+        const botMessageContent = response.data.message || 
+                                  response.data.assistantMessage?.content || 
+                                  response.data.assistantMessage?.message ||
+                                  '';
+        
+        const sources = response.data.sources || 
+                       response.data.assistantMessage?.sources || 
+                       [];
+
+        console.log('✅ NIRAChatbot: Processing successful response', {
+          sessionId: response.data.sessionId,
+          messageLength: botMessageContent.length,
+          sourcesCount: sources.length,
+          responseStructure: {
+            hasMessage: !!response.data.message,
+            hasAssistantMessage: !!response.data.assistantMessage,
+            assistantMessageContent: response.data.assistantMessage?.content || 'none'
+          }
+        });
+
+        setCurrentSessionId(response.data.sessionId);
+        
+        if (botMessageContent) {
+          const botMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: botMessageContent,
+            isBot: true,
+            timestamp: new Date(),
+            sources: sources
+          };
+          addMessage(botMessage);
+        } else {
+          console.error('⚠️ NIRAChatbot: No message content found in response', {
+            data: response.data
+          });
+          throw new Error('No message content in response');
+        }
+      } else {
+        console.error('⚠️ NIRAChatbot: Invalid response structure', {
+          response,
+          hasSuccess: 'success' in response,
+          hasData: 'data' in response,
+        });
+        throw new Error('Invalid API response format');
+      }
+    } catch (error) {
+      console.error('❌ NIRAChatbot: Error occurred', {
+        error,
+        errorType: error?.constructor?.name,
+        errorMessage: error instanceof Error ? error.message : 'Unknown error',
+        stack: error instanceof Error ? error.stack : undefined
+      });
+      
+      // Show detailed error to user
+      const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+      toast({
+        title: "Chat Error",
+        description: `Failed to send message: ${errorMsg}. Please check your connection and try again.`,
+        variant: "destructive",
+      });
+      
+      const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
-        content: botResponse,
+        content: "Sorry, I'm having trouble connecting to the server right now. Please ensure the backend API is running and try again later.",
         isBot: true,
         timestamp: new Date()
       };
-
-      addMessage(botMessage);
+      addMessage(errorMessage);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+      console.log('🏁 NIRAChatbot: Message handling complete');
+    }
   };
 
   const handleClose = () => {

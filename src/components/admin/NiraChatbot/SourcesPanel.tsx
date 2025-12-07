@@ -1,10 +1,12 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { X, Search, Upload, Link, Plus, Sparkles, FileText, BookOpen, CheckCircle, Clock, Loader2 } from "lucide-react";
+import { X, Upload, Sparkles, FileText, BookOpen, CheckCircle, Clock, Loader2, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Source } from './types';
 import { Badge } from "@/components/ui/badge";
+import { chatbotService } from '@/services/api';
+import { useToast } from '@/hooks/use-toast';
+import type { ChatbotDocument } from '@/types/chatbot.types';
 
 interface SourcesPanelProps {
   sources: Source[];
@@ -15,40 +17,147 @@ interface SourcesPanelProps {
 
 const SourcesPanel = ({ sources, setSources, collapsed, onToggleCollapse }: SourcesPanelProps) => {
   const [searchSources, setSearchSources] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Fetch documents on mount
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const response = await chatbotService.getDocuments();
+        if (response.success) {
+          const mappedSources: Source[] = response.data.map((doc: ChatbotDocument) => ({
+            id: doc.id.toString(),
+            name: doc.name,
+            type: 'file',
+            fileType: doc.mime_type,
+            dateAdded: new Date(doc.created_at),
+            size: `${(doc.file_size / 1024 / 1024).toFixed(2)} MB`,
+            status: doc.status as any
+          }));
+          setSources(mappedSources);
+        }
+      } catch (error) {
+        console.error('Failed to fetch documents:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load documents.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    fetchDocuments();
+  }, [setSources, toast]);
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    
-    files.forEach(file => {
-      const newSource: Source = {
-        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
-        name: file.name,
-        type: 'file',
-        fileType: file.type,
-        dateAdded: new Date(),
-        size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
-        status: 'pending'
-      };
-      
-      setSources(prev => [...prev, newSource]);
-      
-      // Simulate processing pipeline
-      setTimeout(() => {
-        setSources(prev => prev.map(s => 
-          s.id === newSource.id ? { ...s, status: 'processing' } : s
-        ));
-      }, 1000);
-      
-      setTimeout(() => {
-        setSources(prev => prev.map(s => 
-          s.id === newSource.id ? { ...s, status: 'trained' } : s
-        ));
-      }, 3500);
-    });
-    
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+    if (files.length === 0) return;
+
+    setIsUploading(true);
+
+    try {
+      for (const file of files) {
+        // Check file size (20MB limit)
+        if (file.size > 20 * 1024 * 1024) {
+          toast({
+            title: "File too large",
+            description: `${file.name} exceeds 20MB limit.`,
+            variant: "destructive",
+          });
+          continue;
+        }
+
+        // Check file type
+        const allowedTypes = ['application/pdf', 'text/plain', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword', 'text/markdown'];
+        if (!allowedTypes.includes(file.type) && !file.name.endsWith('.md')) {
+          toast({
+            title: "Unsupported file type",
+            description: `${file.name} is not supported. Use PDF, DOC, DOCX, TXT, or MD files.`,
+            variant: "destructive",
+          });
+          continue;
+        }
+
+        const response = await chatbotService.uploadDocument(file, file.name);
+
+        if (response.success) {
+          toast({
+            title: "Upload successful",
+            description: `${file.name} uploaded and training started.`,
+          });
+
+          // Add to sources list
+          const newSource: Source = {
+            id: response.data.id.toString(),
+            name: response.data.name,
+            type: 'file',
+            fileType: file.type,
+            dateAdded: new Date(),
+            size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
+            status: 'pending'
+          };
+          setSources(prev => [...prev, newSource]);
+
+          // Refresh documents after a delay to show processing
+          setTimeout(() => {
+            fetchDocuments();
+          }, 2000);
+        } else {
+          throw new Error('Upload failed');
+        }
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast({
+        title: "Upload failed",
+        description: "Failed to upload document. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const fetchDocuments = async () => {
+    try {
+      const response = await chatbotService.getDocuments();
+      if (response.success) {
+        const mappedSources: Source[] = response.data.map((doc: ChatbotDocument) => ({
+          id: doc.id.toString(),
+          name: doc.name,
+          type: 'file',
+          fileType: doc.mime_type,
+          dateAdded: new Date(doc.created_at),
+          size: `${(doc.file_size / 1024 / 1024).toFixed(2)} MB`,
+          status: doc.status as any
+        }));
+        setSources(mappedSources);
+      }
+    } catch (error) {
+      console.error('Failed to fetch documents:', error);
+    }
+  };
+
+  const handleDeleteDocument = async (documentId: string) => {
+    try {
+      await chatbotService.deleteDocument(parseInt(documentId));
+      toast({
+        title: "Document deleted",
+        description: "Document has been removed successfully.",
+      });
+      setSources(prev => prev.filter(s => s.id !== documentId));
+    } catch (error) {
+      console.error('Delete error:', error);
+      toast({
+        title: "Delete failed",
+        description: "Failed to delete document. Please try again.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -170,67 +279,21 @@ const SourcesPanel = ({ sources, setSources, collapsed, onToggleCollapse }: Sour
           </Button>
         </div>
         
-        {/* Status Summary */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">
-            <CheckCircle className="w-3 h-3 mr-1" />
-            {trainedCount} Trained
-          </Badge>
-          {processingCount > 0 && (
-            <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200 text-xs">
-              <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-              {processingCount} Processing
-            </Badge>
+        {/* Upload Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+          className="w-full bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white border-0 transition-all duration-200 disabled:opacity-50"
+        >
+          {isUploading ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <Upload className="w-4 h-4 mr-2" />
           )}
-          {pendingCount > 0 && (
-            <Badge variant="outline" className="bg-slate-50 text-slate-600 border-slate-200 text-xs">
-              <Clock className="w-3 h-3 mr-1" />
-              {pendingCount} Queued
-            </Badge>
-          )}
-        </div>
-        
-        {/* Search */}
-        <div className="relative mb-4">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400" />
-          <Input
-            placeholder="Search documents..."
-            value={searchSources}
-            onChange={(e) => setSearchSources(e.target.value)}
-            className="pl-9 bg-white/50 border-slate-300 focus:border-blue-400 focus:ring-blue-200 text-sm"
-          />
-        </div>
-
-        {/* Upload Buttons */}
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => fileInputRef.current?.click()}
-            className="flex-1 bg-white/50 border-slate-300 text-slate-700 hover:bg-blue-50 hover:border-[#0A3D62] hover:text-[#0A3D62] transition-all duration-200"
-          >
-            <Upload className="w-4 h-4 mr-1" />
-            Upload
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleUrlAdd}
-            className="flex-1 bg-white/50 border-slate-300 text-slate-700 hover:bg-blue-50 hover:border-[#0A3D62] hover:text-[#0A3D62] transition-all duration-200"
-          >
-            <Link className="w-4 h-4 mr-1" />
-            URL/DOI
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleTextAdd}
-            className="flex-1 bg-white/50 border-slate-300 text-slate-700 hover:bg-blue-50 hover:border-[#0A3D62] hover:text-[#0A3D62] transition-all duration-200"
-          >
-            <Plus className="w-4 h-4 mr-1" />
-            Notes
-          </Button>
-        </div>
+          {isUploading ? 'Uploading...' : 'Upload Document'}
+        </Button>
         
         <input
           ref={fileInputRef}
@@ -238,7 +301,7 @@ const SourcesPanel = ({ sources, setSources, collapsed, onToggleCollapse }: Sour
           multiple
           onChange={handleFileUpload}
           className="hidden"
-          accept=".pdf,.doc,.docx,.txt,.csv,.xlsx,.json,.xls"
+          accept=".pdf,.doc,.docx,.txt,.md"
         />
       </div>
 
@@ -253,7 +316,7 @@ const SourcesPanel = ({ sources, setSources, collapsed, onToggleCollapse }: Sour
             <p className="text-xs text-gray-500 mb-4">Upload research papers, datasets, or findings to train NIRA</p>
             <div className="text-xs text-slate-400 space-y-1">
               <p>Supported formats:</p>
-              <p className="font-medium">PDF, DOC, DOCX, TXT, CSV, XLSX, JSON</p>
+              <p className="font-medium">PDF, DOC, DOCX, TXT, MD</p>
             </div>
           </div>
         ) : (
@@ -291,10 +354,10 @@ const SourcesPanel = ({ sources, setSources, collapsed, onToggleCollapse }: Sour
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => removeSource(source.id)}
+                    onClick={() => handleDeleteDocument(source.id)}
                     className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-red-500 h-8 w-8 p-0"
                   >
-                    <X className="w-4 h-4" />
+                    <Trash2 className="w-4 h-4" />
                   </Button>
                 </div>
               </div>
