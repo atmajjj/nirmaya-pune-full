@@ -21,7 +21,7 @@ export const EndpointsList = ({ apiName, endpoints, copyToClipboard }: Endpoints
       <CardHeader className="border-b border-slate-100 pb-4">
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold text-slate-900">{apiName}</h3>
-          <Badge variant="outline" className="bg-teal-50 text-teal-700 border-teal-200 text-xs">
+          <Badge variant="outline" className="bg-brand/10 text-brand border-brand/30 text-xs">
             {endpoints.length} Endpoints
           </Badge>
         </div>
@@ -44,7 +44,7 @@ export const EndpointsList = ({ apiName, endpoints, copyToClipboard }: Endpoints
                   variant="ghost"
                   size="sm"
                   onClick={() => copyToClipboard(endpoint.endpoint)}
-                  className="text-teal-600 hover:text-teal-700 hover:bg-teal-50 h-7 w-7 p-0"
+                  className="text-brand hover:text-brand-light hover:bg-brand/10 h-7 w-7 p-0"
                   aria-label="Copy endpoint URL"
                 >
                   <Copy className="w-3 h-3" />
@@ -61,7 +61,7 @@ export const EndpointsList = ({ apiName, endpoints, copyToClipboard }: Endpoints
             </div>
             <p className="text-xs text-slate-500 mb-2">{endpoint.description}</p>
             <div className="bg-slate-800 rounded-md p-3">
-              <code className="text-xs text-emerald-400 font-mono break-all">{endpoint.endpoint}</code>
+              <code className="text-xs text-brand-accent font-mono break-all">{endpoint.endpoint}</code>
             </div>
           </div>
         ))}

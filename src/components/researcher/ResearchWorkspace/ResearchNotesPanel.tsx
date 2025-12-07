@@ -14,7 +14,7 @@ export const ResearchNotesPanel = ({ notes, getTagColor }: ResearchNotesPanelPro
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-slate-900">Research Notes</h2>
-        <Button className="bg-teal-600 text-white hover:bg-teal-700 rounded-md text-sm">
+        <Button className="bg-brand text-white hover:bg-brand-light rounded-md text-sm">
           <Plus className="w-4 h-4 mr-2" />
           New Note
         </Button>
@@ -56,7 +56,7 @@ export const ResearchNotesPanel = ({ notes, getTagColor }: ResearchNotesPanelPro
                   </div>
                 </div>
                 {note.updated && (
-                  <span className="text-xs text-green-600">Updated</span>
+                  <span className="text-xs text-brand">Updated</span>
                 )}
               </div>
 

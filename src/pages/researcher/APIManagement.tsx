@@ -71,19 +71,19 @@ const APIManagement = () => {
               <TabsList className="inline-flex bg-white border border-slate-200 rounded-lg p-1">
                 <TabsTrigger 
                   value="overview" 
-                  className="data-[state=active]:bg-teal-600 data-[state=active]:text-white rounded-md transition-colors px-6 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+                  className="data-[state=active]:bg-brand data-[state=active]:text-white rounded-md transition-colors px-6 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
                 >
                   Overview
                 </TabsTrigger>
                 <TabsTrigger 
                   value="endpoints" 
-                  className="data-[state=active]:bg-teal-600 data-[state=active]:text-white rounded-md transition-colors px-6 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+                  className="data-[state=active]:bg-brand data-[state=active]:text-white rounded-md transition-colors px-6 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
                 >
                   API Endpoints
                 </TabsTrigger>
                 <TabsTrigger 
                   value="documentation" 
-                  className="data-[state=active]:bg-teal-600 data-[state=active]:text-white rounded-md transition-colors px-6 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
+                  className="data-[state=active]:bg-brand data-[state=active]:text-white rounded-md transition-colors px-6 py-2 text-sm font-medium text-slate-600 hover:text-slate-900"
                 >
                   Documentation
                 </TabsTrigger>

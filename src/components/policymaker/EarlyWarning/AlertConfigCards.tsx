@@ -47,7 +47,7 @@ const animatedPercentage = useAnimatedCounter(config.percentage);
         <div className="space-y-3">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-sm text-slate-600">"Accuracy"</span>
+              <span className="text-sm text-slate-600">Accuracy</span>
               <span className={cn("text-2xl font-bold bg-gradient-to-r", config.color, "bg-clip-text text-transparent")}>
                 {animatedPercentage}%
               </span>
@@ -81,7 +81,7 @@ return (
         <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-teal-600 rounded-lg flex items-center justify-center">
           <Zap className="w-5 h-5 text-white" />
         </div>
-        "Configure Alert Sources"
+        Configure Alert Sources
       </h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

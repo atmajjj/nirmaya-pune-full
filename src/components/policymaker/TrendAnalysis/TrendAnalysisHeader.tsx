@@ -18,8 +18,8 @@ return (
             <TrendingUp className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">"Trend Analysis"</h1>
-            <p className="text-sm text-slate-600">"Historical trends and predictions"</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">Trend Analysis</h1>
+            <p className="text-sm text-slate-600">Historical trends and predictions</p>
           </div>
         </div>
         

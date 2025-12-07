@@ -12,14 +12,14 @@ return (
             <Beaker className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">"HMPI Engine"</h1>
-            <p className="text-sm text-slate-600">"Heavy Metal Pollution Index Calculator"</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">HMPI Engine</h1>
+            <p className="text-sm text-slate-600">Heavy Metal Pollution Index Calculator</p>
           </div>
         </div>
         
         <div className="flex items-center gap-3">
-          <button className="px-4 py-2 bg-white/70 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-md transition-all text-sm font-medium">"Export Results"</button>
-          <button className="px-4 py-2 bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white rounded-md shadow-lg hover:shadow-xl transition-all duration-300 text-sm font-medium">"New Analysis"</button>
+          <button className="px-4 py-2 bg-white/70 border border-slate-300 hover:bg-slate-100 text-slate-700 rounded-md transition-all text-sm font-medium">Export Results</button>
+          <button className="px-4 py-2 bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white rounded-md shadow-lg hover:shadow-xl transition-all duration-300 text-sm font-medium">New Analysis</button>
         </div>
       </div>
     </div>

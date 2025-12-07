@@ -14,7 +14,7 @@ export const DatasetCards = ({ datasets }: DatasetCardsProps) => {
       case "Government":
         return <Building className="w-4 h-4 text-blue-600" />;
       case "International":
-        return <Globe className="w-4 h-4 text-green-600" />;
+        return <Globe className="w-4 h-4 text-brand" />;
       case "Academic":
         return <GraduationCap className="w-4 h-4 text-purple-600" />;
       default:
@@ -68,7 +68,7 @@ export const DatasetCards = ({ datasets }: DatasetCardsProps) => {
                 {/* Icon */}
                 <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
                   dataset.category === 'government' ? 'bg-blue-600' :
-                  dataset.category === 'international' ? 'bg-green-600' :
+                  dataset.category === 'international' ? 'bg-brand' :
                   'bg-purple-600'
                 }`}>
                   {Icon}
@@ -127,7 +127,7 @@ export const DatasetCards = ({ datasets }: DatasetCardsProps) => {
                         size="sm" 
                         variant="outline"
                         disabled={!dataset.available}
-                        className="border-slate-300 text-slate-600 hover:bg-slate-50 rounded-md text-xs h-7"
+                        className="border-brand/30 text-brand hover:bg-brand/10 rounded-md text-xs h-7"
                       >
                         <ExternalLink className="w-3 h-3 mr-1" />
                         View
@@ -135,7 +135,7 @@ export const DatasetCards = ({ datasets }: DatasetCardsProps) => {
                       <Button 
                         size="sm" 
                         disabled={!dataset.available}
-                        className="bg-teal-600 text-white hover:bg-teal-700 rounded-md text-xs h-7"
+                        className="bg-brand text-white hover:bg-brand-light rounded-md text-xs h-7"
                       >
                         <Download className="w-3 h-3 mr-1" />
                         Download

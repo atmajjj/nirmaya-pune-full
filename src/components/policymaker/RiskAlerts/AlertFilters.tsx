@@ -42,9 +42,9 @@ return (
           <SelectValue placeholder="Date Range" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="7days">"Last7 Days"</SelectItem>
-          <SelectItem value="30days">"Last30 Days"</SelectItem>
-          <SelectItem value="90days">"Last90 Days"</SelectItem>
+          <SelectItem value="7days">Last 7 Days</SelectItem>
+          <SelectItem value="30days">Last 30 Days</SelectItem>
+          <SelectItem value="90days">Last 90 Days</SelectItem>
         </SelectContent>
       </Select>
 
@@ -53,7 +53,7 @@ return (
           <SelectValue placeholder="All Regions" />
         </SelectTrigger>
         <SelectContent className="max-h-80">
-          <SelectItem value="all">"All Regions"</SelectItem>
+          <SelectItem value="all">All Regions</SelectItem>
           <SelectItem value="Tamil Nadu">Tamil Nadu</SelectItem>
           <SelectItem value="Coimbatore">Coimbatore</SelectItem>
           <SelectItem value="Madurai">Madurai</SelectItem>
@@ -87,10 +87,10 @@ return (
           <SelectValue placeholder="All Severities" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="all">"All Severities"</SelectItem>
-          <SelectItem value="critical">"Critical"</SelectItem>
-          <SelectItem value="moderate">"Moderate"</SelectItem>
-          <SelectItem value="low">"Low"</SelectItem>
+          <SelectItem value="all">All Severities</SelectItem>
+          <SelectItem value="critical">Critical</SelectItem>
+          <SelectItem value="moderate">Moderate</SelectItem>
+          <SelectItem value="low">Low</SelectItem>
         </SelectContent>
       </Select>
     </div>

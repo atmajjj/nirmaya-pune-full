@@ -57,10 +57,10 @@ return (
             <div className="w-8 h-8 bg-gradient-to-br from-red-100 to-orange-100 rounded-lg flex items-center justify-center">
               <Target className="w-5 h-5 text-red-600" />
             </div>
-            "Active Risk Alerts"
+            Active Risk Alerts
           </CardTitle>
           <Badge variant="secondary" className="bg-red-100 text-red-700 hover:bg-red-200 text-sm px-3 py-1">
-            {alerts.length} "Alerts"
+            {alerts.length} Alerts
           </Badge>
         </div>
       </CardHeader>
@@ -106,7 +106,7 @@ return (
                       </div>
                       <div className="flex items-center gap-2 text-slate-600">
                         <Users className="w-4 h-4 text-purple-600" />
-                        <span>"Population": <span className="font-semibold">{alert.population}</span></span>
+                        <span>Population: <span className="font-semibold">{alert.population}</span></span>
                       </div>
                       <div className="flex items-center gap-2 text-slate-600">
                         <TrendingUp className="w-4 h-4 text-red-600" />
@@ -114,22 +114,22 @@ return (
                       </div>
                       <div className="flex items-center gap-2 text-slate-600">
                         <Calendar className="w-4 h-4 text-teal-600" />
-                        <span>"Detected": {alert.detectedOn}</span>
+                        <span>Detected: {alert.detectedOn}</span>
                       </div>
                     </div>
                     <div className="mb-3">
                       <p className="text-sm text-slate-700">
-                        <span className="font-semibold">"Contaminant":</span> {alert.contaminant}
+                        <span className="font-semibold">Contaminant:</span> {alert.contaminant}
                       </p>
                       <p className="text-sm text-slate-700">
-                        <span className="font-semibold">"Source":</span> {alert.source} | 
-                        <span className="font-semibold ml-2">"Confidence":</span> {alert.confidence}%
+                        <span className="font-semibold">Source:</span> {alert.source} | 
+                        <span className="font-semibold ml-2">Confidence:</span> {alert.confidence}%
                       </p>
                     </div>
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                      <p className="text-sm font-semibold text-blue-900 mb-1">"Action Taken":</p>
+                      <p className="text-sm font-semibold text-blue-900 mb-1">Action Taken:</p>
                       <p className="text-sm text-blue-800">{alert.actionTaken}</p>
-                      <p className="text-xs text-blue-600 mt-1">"Assigned To": {alert.assignedTo}</p>
+                      <p className="text-xs text-blue-600 mt-1">Assigned To: {alert.assignedTo}</p>
                     </div>
                   </div>
                   <Button 
@@ -138,14 +138,14 @@ return (
                     className="ml-4 border-slate-300 hover:bg-blue-50 hover:border-blue-400 transition-all"
                   >
                     <Eye className="w-4 h-4 mr-2" />
-                    "Details"
+                    Details
                   </Button>
                 </div>
                 <div className="flex items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-200">
-                  <span>"Last Updated": {alert.lastUpdated}</span>
+                  <span>Last Updated: {alert.lastUpdated}</span>
                   <span className="flex items-center gap-1">
                     <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    "Live Monitoring"
+                    Live Monitoring
                   </span>
                 </div>
               </CardContent>
