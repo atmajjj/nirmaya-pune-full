@@ -1,13 +1,118 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Database, Upload, PenTool } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Database, Upload, PenTool, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { hmpiEngineService } from "@/services/api";
+import { useToast } from "@/hooks/use-toast";
+import type { CSVPreviewResult, CalculationResult } from "@/types/hmpi.types";
 
-export const DataInputPanel = () => {
-const [formData, setFormData] = useState({ location: '', As: '', Cr: '', Pb: '', Cd: '' });
+interface DataInputPanelProps {
+  onUploadComplete?: (result: CalculationResult) => void;
+  onPreviewComplete?: (preview: CSVPreviewResult) => void;
+}
+
+export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInputPanelProps) => {
+  const [formData, setFormData] = useState({ location: '', As: '', Cr: '', Pb: '', Cd: '' });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<CSVPreviewResult | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [isPreviewing, setIsPreviewing] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.name.endsWith('.csv')) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a CSV file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (10MB max)
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Maximum file size is 10MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSelectedFile(file);
+    setPreview(null);
+
+    // Auto-preview the file
+    setIsPreviewing(true);
+    try {
+      const response = await hmpiEngineService.previewCSV(file);
+      if (response.success) {
+        setPreview(response.data);
+        onPreviewComplete?.(response.data);
+        toast({
+          title: "Preview complete",
+          description: response.message,
+        });
+      }
+    } catch (error) {
+      console.error('Preview error:', error);
+      toast({
+        title: "Preview failed",
+        description: error instanceof Error ? error.message : "Failed to preview file",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPreviewing(false);
+    }
+  };
+
+  const handleCalculate = async () => {
+    if (!selectedFile) {
+      toast({
+        title: "No file selected",
+        description: "Please select a CSV file first",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const response = await hmpiEngineService.calculateIndices(selectedFile);
+      if (response.success) {
+        onUploadComplete?.(response.data);
+        toast({
+          title: "Calculation complete",
+          description: `Successfully processed ${response.data.processed_stations} stations`,
+        });
+        
+        // Clear file after successful calculation
+        setSelectedFile(null);
+        setPreview(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+      }
+    } catch (error) {
+      console.error('Calculation error:', error);
+      toast({
+        title: "Calculation failed",
+        description: error instanceof Error ? error.message : "Failed to calculate indices",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -46,9 +151,116 @@ const [formData, setFormData] = useState({ location: '', As: '', Cr: '', Pb: '',
           <TabsContent value="upload" className="space-y-4">
             <div className="p-8 bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg text-center">
               <Upload className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-              <p className="text-sm text-slate-600 mb-2">Drop File</p>
-              <Button variant="outline" size="sm">Choose File</Button>
+              <p className="text-sm text-slate-600 mb-2">Drop CSV File or Click to Browse</p>
+              <p className="text-xs text-slate-500 mb-4">Maximum file size: 10MB</p>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv"
+                onChange={handleFileSelect}
+                className="hidden"
+                disabled={isUploading || isPreviewing}
+              />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading || isPreviewing}
+              >
+                {isPreviewing ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Previewing...
+                  </>
+                ) : (
+                  'Choose File'
+                )}
+              </Button>
             </div>
+
+            {selectedFile && (
+              <Alert>
+                <CheckCircle className="h-4 w-4" />
+                <AlertDescription>
+                  Selected: <strong>{selectedFile.name}</strong> ({(selectedFile.size / 1024).toFixed(2)} KB)
+                </AlertDescription>
+              </Alert>
+            )}
+
+            {preview && (
+              <div className="space-y-3">
+                <Alert>
+                  <AlertDescription>
+                    <div className="space-y-2">
+                      <p><strong>Rows:</strong> {preview.valid_rows || 0} valid / {preview.total_rows || 0} total</p>
+                      <p><strong>Station ID Column:</strong> {preview.detected_columns?.station_id || 'Not found'}</p>
+                    </div>
+                  </AlertDescription>
+                </Alert>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div className={`p-3 rounded-lg border ${preview.available_calculations?.hpi?.available ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                    <p className="text-xs font-semibold mb-1">HPI</p>
+                    <p className="text-xs">
+                      {preview.available_calculations?.hpi?.available ? (
+                        <>✅ {preview.available_calculations.hpi.metals_found?.length || 0} metals</>
+                      ) : (
+                        <>❌ Not available</>
+                      )}
+                    </p>
+                  </div>
+                  <div className={`p-3 rounded-lg border ${preview.available_calculations?.mi?.available ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                    <p className="text-xs font-semibold mb-1">MI</p>
+                    <p className="text-xs">
+                      {preview.available_calculations?.mi?.available ? (
+                        <>✅ {preview.available_calculations.mi.metals_found?.length || 0} metals</>
+                      ) : (
+                        <>❌ Not available</>
+                      )}
+                    </p>
+                  </div>
+                  <div className={`p-3 rounded-lg border ${preview.available_calculations?.wqi?.available ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
+                    <p className="text-xs font-semibold mb-1">WQI</p>
+                    <p className="text-xs">
+                      {preview.available_calculations?.wqi?.available ? (
+                        <>✅ {preview.available_calculations.wqi.params_found?.length || 0} params</>
+                      ) : (
+                        <>❌ Not available</>
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                {preview.warnings && preview.warnings.length > 0 && (
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>
+                      <p className="font-semibold mb-1">Warnings:</p>
+                      <ul className="list-disc list-inside text-xs">
+                        {preview.warnings.map((warning, i) => (
+                          <li key={i}>{warning}</li>
+                        ))}
+                      </ul>
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                <Button 
+                  className="w-full bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  onClick={handleCalculate}
+                  disabled={isUploading}
+                >
+                  {isUploading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Calculating Indices...
+                    </>
+                  ) : (
+                    'Calculate HPI, MI & WQI'
+                  )}
+                </Button>
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="manual" className="space-y-4">
