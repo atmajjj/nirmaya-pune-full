@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageCircle, X, Bot, Minimize2, Maximize2, Expand, Shrink } from 'lucide-react';
-import { ChatMessage, TypingIndicator, ChatInput, type Message } from '@/components/chatbot';
+import { ChatMessage, ChatInput, type Message } from '@/components/chatbot';
 import { chatbotService } from '@/services/api';
 import { useToast } from '@/hooks/use-toast';
 
@@ -16,15 +16,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: "Hello! I'm NIRA (NEERA AI Assistant) 🤖. I'm here to help you with groundwater insights and policy recommendations based on uploaded documents. How can I assist you today?",
-      isBot: true,
-      timestamp: new Date()
-    }
-  ]);
-  const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<number | undefined>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -53,8 +45,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
     };
 
     addMessage(userMessage);
-    setIsTyping(true);
-
+    
     console.log('🚀 NIRAChatbot: Sending message', {
       message: inputMessage,
       sessionId: currentSessionId,
@@ -75,22 +66,16 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
       });
 
       if (response.success && response.data) {
-        // Extract message from either response.data.message or response.data.assistantMessage.content
-        const botMessageContent = response.data.message || 
-                                  response.data.assistantMessage?.content || 
-                                  response.data.assistantMessage?.message ||
-                                  '';
+        // Extract message from response.data.assistantMessage.content
+        const botMessageContent = response.data.assistantMessage?.content || '';
         
-        const sources = response.data.sources || 
-                       response.data.assistantMessage?.sources || 
-                       [];
+        const sources = response.data.assistantMessage?.sources || [];
 
         console.log('✅ NIRAChatbot: Processing successful response', {
           sessionId: response.data.sessionId,
           messageLength: botMessageContent.length,
           sourcesCount: sources.length,
           responseStructure: {
-            hasMessage: !!response.data.message,
             hasAssistantMessage: !!response.data.assistantMessage,
             assistantMessageContent: response.data.assistantMessage?.content || 'none'
           }
@@ -145,7 +130,6 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
       };
       addMessage(errorMessage);
     } finally {
-      setIsTyping(false);
       console.log('🏁 NIRAChatbot: Message handling complete');
     }
   };
@@ -242,7 +226,6 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
                     />
                   ))}
                   
-                  {isTyping && <TypingIndicator />}
                 </div>
                 <div ref={messagesEndRef} />
               </div>
@@ -250,7 +233,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
               {/* Input Area */}
               <ChatInput 
                 onSend={handleSendMessage} 
-                isDisabled={isTyping} 
+                isDisabled={false} 
                 isFullScreen={isFullScreen} 
               />
             </CardContent>

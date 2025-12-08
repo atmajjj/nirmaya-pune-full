@@ -57,10 +57,24 @@ export interface ChatRequest {
 
 export interface ChatResponse {
   success: boolean;
+  message: string;
   data: {
     sessionId: number;
-    message: string;
-    sources?: ChatSource[];
+    sessionTitle?: string;
+    isNewSession?: boolean;
+    userMessage?: {
+      id: number;
+      role: string;
+      content: string;
+      createdAt: string;
+    };
+    assistantMessage?: {
+      id: number;
+      role: string;
+      content: string;
+      sources?: ChatSource[];
+      createdAt: string;
+    };
   };
 }
 
