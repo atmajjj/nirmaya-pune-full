@@ -20,6 +20,7 @@ export type {
 } from './researcherApplicationService';
 export type {
   AcceptInvitationRequest,
-  AcceptInvitationResponse
+  AcceptInvitationResponse,
+  ApiResponse
 } from './invitationService';
 

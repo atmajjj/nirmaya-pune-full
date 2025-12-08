@@ -41,7 +41,7 @@ const UserManagementHeader = ({ searchTerm, onSearchChange, onAddUserClick }: Us
             className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300 gap-2"
           >
             <Plus className="w-4 h-4" />
-            Add New User
+            Invite User
           </Button>
           
           <Button variant="outline" size="icon" className="bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700">

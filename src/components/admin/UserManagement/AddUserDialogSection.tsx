@@ -1,10 +1,11 @@
-import { UserPlus } from "lucide-react";
+import { UserPlus, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { NewUser, User } from './types';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { NewUser } from './types';
 
 interface AddUserDialogProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface AddUserDialogProps {
   newUser: NewUser;
   onNewUserChange: (user: NewUser) => void;
   onCreateUser: () => void;
+  isLoading?: boolean;
 }
 
 const AddUserDialog = ({ 
@@ -19,97 +21,106 @@ const AddUserDialog = ({
   onOpenChange, 
   newUser, 
   onNewUserChange, 
-  onCreateUser 
+  onCreateUser,
+  isLoading = false
 }: AddUserDialogProps) => {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md bg-white/95 backdrop-blur-lg border-slate-200">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <UserPlus className="w-5 h-5" />
-            Add New User
+            <Mail className="w-5 h-5" />
+            Invite User
           </DialogTitle>
+          <DialogDescription>
+            Send an invitation email with login credentials to a new user
+          </DialogDescription>
         </DialogHeader>
         
         <div className="space-y-4">
+          <Alert className="border-blue-200 bg-blue-50">
+            <Mail className="h-4 w-4 text-blue-600" />
+            <AlertDescription className="text-blue-900 text-sm">
+              An email will be sent with login credentials and an invitation link
+            </AlertDescription>
+          </Alert>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="first_name">First Name</Label>
               <Input
-                id="name"
-                value={newUser.name}
-                onChange={(e) => onNewUserChange({...newUser, name: e.target.value})}
-                placeholder="John Doe"
+                id="first_name"
+                value={newUser.first_name}
+                onChange={(e) => onNewUserChange({...newUser, first_name: e.target.value})}
+                placeholder="John"
+                disabled={isLoading}
               />
             </div>
             <div>
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="last_name">Last Name</Label>
               <Input
-                id="email"
-                type="email"
-                value={newUser.email}
-                onChange={(e) => onNewUserChange({...newUser, email: e.target.value})}
-                placeholder="john@nirmaya.gov.in"
-              />
-            </div>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <Label htmlFor="role">Role</Label>
-              <Select value={newUser.role} onValueChange={(value) => onNewUserChange({...newUser, role: value as User['role']})}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="scientist">Scientist</SelectItem>
-                  <SelectItem value="researcher">Researcher</SelectItem>
-                  <SelectItem value="policymaker">Policymaker</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="department">Department</Label>
-              <Input
-                id="department"
-                value={newUser.department}
-                onChange={(e) => onNewUserChange({...newUser, department: e.target.value})}
-                placeholder="Research"
+                id="last_name"
+                value={newUser.last_name}
+                onChange={(e) => onNewUserChange({...newUser, last_name: e.target.value})}
+                placeholder="Doe"
+                disabled={isLoading}
               />
             </div>
           </div>
           
           <div>
-            <Label htmlFor="phone">Phone (Optional)</Label>
+            <Label htmlFor="email">Email Address</Label>
             <Input
-              id="phone"
-              value={newUser.phone_number || ''}
-              onChange={(e) => onNewUserChange({...newUser, phone_number: e.target.value})}
-              placeholder="+91 98765 43210"
+              id="email"
+              type="email"
+              value={newUser.email}
+              onChange={(e) => onNewUserChange({...newUser, email: e.target.value})}
+              placeholder="john.doe@example.com"
+              disabled={isLoading}
             />
           </div>
           
           <div>
-            <Label htmlFor="password">Temporary Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={newUser.password}
-              onChange={(e) => onNewUserChange({...newUser, password: e.target.value})}
-              placeholder="••••••••"
-            />
+            <Label htmlFor="role">Assigned Role</Label>
+            <Select 
+              value={newUser.assigned_role} 
+              onValueChange={(value) => onNewUserChange({...newUser, assigned_role: value as NewUser['assigned_role']})}
+              disabled={isLoading}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="scientist">Scientist</SelectItem>
+                <SelectItem value="researcher">Researcher</SelectItem>
+                <SelectItem value="policymaker">Policymaker</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-gray-500 mt-1">
+              User will be assigned this role when they accept the invitation
+            </p>
           </div>
           
           <div className="flex gap-3 pt-4">
             <Button 
               onClick={onCreateUser}
-              disabled={!newUser.name || !newUser.email || !newUser.password}
+              disabled={!newUser.first_name || !newUser.last_name || !newUser.email || !newUser.assigned_role || isLoading}
               className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
             >
-              Create User
+              {isLoading ? (
+                <>
+                  <span className="animate-spin mr-2">⏳</span>
+                  Sending Invitation...
+                </>
+              ) : (
+                <>
+                  <Mail className="w-4 h-4 mr-2" />
+                  Send Invitation
+                </>
+              )}
             </Button>
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
+            <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
               Cancel
             </Button>
           </div>

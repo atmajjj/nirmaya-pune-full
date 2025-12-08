@@ -38,10 +38,10 @@ export interface UserPermissions {
  * Create user invitation request
  */
 export interface CreateInvitationRequest {
+  first_name: string;
+  last_name: string;
   email: string;
-  name: string;
-  role: UserRole;
-  department?: string;
+  assigned_role: UserRole;
 }
 
 /**
@@ -49,14 +49,35 @@ export interface CreateInvitationRequest {
  */
 export interface Invitation {
   id: number;
+  first_name: string;
+  last_name: string;
   email: string;
-  name: string;
-  role: UserRole;
-  department?: string;
-  status: 'pending' | 'accepted' | 'expired';
+  status: 'pending' | 'accepted' | 'revoked' | 'expired';
+  assigned_role: UserRole;
   invited_by: number;
   expires_at: string;
+  accepted_at: string | null;
   created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Paginated invitations response
+ */
+export interface PaginatedInvitationsResponse {
+  invitations: Invitation[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+/**
+ * Get invitations query parameters
+ */
+export interface GetInvitationsParams {
+  status?: 'pending' | 'accepted' | 'revoked' | 'expired';
+  page?: number;
+  limit?: number;
 }
 
 /**

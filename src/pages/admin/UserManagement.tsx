@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { userService, ApiError } from "@/services";
+import { userService, invitationService, ApiError } from "@/services";
 import { useToast } from "@/hooks/use-toast";
 
 // Import extracted components
@@ -21,17 +21,16 @@ const UserManagement = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [userToDelete, setUserToDelete] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInviting, setIsInviting] = useState(false);
   const [page, setPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const { toast } = useToast();
 
   const [newUser, setNewUser] = useState<NewUser>({
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
-    role: "scientist",
-    department: "",
-    phone_number: "",
-    password: ""
+    assigned_role: "scientist"
   });
 
   // Load users from API
@@ -101,21 +100,42 @@ const UserManagement = () => {
 
   const handleCreateUser = async () => {
     try {
-      // Note: User creation would typically use auth/register endpoint
-      // For now, we'll show a message that this requires admin invitation
-      toast({
-        title: "Info",
-        description: "User creation requires admin invitation. Use the admin invitation feature.",
-        variant: "default",
+      setIsInviting(true);
+      
+      const response = await invitationService.createInvitation({
+        first_name: newUser.first_name,
+        last_name: newUser.last_name,
+        email: newUser.email,
+        assigned_role: newUser.assigned_role
       });
-      setShowAddUser(false);
+
+      if (response.success) {
+        toast({
+          title: "Invitation Sent",
+          description: `Invitation email sent to ${newUser.email}. They will receive login credentials via email.`,
+        });
+        
+        // Reset form and close dialog
+        setNewUser({
+          first_name: "",
+          last_name: "",
+          email: "",
+          assigned_role: "scientist"
+        });
+        setShowAddUser(false);
+        
+        // Optionally reload users to show pending invitation
+        // await loadUsers();
+      }
     } catch (error) {
-      console.error('Failed to create user:', error);
+      console.error('Failed to send invitation:', error);
       toast({
         title: "Error",
-        description: error instanceof ApiError ? error.message : "Failed to create user",
+        description: error instanceof ApiError ? error.message : "Failed to send invitation",
         variant: "destructive",
       });
+    } finally {
+      setIsInviting(false);
     }
   };
 
@@ -198,6 +218,7 @@ const UserManagement = () => {
           newUser={newUser}
           onNewUserChange={setNewUser}
           onCreateUser={handleCreateUser}
+          isLoading={isInviting}
         />
 
         {/* Delete Confirmation Modal */}

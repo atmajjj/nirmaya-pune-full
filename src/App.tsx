@@ -32,6 +32,7 @@ const EarlyWarning = lazy(() => import("./pages/policymaker/EarlyWarning"));
 const PolicymakerGeoMap = lazy(() => import("./pages/policymaker/GeoMap"));
 
 const UserManagement = lazy(() => import("./pages/admin/UserManagement"));
+const InvitationManagement = lazy(() => import("./pages/admin/InvitationManagement"));
 const SystemOverview = lazy(() => import("./pages/admin/SystemOverview"));
 const ReportControl = lazy(() => import("./pages/admin/ReportControl"));
 const DataLogs = lazy(() => import("./pages/admin/DataLogs"));
@@ -111,6 +112,7 @@ const App = () => (
                   }
                 >
                   <Route path="user-management" element={<UserManagement />} />
+                  <Route path="invitation-management" element={<InvitationManagement />} />
                   <Route path="system-overview" element={<SystemOverview />} />
                   <Route path="report-control" element={<ReportControl />} />
                   <Route path="data-logs" element={<DataLogs />} />

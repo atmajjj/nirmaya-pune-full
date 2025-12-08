@@ -169,12 +169,28 @@ export const adminService = {
   },
 
   /**
-   * Get all invitations
-   * @returns List of invitations
+   * Get all invitations with optional filters
+   * @param params - Optional query parameters (status, page, limit)
+   * @returns Paginated list of invitations
    */
-  getInvitations: async (): Promise<Invitation[]> => {
-    const response = await apiClient.get<ApiResponse<Invitation[]>>(
-      ADMIN_ENDPOINTS.INVITATIONS
+  getInvitations: async (params?: {
+    status?: 'pending' | 'accepted' | 'revoked' | 'expired';
+    page?: number;
+    limit?: number;
+  }): Promise<{
+    invitations: Invitation[];
+    total: number;
+    page: number;
+    limit: number;
+  }> => {
+    const response = await apiClient.get<ApiResponse<{
+      invitations: Invitation[];
+      total: number;
+      page: number;
+      limit: number;
+    }>>(
+      ADMIN_ENDPOINTS.INVITATIONS,
+      { params }
     );
 
     return response.data;
