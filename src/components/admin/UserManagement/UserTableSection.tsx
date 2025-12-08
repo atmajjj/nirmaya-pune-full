@@ -9,7 +9,9 @@ import { User } from './types';
 interface UserTableProps {
   users: User[];
   roleFilter: string;
+  statusFilter: string;
   onRoleFilterChange: (value: string) => void;
+  onStatusFilterChange: (value: string) => void;
   onUserSelect: (user: User) => void;
   selectedUser: User | null;
   isLoading?: boolean;
@@ -18,7 +20,9 @@ interface UserTableProps {
 const UserTable = ({ 
   users, 
   roleFilter, 
+  statusFilter,
   onRoleFilterChange, 
+  onStatusFilterChange,
   onUserSelect,
   selectedUser,
   isLoading = false
@@ -53,6 +57,18 @@ const UserTable = ({
           </div>
           
           <div className="flex items-center gap-2">
+            <Select value={statusFilter} onValueChange={onStatusFilterChange}>
+              <SelectTrigger className="w-full sm:w-32 bg-white/70">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="suspended">Suspended</SelectItem>
+              </SelectContent>
+            </Select>
+            
             <Select value={roleFilter} onValueChange={onRoleFilterChange}>
               <SelectTrigger className="w-full sm:w-32 bg-white/70">
                 <SelectValue placeholder="Role" />

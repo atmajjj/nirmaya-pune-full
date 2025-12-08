@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MessageCircle, X, Bot, Minimize2, Maximize2, Expand, Shrink } from 'lucide-react';
+import { MessageCircle, X, Bot, Expand, Shrink } from 'lucide-react';
 import { ChatMessage, ChatInput, type Message } from '@/components/chatbot';
 import { chatbotService } from '@/services/api';
 import { showErrorToast } from '@/lib/toast-utils';
@@ -14,10 +14,10 @@ const MAX_MESSAGES = 50;
 
 const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<number | undefined>();
+  const [isThinking, setIsThinking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -44,6 +44,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
     };
 
     addMessage(userMessage);
+    setIsThinking(true);
     
     console.log('🚀 NIRAChatbot: Sending message', {
       message: inputMessage,
@@ -126,13 +127,13 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
       addMessage(errorMessage);
     } finally {
       console.log('🏁 NIRAChatbot: Message handling complete');
+      setIsThinking(false);
     }
   };
 
   const handleClose = () => {
     setIsOpen(false);
     setIsFullScreen(false);
-    setIsMinimized(false);
   };
 
   return (
@@ -154,9 +155,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
         <Card className={`shadow-2xl border-2 border-slate-200 overflow-hidden transition-all duration-300 flex flex-col ${
           isFullScreen 
             ? 'w-full h-full' 
-            : isMinimized 
-              ? 'w-96 h-auto' 
-              : 'w-96 h-[650px]'
+            : 'w-[450px] h-[650px]'
         }`}>
           <CardHeader className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] text-white p-3 flex-shrink-0">
             <div className="flex items-center justify-between">
@@ -175,24 +174,12 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
                   size="sm"
                   onClick={() => {
                     setIsFullScreen(!isFullScreen);
-                    if (isMinimized) setIsMinimized(false);
                   }}
                   className="h-6 w-6 p-0 text-white hover:bg-white/20"
                   title={isFullScreen ? "Exit full screen" : "Full screen"}
                   aria-label={isFullScreen ? "Exit full screen" : "Full screen"}
                 >
                   {isFullScreen ? <Shrink className="h-3 w-3" /> : <Expand className="h-3 w-3" />}
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsMinimized(!isMinimized)}
-                  className="h-6 w-6 p-0 text-white hover:bg-white/20"
-                  title={isMinimized ? "Restore" : "Minimize"}
-                  aria-label={isMinimized ? "Restore chatbot" : "Minimize chatbot"}
-                  disabled={isFullScreen}
-                >
-                  {isMinimized ? <Maximize2 className="h-3 w-3" /> : <Minimize2 className="h-3 w-3" />}
                 </Button>
                 <Button
                   variant="ghost"
@@ -208,8 +195,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
             </div>
           </CardHeader>
 
-          {!isMinimized && (
-            <CardContent className="p-0 flex flex-col flex-1 overflow-hidden">
+          <CardContent className="p-0 flex flex-col flex-1 overflow-hidden">
               {/* Messages Area */}
               <div className={`flex-1 overflow-y-auto overflow-x-hidden ${isFullScreen ? 'p-6' : 'p-3'}`}>
                 <div className={`space-y-3 w-full ${isFullScreen ? 'max-w-4xl mx-auto' : ''}`}>
@@ -221,6 +207,20 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
                     />
                   ))}
                   
+                  {/* Thinking Animation */}
+                  {isThinking && (
+                    <div className="flex items-center gap-3 p-3">
+                      <div className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Bot className="w-4 h-4 text-slate-600" />
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                      </div>
+                    </div>
+                  )}
+                  
                 </div>
                 <div ref={messagesEndRef} />
               </div>
@@ -228,11 +228,10 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
               {/* Input Area */}
               <ChatInput 
                 onSend={handleSendMessage} 
-                isDisabled={false} 
+                isDisabled={isThinking} 
                 isFullScreen={isFullScreen} 
               />
             </CardContent>
-          )}
         </Card>
       )}
     </div>

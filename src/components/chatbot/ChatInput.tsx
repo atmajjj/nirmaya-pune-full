@@ -34,6 +34,7 @@ export const ChatInput = ({ onSend, isDisabled, isFullScreen }: ChatInputProps) 
           onKeyPress={handleKeyPress}
           placeholder="Ask NIRA AI Chatbot..."
           aria-label="Chat message input"
+          disabled={isDisabled}
           className={`flex-1 min-w-0 border-2 border-slate-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 bg-white text-slate-800 placeholder:text-slate-400 text-sm ${
             isFullScreen ? 'h-11 text-base' : 'h-9'
           }`}

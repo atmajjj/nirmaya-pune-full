@@ -195,7 +195,9 @@ const UserManagement = () => {
             <UserTable
               users={filteredUsers}
               roleFilter={roleFilter}
+              statusFilter={statusFilter}
               onRoleFilterChange={setRoleFilter}
+              onStatusFilterChange={setStatusFilter}
               onUserSelect={setSelectedUser}
               selectedUser={selectedUser}
               isLoading={isLoading}

@@ -53,7 +53,7 @@ export const ChatMessage = ({ message, isFullScreen }: ChatMessageProps) => {
         } ${
           message.isBot
             ? 'bg-slate-100 text-slate-800'
-            : 'bg-blue-600 text-white'
+            : 'bg-[#0A3D62] text-white'
         }`}
       >
         <div 
@@ -74,7 +74,7 @@ export const ChatMessage = ({ message, isFullScreen }: ChatMessageProps) => {
         </div>
       </div>
       {!message.isBot && (
-        <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+        <div className="w-6 h-6 bg-[#0A3D62] rounded-full flex items-center justify-center flex-shrink-0">
           <User className="w-4 h-4 text-white" />
         </div>
       )}
