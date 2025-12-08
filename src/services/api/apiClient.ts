@@ -225,6 +225,11 @@ async function request<T>(
       );
     }
 
+    // Handle 204 No Content (no response body)
+    if (response.status === 204) {
+      return { success: true } as T;
+    }
+
     // Parse JSON response
     const data = await response.json();
     return data;

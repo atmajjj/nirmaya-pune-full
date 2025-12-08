@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Brain, Trash2, RefreshCw, Cpu, Database, CheckCircle, Activity, BookOpen } from "lucide-react";
+import { Brain, RefreshCw, Cpu, Database } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
 
 interface NiraChatbotHeaderProps {
   onClearChat: () => void;
@@ -10,8 +9,6 @@ interface NiraChatbotHeaderProps {
 }
 
 const NiraChatbotHeader = ({ onClearChat, totalSources = 0, trainedSources = 0 }: NiraChatbotHeaderProps) => {
-  const trainingProgress = totalSources > 0 ? (trainedSources / totalSources) * 100 : 0;
-  
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-100 via-slate-50 to-blue-50 border border-slate-200/80 shadow-lg mb-6">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5"></div>
@@ -36,40 +33,22 @@ const NiraChatbotHeader = ({ onClearChat, totalSources = 0, trainedSources = 0 }
           
           <div className="flex items-center gap-4">
             {/* Training Stats */}
-            <div className="flex items-center gap-4 px-4 py-3 bg-white/60 rounded-lg border border-slate-200/80">
+            <div className="flex items-center gap-3 px-4 py-3 bg-white/60 rounded-lg border border-slate-200/80">
               <div className="flex items-center gap-2 text-sm text-slate-600">
                 <Database className="w-4 h-4 text-blue-500" />
                 <span><span className="font-semibold text-slate-800">{totalSources}</span> Documents</span>
               </div>
-              <div className="w-px h-6 bg-slate-300"></div>
-              <div className="flex items-center gap-2 text-sm text-slate-600">
-                <CheckCircle className="w-4 h-4 text-emerald-500" />
-                <span><span className="font-semibold text-slate-800">{trainedSources}</span> Processed</span>
-              </div>
-              <div className="w-px h-6 bg-slate-300"></div>
-              <div className="flex flex-col gap-1">
-                <span className="text-xs text-slate-500">Training Progress</span>
-                <Progress value={trainingProgress} className="w-24 h-2" />
-              </div>
             </div>
             
-            {/* Action Buttons */}
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={onClearChat}
-                className="bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700 gap-2"
-              >
-                <RefreshCw className="w-4 h-4" />
-                Reset
-              </Button>
-              <Button
-                className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300 gap-2"
-              >
-                <BookOpen className="w-4 h-4" />
-                View Knowledge Base
-              </Button>
-            </div>
+            {/* Action Button */}
+            <Button
+              variant="outline"
+              onClick={onClearChat}
+              className="bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700 gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Reset
+            </Button>
           </div>
         </div>
       </div>

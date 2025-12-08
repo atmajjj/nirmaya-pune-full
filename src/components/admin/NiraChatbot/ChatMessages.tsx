@@ -22,7 +22,10 @@ const ChatMessages = ({ messages, sources, isTyping, sidebarCollapsed, onToggleS
   };
 
   useEffect(() => {
-    scrollToBottom();
+    // Only scroll to bottom when new messages are added (length > 1), not on initial mount
+    if (messages.length > 1) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   return (
