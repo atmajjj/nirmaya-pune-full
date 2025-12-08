@@ -1,5 +1,3 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BarChart3, Code2, Globe, LinkIcon, Beaker, Settings } from "lucide-react";
 import { APIManagementHeader } from "@/components/researcher/APIManagement/APIManagementHeader";
@@ -7,15 +5,6 @@ import { APIServiceCards } from "@/components/researcher/APIManagement/APIServic
 import { EndpointsList } from "@/components/researcher/APIManagement/EndpointsList";
 import { DocumentationPanel } from "@/components/researcher/APIManagement/DocumentationPanel";
 import { publicAPIs } from "@/components/researcher/APIManagement/apiData";
-
-const navItems = [
-  { title: "Overview", path: "/researcher/overview", icon: <BarChart3 className="w-5 h-5" /> },
-  { title: "Dataset Links", path: "/researcher/datasets", icon: <LinkIcon className="w-5 h-5" /> },
-  { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
-  { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
-  { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
-  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-];
 
 const indiaWRISEndpoints = [
   {
@@ -62,9 +51,8 @@ const APIManagement = () => {
   };
 
   return (
-    <DashboardLayout navItems={navItems} userRole="researcher">
-      <div className="min-h-screen bg-slate-50">
-        <APIManagementHeader />
+    <div className="min-h-screen bg-slate-50">
+      <APIManagementHeader />
 
         <Tabs defaultValue="overview" className="space-y-6">
           <div className="w-full flex items-center justify-center mb-6">
@@ -118,10 +106,7 @@ const APIManagement = () => {
             <DocumentationPanel />
           </TabsContent>
         </Tabs>
-
-        <NIRAChatbot />
       </div>
-    </DashboardLayout>
   );
 };
 

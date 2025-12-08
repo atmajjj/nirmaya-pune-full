@@ -1,6 +1,4 @@
 import { useState } from "react";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { BarChart3, Code2, Globe, LinkIcon, Beaker, Activity, Users, Clipboard, FileText, Settings } from "lucide-react";
 import { WorkspaceHeader } from "@/components/researcher/ResearchWorkspace/WorkspaceHeader";
 import { OverviewMetrics } from "@/components/researcher/ResearchWorkspace/OverviewMetrics";
@@ -9,15 +7,6 @@ import { WhiteboardPanel } from "@/components/researcher/ResearchWorkspace/White
 import { ResearchNotesPanel } from "@/components/researcher/ResearchWorkspace/ResearchNotesPanel";
 import { teamMembers, recentActivities, researchNotes } from "@/components/researcher/ResearchWorkspace/workspaceData";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-
-const navItems = [
-  { title: "Overview", path: "/researcher/overview", icon: <BarChart3 className="w-5 h-5" /> },
-  { title: "Dataset Links", path: "/researcher/datasets", icon: <LinkIcon className="w-5 h-5" /> },
-  { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
-  { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
-  { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
-  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-];
 
 const ResearchWorkspace = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -63,9 +52,8 @@ const ResearchWorkspace = () => {
   ];
 
   return (
-    <DashboardLayout navItems={navItems} userRole="researcher">
-      <div className="min-h-screen bg-slate-50">
-        <WorkspaceHeader />
+    <div className="min-h-screen bg-slate-50">
+      <WorkspaceHeader />
 
         {/* Sub-navigation Tabs */}
         <div className="mb-6">
@@ -170,10 +158,7 @@ const ResearchWorkspace = () => {
             getTagColor={getTagColor}
           />
         )}
-
-        <NIRAChatbot />
       </div>
-    </DashboardLayout>
   );
 };
 

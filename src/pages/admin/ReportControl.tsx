@@ -1,7 +1,4 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { useState } from "react";
-import { Users, BarChart3, FileCheck, Database, MessageCircle, Settings } from "lucide-react";
 
 // Import extracted components
 import ReportControlHeader from "@/components/admin/ReportControl/ReportControlHeader";
@@ -11,15 +8,6 @@ import PublicationTimeline from "@/components/admin/ReportControl/PublicationTim
 import QuickActions from "@/components/admin/ReportControl/QuickActions";
 import { initialReports, publicationTimeline } from "@/components/admin/ReportControl/reportsData";
 import { Report } from "@/components/admin/ReportControl/types";
-
-const navItems = [
-  { title: "Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
-  { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
-  { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
-  { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
-  { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
-  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-];
 
 const ReportControl = () => {
   const [reports, setReports] = useState<Report[]>(initialReports);
@@ -60,8 +48,7 @@ const ReportControl = () => {
   };
 
   return (
-    <DashboardLayout navItems={navItems} userRole="admin">
-      <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+    <div className="space-y-6 bg-slate-50 min-h-screen p-6">
         {/* Header Section */}
         <ReportControlHeader />
 
@@ -97,10 +84,6 @@ const ReportControl = () => {
           </div>
         </div>
       </div>
-      
-      {/* NIRA AI Assistant Chatbot */}
-      <NIRAChatbot />
-    </DashboardLayout>
   );
 };
 

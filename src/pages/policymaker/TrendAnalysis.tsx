@@ -1,6 +1,4 @@
 import { useState } from "react";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { AlertTriangle, FileText, TrendingUp, MapPin, Droplets, Target, Database, Factory, Activity, AlertTriangle as AlertTriangleIcon, Zap, Brain, Settings } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -19,15 +17,6 @@ import { useAnimatedCounter } from "@/components/policymaker/TrendAnalysis/useAn
 import { SummaryStat, ContaminationTrend } from "@/components/policymaker/TrendAnalysis/types";
 
 const TrendAnalysis = () => {
-const navItems = [
-    { title: "Risk Alerts", path: "/policymaker/risk-alerts", icon: <AlertTriangle className="w-5 h-5" /> },
-    { title: "Who Reports", path: "/policymaker/who-reports", icon: <FileText className="w-5 h-5" /> },
-    { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
-    { title: "Early Warning", path: "/policymaker/early-warning", icon: <Brain className="w-5 h-5" /> },
-    { title: "Geo Map", path: "/policymaker/geo-map", icon: <MapPin className="w-5 h-5" /> },
-    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-  ];
-  
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   
   // Animated counters for summary stats
@@ -110,8 +99,7 @@ const navItems = [
   ];
 
   return (
-    <DashboardLayout navItems={navItems} userRole="policymaker">
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-teal-50">
         <div className="space-y-6 p-6">
           {/* Header */}
           <TrendAnalysisHeader 
@@ -164,9 +152,6 @@ const navItems = [
           </div>
         </div>
       </div>
-      
-      <NIRAChatbot />
-    </DashboardLayout>
   );
 };
 

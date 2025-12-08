@@ -1,6 +1,4 @@
 import { useState } from "react";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3, Code2, Globe, LinkIcon, Beaker, MapPin, TrendingUp, Users, Layers, Download, RefreshCw, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,15 +9,6 @@ import { SiteDetails } from "@/components/researcher/InteractiveGeoMap/SiteDetai
 import { mapLayers } from "@/components/researcher/InteractiveGeoMap/mapData";
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
-const navItems = [
-  { title: "Overview", path: "/researcher/overview", icon: <BarChart3 className="w-5 h-5" /> },
-  { title: "Dataset Links", path: "/researcher/datasets", icon: <LinkIcon className="w-5 h-5" /> },
-  { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
-  { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
-  { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
-  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-];
 
 // Helper to generate random metal data based on risk level
 const generateMetalData = (risk: string) => {
@@ -124,10 +113,10 @@ const InteractiveGeoMap = () => {
     : indiaSites.filter(site => site.riskLevel.toLowerCase() === riskFilter.toLowerCase());
 
   return (
-    <DashboardLayout navItems={navItems} userRole="researcher">
-      <div className="min-h-screen bg-slate-50">
-        <GeoMapHeader />
-
+    <div className="min-h-screen bg-slate-50">
+      <GeoMapHeader />
+      
+      <div className="p-6">
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
           {/* Controls Sidebar */}
           <div className="xl:col-span-1 space-y-4">
@@ -411,10 +400,8 @@ const InteractiveGeoMap = () => {
             </div>
           </div>
         </div>
-
-        <NIRAChatbot />
       </div>
-    </DashboardLayout>
+    </div>
   );
 };
 

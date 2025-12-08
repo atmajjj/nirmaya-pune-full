@@ -1,6 +1,4 @@
 import { useState } from "react";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { BarChart3, Code2, Globe, LinkIcon, Beaker, BookOpen, Award, FlaskConical, DollarSign, Plus, Settings, BarChart2, LineChart, PieChart, RotateCcw, Save } from "lucide-react";
 import { OverviewHeader } from "@/components/researcher/Overview/OverviewHeader";
 import { MetricsCards } from "@/components/researcher/Overview/MetricsCards";
@@ -69,8 +67,7 @@ const ResearcherOverview = () => {
   };
 
   return (
-    <DashboardLayout navItems={navItems} userRole="researcher">
-      <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50">
         {/* Header with Add Visualization and Customize Dashboard buttons */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-100 via-slate-50 to-blue-50 border border-slate-200/80 shadow-lg mb-6">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5"></div>
@@ -242,10 +239,7 @@ const ResearcherOverview = () => {
             </div>
           </DialogContent>
         </Dialog>
-
-        <NIRAChatbot />
       </div>
-    </DashboardLayout>
   );
 };
 

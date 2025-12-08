@@ -1,6 +1,4 @@
 import { useState } from "react";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { BarChart3, Code2, Globe, LinkIcon, Beaker, Building, GraduationCap, FileText, FileSpreadsheet, FileJson, HardDrive, Settings } from "lucide-react";
 import { DatasetLinksHeader } from "@/components/researcher/DatasetLinks/DatasetLinksHeader";
 import { SearchFilters } from "@/components/researcher/DatasetLinks/SearchFilters";
@@ -9,15 +7,6 @@ import { ContributeCard } from "@/components/researcher/DatasetLinks/ContributeC
 import { RequestDatasetCard } from "@/components/researcher/DatasetLinks/RequestDatasetCard";
 import { datasets } from "@/components/researcher/DatasetLinks/datasetsData";
 import type { FilterCategory } from "@/components/researcher/DatasetLinks/types";
-
-const navItems = [
-  { title: "Overview", path: "/researcher/overview", icon: <BarChart3 className="w-5 h-5" /> },
-  { title: "Dataset Links", path: "/researcher/datasets", icon: <LinkIcon className="w-5 h-5" /> },
-  { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
-  { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
-  { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
-  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-];
 
 const filterCategories: FilterCategory[] = [
   { id: "government", label: "Government", icon: Building },
@@ -75,9 +64,8 @@ const DatasetLinks = () => {
   };
 
   return (
-    <DashboardLayout navItems={navItems} userRole="researcher">
-      <div className="min-h-screen bg-slate-50">
-        <DatasetLinksHeader />
+    <div className="min-h-screen bg-slate-50">
+      <DatasetLinksHeader />
         <SearchFilters
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -95,10 +83,7 @@ const DatasetLinks = () => {
           <ContributeCard />
           <RequestDatasetCard />
         </div>
-        
-        <NIRAChatbot />
       </div>
-    </DashboardLayout>
   );
 };
 

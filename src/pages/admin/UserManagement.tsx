@@ -1,7 +1,4 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { useState, useEffect } from "react";
-import { Users, BarChart3, FileCheck, Database, MessageCircle, Settings } from "lucide-react";
 import { userService, ApiError } from "@/services";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,15 +10,6 @@ import UserDetailsPanel from "@/components/admin/UserManagement/UserDetailsPanel
 import AddUserDialog from "@/components/admin/UserManagement/AddUserDialogSection";
 import DeleteConfirmDialog from "@/components/admin/UserManagement/DeleteConfirmDialogSection";
 import { User, NewUser } from "@/components/admin/UserManagement/types";
-
-const navItems = [
-  { title: "Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
-  { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
-  { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
-  { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
-  { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
-  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-];
 
 const UserManagement = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -160,8 +148,7 @@ const UserManagement = () => {
   };
 
   return (
-    <DashboardLayout navItems={navItems} userRole="admin">
-      <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+    <div className="space-y-6 bg-slate-50 min-h-screen p-6">
         {/* Header Section */}
         <UserManagementHeader
           searchTerm={searchTerm}
@@ -203,27 +190,23 @@ const UserManagement = () => {
             />
           </div>
         </div>
+
+        {/* Add User Modal */}
+        <AddUserDialog
+          open={showAddUser}
+          onOpenChange={setShowAddUser}
+          newUser={newUser}
+          onNewUserChange={setNewUser}
+          onCreateUser={handleCreateUser}
+        />
+
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmDialog
+          open={showDeleteConfirm}
+          onOpenChange={setShowDeleteConfirm}
+          onConfirm={confirmDelete}
+        />
       </div>
-
-      {/* Add User Modal */}
-      <AddUserDialog
-        open={showAddUser}
-        onOpenChange={setShowAddUser}
-        newUser={newUser}
-        onNewUserChange={setNewUser}
-        onCreateUser={handleCreateUser}
-      />
-
-      {/* Delete Confirmation Modal */}
-      <DeleteConfirmDialog
-        open={showDeleteConfirm}
-        onOpenChange={setShowDeleteConfirm}
-        onConfirm={confirmDelete}
-      />
-      
-      {/* NIRA AI Assistant Chatbot */}
-      <NIRAChatbot />
-    </DashboardLayout>
   );
 };
 

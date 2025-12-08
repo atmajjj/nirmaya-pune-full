@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { AlertTriangle, FileText, TrendingUp, MapPin, Settings } from "lucide-react";
 
 // Components
@@ -13,14 +11,6 @@ import MetalComparisonChart from "@/components/policymaker/WHOReports/MetalCompa
 import { comparisonData, recentReports } from "@/components/policymaker/WHOReports/whoReportsData";
 
 const WHOReports = () => {
-const navItems = [
-    { title: "Risk Alerts", path: "/policymaker/risk-alerts", icon: <AlertTriangle className="w-5 h-5" /> },
-    { title: "Who Reports", path: "/policymaker/who-reports", icon: <FileText className="w-5 h-5" /> },
-    { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
-    { title: "Early Warning", path: "/policymaker/early-warning", icon: <AlertTriangle className="w-5 h-5" /> },
-    { title: "Geo Map", path: "/policymaker/geo-map", icon: <MapPin className="w-5 h-5" /> },
-    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-  ];
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [reportType, setReportType] = useState("annual");
   const [geographicScope, setGeographicScope] = useState("national");
@@ -39,8 +29,7 @@ const navItems = [
   };
 
   return (
-    <DashboardLayout navItems={navItems} userRole="policymaker">
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
         <div className="space-y-6 p-6">
           {/* Header */}
           <WHOReportsHeader />
@@ -65,9 +54,6 @@ const navItems = [
           <MetalComparisonChart data={comparisonData} />
         </div>
       </div>
-      
-      <NIRAChatbot />
-    </DashboardLayout>
   );
 };
 
