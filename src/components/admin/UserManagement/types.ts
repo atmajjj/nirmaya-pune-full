@@ -29,13 +29,9 @@ export interface User {
 }
 
 export interface NewUser {
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  password: string;
-  role?: 'admin' | 'scientist' | 'researcher' | 'policymaker';
-  phone_number?: string;
-  // Deprecated fields kept for compatibility
-  department?: string;
-  phone?: string;
+  assigned_role: 'admin' | 'scientist' | 'researcher' | 'policymaker';
 }
 
