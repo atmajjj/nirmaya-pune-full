@@ -1,15 +1,23 @@
+/**
+ * User Management Types
+ * Matches API user structure
+ */
+
 export interface User {
   id: number;
   name: string;
   email: string;
-  role: 'admin' | 'scientist' | 'policymaker' | 'analyst' | 'viewer';
-  status: 'active' | 'suspended' | 'pending';
-  lastActive: string;
+  phone_number?: string | null;
+  role: 'admin' | 'scientist' | 'researcher' | 'policymaker';
+  created_at: string;
+  updated_at: string;
+  // Frontend-only fields for backward compatibility
+  status?: 'active' | 'suspended' | 'pending';
+  lastActive?: string;
   department?: string;
-  phone?: string;
-  joinDate: string;
+  joinDate?: string;
   avatar?: string;
-  permissions: {
+  permissions?: {
     accessDashboard: boolean;
     manageData: boolean;
     editFormulas: boolean;
@@ -23,8 +31,11 @@ export interface User {
 export interface NewUser {
   name: string;
   email: string;
-  role: User['role'];
-  department: string;
-  phone: string;
   password: string;
+  role?: 'admin' | 'scientist' | 'researcher' | 'policymaker';
+  phone_number?: string;
+  // Deprecated fields kept for compatibility
+  department?: string;
+  phone?: string;
 }
+

@@ -13,6 +13,7 @@ interface UserTableProps {
   onRoleFilterChange: (value: string) => void;
   onUserSelect: (user: User) => void;
   selectedUser: User | null;
+  isLoading?: boolean;
 }
 
 const UserTable = ({ 
@@ -20,7 +21,8 @@ const UserTable = ({
   roleFilter, 
   onRoleFilterChange, 
   onUserSelect,
-  selectedUser
+  selectedUser,
+  isLoading = false
 }: UserTableProps) => {
   const getRoleBadge = (role: string): "destructive" | "default" | "secondary" | "outline" => {
     switch (role) {
@@ -60,8 +62,7 @@ const UserTable = ({
               <SelectItem value="admin">Admin</SelectItem>
               <SelectItem value="scientist">Scientist</SelectItem>
               <SelectItem value="policymaker">Policymaker</SelectItem>
-              <SelectItem value="analyst">Analyst</SelectItem>
-              <SelectItem value="viewer">Viewer</SelectItem>
+              <SelectItem value="researcher">Researcher</SelectItem>
             </SelectContent>
           </Select>
           
@@ -87,16 +88,32 @@ const UserTable = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {users.map((user) => {
-                const statusInfo = getStatusBadge(user.status);
-                return (
-                  <TableRow 
-                    key={user.id} 
-                    className={`cursor-pointer hover:bg-blue-50/50 ${
-                      selectedUser?.id === user.id ? 'bg-blue-50/70' : ''
-                    }`}
-                    onClick={() => onUserSelect(user)}
-                  >
+              {isLoading ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center py-8">
+                    <div className="flex items-center justify-center gap-2 text-slate-500">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                      <span>Loading users...</span>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : users.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center py-8 text-slate-500">
+                    No users found
+                  </TableCell>
+                </TableRow>
+              ) : (
+                users.map((user) => {
+                  const statusInfo = getStatusBadge(user.status || 'active');
+                  return (
+                    <TableRow 
+                      key={user.id} 
+                      className={`cursor-pointer hover:bg-blue-50/50 ${
+                        selectedUser?.id === user.id ? 'bg-blue-50/70' : ''
+                      }`}
+                      onClick={() => onUserSelect(user)}
+                    >
                     <TableCell>
                       <Avatar className="w-8 h-8">
                         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
@@ -117,14 +134,14 @@ const UserTable = ({
                     </TableCell>
                     <TableCell>
                       <span className={`flex items-center gap-1 text-sm ${statusInfo.color}`}>
-                        {statusInfo.icon} {user.status}
+                        {statusInfo.icon} {user.status || 'active'}
                       </span>
                     </TableCell>
                     <TableCell>
                       <span className="text-sm text-slate-600">{user.department || 'N/A'}</span>
                     </TableCell>
                     <TableCell>
-                      <span className="text-sm text-slate-600">{user.lastActive}</span>
+                      <span className="text-sm text-slate-600">{user.lastActive || 'N/A'}</span>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
@@ -132,8 +149,9 @@ const UserTable = ({
                       </Button>
                     </TableCell>
                   </TableRow>
-                );
-              })}
+                  );
+                })
+              )}
             </TableBody>
           </Table>
         </div>

@@ -62,9 +62,8 @@ const AddUserDialog = ({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="viewer">Viewer</SelectItem>
-                  <SelectItem value="analyst">Analyst</SelectItem>
                   <SelectItem value="scientist">Scientist</SelectItem>
+                  <SelectItem value="researcher">Researcher</SelectItem>
                   <SelectItem value="policymaker">Policymaker</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                 </SelectContent>
@@ -85,8 +84,8 @@ const AddUserDialog = ({
             <Label htmlFor="phone">Phone (Optional)</Label>
             <Input
               id="phone"
-              value={newUser.phone}
-              onChange={(e) => onNewUserChange({...newUser, phone: e.target.value})}
+              value={newUser.phone_number || ''}
+              onChange={(e) => onNewUserChange({...newUser, phone_number: e.target.value})}
               placeholder="+91 98765 43210"
             />
           </div>

@@ -156,7 +156,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
             ? 'w-full h-full' 
             : isMinimized 
               ? 'w-96 h-auto' 
-              : 'w-96 h-[500px]'
+              : 'w-96 h-[650px]'
         }`}>
           <CardHeader className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] text-white p-3 flex-shrink-0">
             <div className="flex items-center justify-between">

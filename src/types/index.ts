@@ -4,4 +4,5 @@
 
 export * from './auth.types';
 export * from './admin.types';
+export * from './hmpi.types';
 export * from './chatbot.types';

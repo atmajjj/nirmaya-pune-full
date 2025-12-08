@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { BarChart3, Code2, Globe, LinkIcon, Beaker, Building, GraduationCap, FileText, FileSpreadsheet, FileJson, HardDrive } from "lucide-react";
+import { BarChart3, Code2, Globe, LinkIcon, Beaker, Building, GraduationCap, FileText, FileSpreadsheet, FileJson, HardDrive, Settings } from "lucide-react";
 import { DatasetLinksHeader } from "@/components/researcher/DatasetLinks/DatasetLinksHeader";
 import { SearchFilters } from "@/components/researcher/DatasetLinks/SearchFilters";
 import { DatasetCards } from "@/components/researcher/DatasetLinks/DatasetCards";
@@ -16,6 +16,7 @@ const navItems = [
   { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
   { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
   { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 const filterCategories: FilterCategory[] = [

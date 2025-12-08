@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import { BarChart3, Beaker, MapPin, LayoutGrid, Grid3X3 } from "lucide-react";
+import { BarChart3, Beaker, MapPin, LayoutGrid, Grid3X3, Settings } from "lucide-react";
 import NIRAChatbot from "@/components/NIRAChatbot";
 import { OverviewHeader } from "@/components/scientist/Overview/OverviewHeader";
 import { StatsCards } from "@/components/scientist/Overview/StatsCards";
@@ -57,6 +57,7 @@ const ScientistOverview = () => {
     { title: "HMPI Engine", path: "/scientist/hmpi-engine", icon: <Beaker className="w-5 h-5" /> },
     { title: "Formula Editor", path: "/scientist/formula-editor", icon: <BarChart3 className="w-5 h-5" /> },
     { title: "Geo-Map", path: "/scientist/geo-map", icon: <MapPin className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ];
 
   const visibleVisualizations = savedVisualizations.filter(v => v.isVisible);

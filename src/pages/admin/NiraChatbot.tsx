@@ -6,11 +6,12 @@ import SourcesPanel from "@/components/admin/NiraChatbot/SourcesPanel";
 import { Source } from "@/components/admin/NiraChatbot/types";
 
 const navItems = [
+  { title: "Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
-  { title: "System Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
   { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
-  { title: "NIRA Training", path: "/admin/nira-chatbot", icon: <Brain className="w-5 h-5" /> },
+  { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 const NiraChatbotRefactored = () => {

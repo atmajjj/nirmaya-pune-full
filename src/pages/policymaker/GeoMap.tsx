@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { AlertTriangle, FileText, TrendingUp, MapPin, Brain } from "lucide-react";
+import { AlertTriangle, FileText, TrendingUp, MapPin, Brain, Settings } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 const contaminatedZones = [
@@ -18,6 +18,7 @@ const navItems = [
     { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
     { title: "Early Warning", path: "/policymaker/early-warning", icon: <Brain className="w-5 h-5" /> },
     { title: "Geo Map", path: "/policymaker/geo-map", icon: <MapPin className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ];
   
   const getSeverityColor = (severity: string) => {

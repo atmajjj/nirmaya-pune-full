@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { BarChart3, Code2, Globe, LinkIcon, Beaker, Activity, Users, Clipboard, FileText } from "lucide-react";
+import { BarChart3, Code2, Globe, LinkIcon, Beaker, Activity, Users, Clipboard, FileText, Settings } from "lucide-react";
 import { WorkspaceHeader } from "@/components/researcher/ResearchWorkspace/WorkspaceHeader";
 import { OverviewMetrics } from "@/components/researcher/ResearchWorkspace/OverviewMetrics";
 import { TeamMembersList } from "@/components/researcher/ResearchWorkspace/TeamMembersList";
@@ -16,6 +16,7 @@ const navItems = [
   { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
   { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
   { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 const ResearchWorkspace = () => {

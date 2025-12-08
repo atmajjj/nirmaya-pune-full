@@ -3,16 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import { User } from './types';
 
 interface UserDetailsPanelProps {
   user: User | null;
   onDelete: (userId: number) => void;
-  onPermissionChange: (userId: number, permission: keyof User['permissions'], value: boolean) => void;
 }
 
-const UserDetailsPanel = ({ user, onDelete, onPermissionChange }: UserDetailsPanelProps) => {
+const UserDetailsPanel = ({ user, onDelete }: UserDetailsPanelProps) => {
   if (!user) {
     return (
       <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 shadow-lg sticky top-6">
@@ -72,26 +70,6 @@ const UserDetailsPanel = ({ user, onDelete, onPermissionChange }: UserDetailsPan
             <div className="flex items-start gap-2">
               <Calendar className="w-4 h-4 mt-0.5 text-slate-400" />
               <span className="text-slate-700">Joined: {user.joinDate}</span>
-            </div>
-          </div>
-
-          {/* Permissions */}
-          <div className="space-y-3">
-            <h4 className="font-semibold text-sm text-slate-700">Permissions</h4>
-            <div className="space-y-2">
-              {Object.entries(user.permissions).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600 capitalize">
-                    {key.replace(/([A-Z])/g, ' $1').trim()}
-                  </span>
-                  <Switch 
-                    checked={value}
-                    onCheckedChange={(checked) => 
-                      onPermissionChange(user.id, key as keyof User['permissions'], checked)
-                    }
-                  />
-                </div>
-              ))}
             </div>
           </div>
 

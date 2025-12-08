@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { Users, BarChart3, FileCheck, Database, MessageCircle } from "lucide-react";
+import { Users, BarChart3, FileCheck, Database, MessageCircle, Settings } from "lucide-react";
 
 // Import SystemOverview components
 import SystemOverviewHeader from "@/components/admin/SystemOverview/SystemOverviewHeader";
@@ -27,11 +27,12 @@ import {
 } from "@/components/admin/SystemOverview/systemData";
 
 const navItems = [
+  { title: "Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
-  { title: "System Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
   { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
   { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 const SystemOverviewRefactored = () => {
@@ -48,43 +49,41 @@ const SystemOverviewRefactored = () => {
       navItems={navItems}
       userRole="admin"
     >
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="p-8 space-y-6">
-          <SystemOverviewHeader refreshing={refreshing} onRefresh={handleRefresh} />
+      <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+        <SystemOverviewHeader refreshing={refreshing} onRefresh={handleRefresh} />
 
-          <TopSummaryCards />
+        <TopSummaryCards />
 
-          {/* Performance Charts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SystemPerformanceChart 
-              data={systemPerformanceData} 
-              timeRange={timeRange}
-              onTimeRangeChange={setTimeRange}
-            />
-            <UserActivityChart data={networkData} />
-          </div>
-
-          {/* User Distribution & API Performance */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <UserDistributionChart data={userActivityData} />
-            <APIEndpoints endpoints={apiEndpoints} />
-          </div>
-
-          {/* System Services & Alerts */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <SystemServices services={systemServices} />
-            <SystemAlerts alerts={systemAlerts} />
-          </div>
-
-          {/* Recent Activity & Admin Actions */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <RecentLoginActivity recentLogins={recentLogins} />
-            <AdminActions />
-          </div>
+        {/* Performance Charts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SystemPerformanceChart 
+            data={systemPerformanceData} 
+            timeRange={timeRange}
+            onTimeRangeChange={setTimeRange}
+          />
+          <UserActivityChart data={networkData} />
         </div>
 
-        <NIRAChatbot />
+        {/* User Distribution & API Performance */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <UserDistributionChart data={userActivityData} />
+          <APIEndpoints endpoints={apiEndpoints} />
+        </div>
+
+        {/* System Services & Alerts */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SystemServices services={systemServices} />
+          <SystemAlerts alerts={systemAlerts} />
+        </div>
+
+        {/* Recent Activity & Admin Actions */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <RecentLoginActivity recentLogins={recentLogins} />
+          <AdminActions />
+        </div>
       </div>
+
+      <NIRAChatbot />
     </DashboardLayout>
   );
 };

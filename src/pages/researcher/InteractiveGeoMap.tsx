@@ -2,7 +2,7 @@ import { useState } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
 import { Card, CardContent } from "@/components/ui/card";
-import { BarChart3, Code2, Globe, LinkIcon, Beaker, MapPin, TrendingUp, Users, Layers, Download, RefreshCw } from "lucide-react";
+import { BarChart3, Code2, Globe, LinkIcon, Beaker, MapPin, TrendingUp, Users, Layers, Download, RefreshCw, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GeoMapHeader } from "@/components/researcher/InteractiveGeoMap/GeoMapHeader";
 import { MapControls } from "@/components/researcher/InteractiveGeoMap/MapControls";
@@ -18,6 +18,7 @@ const navItems = [
   { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
   { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
   { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 // Helper to generate random metal data based on risk level

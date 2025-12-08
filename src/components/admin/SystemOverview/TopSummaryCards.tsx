@@ -1,117 +1,80 @@
-import { Users, Activity, HardDrive, Shield, Bell, CheckCircle } from "lucide-react";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
+import { Users, Activity, HardDrive, Shield, Bell } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 const TopSummaryCards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-      <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 hover:shadow-lg transition-all cursor-pointer">
-        <CardHeader className="pb-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-xl">
+        <CardContent className="p-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                <Users className="w-4 h-4 text-green-600" />
-              </div>
-              <span className="text-sm font-medium text-slate-600">Active Users</span>
+            <div>
+              <p className="text-sm text-emerald-600 font-medium mb-2">Active Users</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-emerald-800">248</h3>
+              <p className="text-xs text-emerald-600 mt-1">Online now</p>
             </div>
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="w-12 h-12 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center">
+              <Users className="w-6 h-6 text-emerald-600" />
+            </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <p className="text-2xl font-bold text-slate-800">248</p>
-          <p className="text-xs text-green-600">Online now</p>
         </CardContent>
       </Card>
 
-      <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 hover:shadow-lg transition-all cursor-pointer">
-        <CardHeader className="pb-3">
+      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-xl">
+        <CardContent className="p-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Activity className="w-4 h-4 text-blue-600" />
-              </div>
-              <span className="text-sm font-medium text-slate-600">Server Uptime</span>
+            <div>
+              <p className="text-sm text-blue-600 font-medium mb-2">Server Uptime</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-blue-800">99.97%</h3>
+              <p className="text-xs text-blue-600 mt-1">Last 30 days</p>
             </div>
-            <div className="relative w-8 h-8">
-              <svg className="w-8 h-8 transform -rotate-90">
-                <circle cx="16" cy="16" r="14" stroke="#e2e8f0" strokeWidth="2" fill="none" />
-                <circle 
-                  cx="16" 
-                  cy="16" 
-                  r="14" 
-                  stroke="#3b82f6" 
-                  strokeWidth="2" 
-                  fill="none"
-                  strokeDasharray={`${99.97 * 0.88} 88`}
-                  className="transition-all duration-500"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs font-medium text-blue-600">99%</span>
-              </div>
+            <div className="w-12 h-12 rounded-lg bg-blue-100 border border-blue-300 flex items-center justify-center">
+              <Activity className="w-6 h-6 text-blue-600" />
             </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <p className="text-2xl font-bold text-slate-800">99.97%</p>
-          <p className="text-xs text-blue-600">Last 30 days</p>
-        </CardContent>
-      </Card>
-
-      <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 hover:shadow-lg transition-all cursor-pointer">
-        <CardHeader className="pb-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-              <HardDrive className="w-4 h-4 text-purple-600" />
-            </div>
-            <span className="text-sm font-medium text-slate-600">Storage Usage</span>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            <div className="flex justify-between">
-              <p className="text-2xl font-bold text-slate-800">72%</p>
-              <p className="text-xs text-slate-600">of 500GB</p>
-            </div>
-            <Progress value={72} className="h-2" />
           </div>
         </CardContent>
       </Card>
 
-      <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 hover:shadow-lg transition-all cursor-pointer">
-        <CardHeader className="pb-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-              <Shield className="w-4 h-4 text-green-600" />
+      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded-xl">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-amber-600 font-medium mb-2">Storage Usage</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-amber-800">72%</h3>
+              <p className="text-xs text-amber-600 mt-1">of 500GB</p>
             </div>
-            <span className="text-sm font-medium text-slate-600">System Health</span>
+            <div className="w-12 h-12 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center">
+              <HardDrive className="w-6 h-6 text-amber-600" />
+            </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-200">
-            <CheckCircle className="w-3 h-3 mr-1" />
-            Operational
-          </Badge>
-          <p className="text-xs text-slate-600 mt-2">All services running</p>
         </CardContent>
       </Card>
 
-      <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 hover:shadow-lg transition-all cursor-pointer">
-        <CardHeader className="pb-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-              <Bell className="w-4 h-4 text-red-600" />
+      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100 rounded-xl">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-slate-600 font-medium mb-2">System Health</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-slate-800">Optimal</h3>
+              <p className="text-xs text-slate-600 mt-1">All systems OK</p>
             </div>
-            <span className="text-sm font-medium text-slate-600">Pending Alerts</span>
+            <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center">
+              <Shield className="w-6 h-6 text-slate-600" />
+            </div>
           </div>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center gap-2">
-            <p className="text-2xl font-bold text-slate-800">3</p>
-            <Badge variant="destructive" className="text-xs">
-              2 Critical
-            </Badge>
+        </CardContent>
+      </Card>
+
+      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-red-300 bg-red-50 text-red-700 hover:bg-red-100 rounded-xl">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-red-600 font-medium mb-2">Pending Alerts</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-red-800">3</h3>
+              <p className="text-xs text-red-600 mt-1">2 Critical</p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center">
+              <Bell className="w-6 h-6 text-red-600" />
+            </div>
           </div>
         </CardContent>
       </Card>

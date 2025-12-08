@@ -34,8 +34,7 @@ const APIManagement = lazy(() => import("./pages/researcher/APIManagement"));
 const ResearchWorkspace = lazy(() => import("./pages/researcher/ResearchWorkspace"));
 const InteractiveGeoMap = lazy(() => import("./pages/researcher/InteractiveGeoMap"));
 
-// Debug page (accessible to all)
-const ChatbotDebug = lazy(() => import("./pages/ChatbotDebug"));
+const Profile = lazy(() => import("./pages/Profile"));
 
 const queryClient = new QueryClient();
 
@@ -50,8 +49,15 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Login />} />
 
-                {/* Debug Route - Accessible to all for troubleshooting */}
-                <Route path="/chatbot-debug" element={<ChatbotDebug />} />
+                {/* Profile Route (shared across all roles) */}
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* Scientist Routes (protected) */}
                 <Route

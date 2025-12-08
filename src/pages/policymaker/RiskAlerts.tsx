@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { AlertTriangle, FileText, TrendingUp, MapPin, Target, Bell, Shield, Clock } from "lucide-react";
+import { AlertTriangle, FileText, TrendingUp, MapPin, Target, Bell, Shield, Clock, Settings } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Components
@@ -51,6 +51,7 @@ const navItems = [
     { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
     { title: "Early Warning", path: "/policymaker/early-warning", icon: <AlertTriangle className="w-5 h-5" /> },
     { title: "Geo Map", path: "/policymaker/geo-map", icon: <MapPin className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ];
 
   const [dateRange, setDateRange] = useState("7days");

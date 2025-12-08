@@ -19,34 +19,30 @@ interface DashboardLayoutProps {
 
 // User info based on role
 const getUserInfo = (userRole: string) => {
-  const roleData: Record<string, { name: string; email: string; role: string; initials: string; department: string }> = {
+  const roleData: Record<string, { name: string; email: string; role: string; initials: string }> = {
     scientist: {
       name: 'Dr. Priya Sharma',
       email: 'priya.sharma@nirmaya.gov.in',
       role: 'Scientist Dashboard',
-      initials: 'PS',
-      department: 'Environmental Science Division'
+      initials: 'PS'
     },
     policymaker: {
       name: 'Shri Rajesh Kumar',
       email: 'rajesh.kumar@nirmaya.gov.in',
       role: 'Policymaker Dashboard',
-      initials: 'RK',
-      department: 'Water Resources Ministry'
+      initials: 'RK'
     },
     researcher: {
       name: 'Anika Patel',
       email: 'anika.patel@nirmaya.gov.in',
       role: 'Researcher Dashboard',
-      initials: 'AP',
-      department: 'Hydrogeology Research Lab'
+      initials: 'AP'
     },
     admin: {
       name: 'System Administrator',
       email: 'admin@nirmaya.gov.in',
       role: 'Admin Dashboard',
-      initials: 'SA',
-      department: 'IT Administration'
+      initials: 'SA'
     }
   };
 
@@ -54,8 +50,7 @@ const getUserInfo = (userRole: string) => {
     name: 'Guest User',
     email: 'guest@nirmaya.gov.in',
     role: 'Dashboard',
-    initials: 'GU',
-    department: 'Guest Access'
+    initials: 'GU'
   };
 };
 
@@ -88,8 +83,7 @@ const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps)
     name: user.name,
     email: user.email,
     role: `${userRole.charAt(0).toUpperCase() + userRole.slice(1)} Dashboard`,
-    initials: user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2),
-    department: defaultUserInfo.department
+    initials: user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
   } : defaultUserInfo;
   
   const dashboardTitle = getDashboardTitle(userRole);

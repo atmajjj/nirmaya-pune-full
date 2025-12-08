@@ -171,11 +171,21 @@ async function request<T>(
   const { params, ...fetchOptions } = options;
   const url = buildUrl(ENV.API_URL, endpoint, params);
 
-  // Default headers
+  // Check if body is FormData
+  const isFormData = fetchOptions.body instanceof FormData;
+
+  // Default headers (don't set Content-Type for FormData)
   const headers: HeadersInit = {
-    'Content-Type': 'application/json',
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     ...options.headers,
   };
+
+  // Remove Content-Type if it's multipart/form-data (browser will set it with boundary)
+  if (isFormData && headers && typeof headers === 'object' && 'Content-Type' in headers) {
+    const headersCopy = { ...headers } as Record<string, string>;
+    delete headersCopy['Content-Type'];
+    Object.assign(headers, headersCopy);
+  }
 
   // Add auth token if available (except for auth endpoints)
   const token = tokenManager.getAccessToken();
@@ -248,21 +258,21 @@ export const apiClient = {
     request<T>(endpoint, {
       ...options,
       method: 'POST',
-      body: body ? JSON.stringify(body) : undefined,
+      body: body instanceof FormData ? body : (body ? JSON.stringify(body) : undefined),
     }),
 
   put: <T>(endpoint: string, body?: unknown, options?: RequestConfig) =>
     request<T>(endpoint, {
       ...options,
       method: 'PUT',
-      body: body ? JSON.stringify(body) : undefined,
+      body: body instanceof FormData ? body : (body ? JSON.stringify(body) : undefined),
     }),
 
   patch: <T>(endpoint: string, body?: unknown, options?: RequestConfig) =>
     request<T>(endpoint, {
       ...options,
       method: 'PATCH',
-      body: body ? JSON.stringify(body) : undefined,
+      body: body instanceof FormData ? body : (body ? JSON.stringify(body) : undefined),
     }),
 
   delete: <T>(endpoint: string, options?: RequestConfig) =>

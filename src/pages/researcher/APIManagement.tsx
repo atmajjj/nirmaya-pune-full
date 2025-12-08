@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BarChart3, Code2, Globe, LinkIcon, Beaker } from "lucide-react";
+import { BarChart3, Code2, Globe, LinkIcon, Beaker, Settings } from "lucide-react";
 import { APIManagementHeader } from "@/components/researcher/APIManagement/APIManagementHeader";
 import { APIServiceCards } from "@/components/researcher/APIManagement/APIServiceCards";
 import { EndpointsList } from "@/components/researcher/APIManagement/EndpointsList";
@@ -14,6 +14,7 @@ const navItems = [
   { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
   { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
   { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 const indiaWRISEndpoints = [
