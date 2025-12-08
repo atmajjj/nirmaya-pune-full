@@ -56,6 +56,11 @@ const UserManagement = () => {
       setIsLoading(true);
       const response = await userService.getAllUsers({ page, limit: 20 });
       
+      // Check if we have data
+      if (!response || !response.data) {
+        throw new Error('Invalid response format');
+      }
+      
       // Map API users to include default values for UI fields
       const mappedUsers = response.data.map(user => ({
         ...user,
@@ -75,7 +80,7 @@ const UserManagement = () => {
       }));
       
       setUsers(mappedUsers);
-      setTotalUsers(response.pagination.total);
+      setTotalUsers(response.pagination?.total || mappedUsers.length);
     } catch (error) {
       console.error('Failed to load users:', error);
       toast({
@@ -83,6 +88,9 @@ const UserManagement = () => {
         description: error instanceof ApiError ? error.message : "Failed to load users",
         variant: "destructive",
       });
+      // Set empty array on error
+      setUsers([]);
+      setTotalUsers(0);
     } finally {
       setIsLoading(false);
     }
@@ -151,29 +159,6 @@ const UserManagement = () => {
     setShowDeleteConfirm(false);
   };
 
-  const updateUserPermissions = async (userId: number, permission: keyof NonNullable<User['permissions']>, value: boolean) => {
-    // Find the user and update locally
-    const userToUpdate = users.find(u => u.id === userId);
-    if (!userToUpdate || !userToUpdate.permissions) return;
-
-    // Update local state
-    setUsers(users.map(user => 
-      user.id === userId 
-        ? { ...user, permissions: { ...user.permissions!, [permission]: value } }
-        : user
-    ));
-    
-    if (selectedUser && selectedUser.id === userId && selectedUser.permissions) {
-      setSelectedUser({ ...selectedUser, permissions: { ...selectedUser.permissions, [permission]: value } });
-    }
-
-    // Note: Permissions would typically be saved to backend
-    toast({
-      title: "Info",
-      description: "Permission changes are local only. Backend integration pending.",
-    });
-  };
-
   return (
     <DashboardLayout navItems={navItems} userRole="admin">
       <div className="space-y-6 bg-slate-50 min-h-screen p-6">
@@ -215,7 +200,6 @@ const UserManagement = () => {
             <UserDetailsPanel
               user={selectedUser}
               onDelete={handleDeleteUser}
-              onPermissionChange={updateUserPermissions}
             />
           </div>
         </div>

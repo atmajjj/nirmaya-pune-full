@@ -62,15 +62,44 @@ export const userService = {
   async getAllUsers(params: GetUsersParams = {}): Promise<PaginatedUsersResponse> {
     const { page = 1, limit = 20 } = params;
     
-    const response = await apiClient.get<ApiResponse<User[]> & { pagination: { page: number; limit: number; total: number } }>(
+    const response = await apiClient.get<any>(
       '/users',
       { params: { page, limit } }
     );
 
-    return {
-      data: response.data,
-      pagination: response.pagination,
-    };
+    // Handle different response structures
+    if (response.data && Array.isArray(response.data)) {
+      // Response has data array at response.data
+      return {
+        data: response.data,
+        pagination: response.pagination || {
+          page,
+          limit,
+          total: response.data.length
+        }
+      };
+    } else if (Array.isArray(response)) {
+      // Response is directly an array
+      return {
+        data: response,
+        pagination: {
+          page,
+          limit,
+          total: response.length
+        }
+      };
+    } else {
+      // Unexpected format
+      console.error('Unexpected response format:', response);
+      return {
+        data: [],
+        pagination: {
+          page,
+          limit,
+          total: 0
+        }
+      };
+    }
   },
 
   /**
