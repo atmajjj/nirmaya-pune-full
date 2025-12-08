@@ -1,26 +1,13 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Monitor, RefreshCw, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AddVisualizationMenu } from "@/components/scientist/Visualizations";
-import { VisualizationType } from "@/components/scientist/Visualizations/types";
-import { UniversalOptions, ChartSpecificOptions, SaveAsType } from "@/components/scientist/Visualizations/customizationTypes";
-import { showSuccessToast } from '@/lib/toast-utils';
-import DashboardSelectorModal from '@/components/scientist/Overview/DashboardSelectorModal';
 import SimplifiedCustomizePanel from '@/components/scientist/Overview/SimplifiedCustomizePanel';
 import { DashboardWidget } from '@/components/scientist/Overview/widgetVisibility';
-import {
-  SavedVisualization,
-  DashboardPage,
-  generateVisualizationId,
-  saveVisualizationToDashboard,
-  getDashboardVisualizations,
-} from '@/components/scientist/Overview/dashboardTypes';
 
 interface OverviewHeaderProps {
   onRefresh: () => void;
   refreshing: boolean;
-  onAddVisualization?: (vizType: VisualizationType) => void;
   onVisualizationsChange?: () => void;
   onWidgetVisibilityChange?: (widgets: DashboardWidget[]) => void;
   dashboardId?: string;
@@ -29,99 +16,11 @@ interface OverviewHeaderProps {
 const OverviewHeader = ({ 
   onRefresh, 
   refreshing,
-  onAddVisualization, 
   onVisualizationsChange,
   onWidgetVisibilityChange,
   dashboardId = 'admin-overview'
 }: OverviewHeaderProps) => {
-  const [showDashboardSelector, setShowDashboardSelector] = useState(false);
   const [showCustomizePanel, setShowCustomizePanel] = useState(false);
-  const [pendingVisualization, setPendingVisualization] = useState<{
-    vizType: VisualizationType;
-    config?: { universal: UniversalOptions; chartSpecific: ChartSpecificOptions; saveAs: SaveAsType };
-  } | null>(null);
-
-  const handleSelectVisualization = (
-    vizType: VisualizationType, 
-    config?: { universal: UniversalOptions; chartSpecific: ChartSpecificOptions; saveAs: SaveAsType }
-  ) => {
-    setPendingVisualization({ vizType, config });
-    setShowDashboardSelector(true);
-  };
-
-  const handleDashboardSelect = useCallback((
-    dashboard: DashboardPage, 
-    position: 'top' | 'middle' | 'bottom' | 'auto'
-  ) => {
-    if (!pendingVisualization) return;
-
-    const { vizType, config } = pendingVisualization;
-    const existingVisualizations = getDashboardVisualizations(dashboard.id);
-    let positionNum: number;
-    
-    if (position === 'auto') {
-      positionNum = existingVisualizations.length;
-    } else if (position === 'top') {
-      positionNum = 0;
-    } else if (position === 'bottom') {
-      positionNum = existingVisualizations.length;
-    } else {
-      positionNum = Math.floor(existingVisualizations.length / 2);
-    }
-
-    const chartTypeMap: Record<string, string> = {
-      'hmpi-trend-line': 'line',
-      'contaminant-bar': 'bar',
-      'multi-metal-radar': 'radar',
-      'spatial-heatmap': 'heatmap',
-      'safe-limit-comparison': 'bar',
-      'hmpi-histogram': 'histogram',
-      'correlation-heatmap': 'heatmap',
-      'contaminant-boxplots': 'boxplot',
-      'quality-pie': 'pie',
-      'time-series-multiline': 'line',
-      'depth-scatter': 'scatter',
-      'sampling-bubble': 'bubble',
-    };
-
-    const savedViz: SavedVisualization = {
-      id: generateVisualizationId(),
-      visualizationId: vizType.id,
-      dashboardId: dashboard.id,
-      type: chartTypeMap[vizType.id] || 'bar',
-      title: config?.universal?.title || vizType.name,
-      subtitle: config?.universal?.subtitle || vizType.description.slice(0, 60),
-      config: {
-        universal: config?.universal || {},
-        chartSpecific: config?.chartSpecific || {},
-      },
-      position: positionNum,
-      isVisible: true,
-      ownerRole: 'admin',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    saveVisualizationToDashboard(savedViz);
-    setShowDashboardSelector(false);
-    setPendingVisualization(null);
-
-    if (onVisualizationsChange) {
-      onVisualizationsChange();
-    }
-
-    if (onAddVisualization) {
-      onAddVisualization(vizType);
-    }
-
-    showSuccessToast("Visualization Added", `"${savedViz.title}" has been added to ${dashboard.name}`);
-  }, [pendingVisualization, onVisualizationsChange, onAddVisualization]);
-
-  const handleVisualizationsChange = useCallback(() => {
-    if (onVisualizationsChange) {
-      onVisualizationsChange();
-    }
-  }, [onVisualizationsChange]);
   return (
     <>
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-100 via-slate-50 to-blue-50 border border-slate-200/80 shadow-lg">
@@ -150,8 +49,6 @@ const OverviewHeader = ({
               Refresh
             </Button>
             
-            <AddVisualizationMenu onSelectVisualization={handleSelectVisualization} />
-            
             <Button 
               variant="outline" 
               className="gap-2 bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700"
@@ -164,17 +61,6 @@ const OverviewHeader = ({
         </div>
       </div>
 
-      {/* Dashboard Selector Modal */}
-      <DashboardSelectorModal
-        isOpen={showDashboardSelector}
-        onClose={() => {
-          setShowDashboardSelector(false);
-          setPendingVisualization(null);
-        }}
-        onSelect={handleDashboardSelect}
-        visualizationName={pendingVisualization?.vizType?.name || ''}
-      />
-
       {/* Simplified Customize Panel */}
       <SimplifiedCustomizePanel
         isOpen={showCustomizePanel}
@@ -185,7 +71,11 @@ const OverviewHeader = ({
             onWidgetVisibilityChange(widgets);
           }
         }}
-        onVisualizationsChange={handleVisualizationsChange}
+        onVisualizationsChange={() => {
+          if (onVisualizationsChange) {
+            onVisualizationsChange();
+          }
+        }}
       />
     </>
   );

@@ -168,7 +168,7 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+    <div className="space-y-4 md:space-y-6 bg-slate-50 min-h-screen p-4 md:p-6">
         {/* Header Section */}
         <UserManagementHeader
           searchTerm={searchTerm}
@@ -189,9 +189,9 @@ const UserManagement = () => {
         />
 
         {/* Main Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-5 gap-4 md:gap-6">
           {/* User List Section (Left 60%) */}
-          <div className="lg:col-span-3">
+          <div className="xl:col-span-3">
             <UserTable
               users={filteredUsers}
               roleFilter={roleFilter}
@@ -203,7 +203,7 @@ const UserManagement = () => {
           </div>
 
           {/* User Details Panel (Right 40%) */}
-          <div className="lg:col-span-2">
+          <div className="xl:col-span-2">
             <UserDetailsPanel
               user={selectedUser}
               onDelete={handleDeleteUser}

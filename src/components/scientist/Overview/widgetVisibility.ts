@@ -59,17 +59,80 @@ export const DEFAULT_SCIENTIST_OVERVIEW_WIDGETS: DashboardWidget[] = [
   },
 ];
 
+// Default widgets for Admin Overview Dashboard
+export const DEFAULT_ADMIN_OVERVIEW_WIDGETS: DashboardWidget[] = [
+  {
+    id: 'summary-cards',
+    name: 'Summary Cards',
+    description: 'Total users, active users, pending approvals, and admin accounts',
+    icon: 'BarChart3',
+    category: 'stats',
+    isVisible: true,
+    order: 0,
+  },
+  {
+    id: 'users-by-role',
+    name: 'Users by Role',
+    description: 'Pie chart showing distribution of users across different roles',
+    icon: 'PieChart',
+    category: 'charts',
+    isVisible: true,
+    order: 1,
+  },
+  {
+    id: 'calculations-by-index',
+    name: 'Calculations by Index',
+    description: 'Bar chart showing water quality index calculations',
+    icon: 'BarChart',
+    category: 'charts',
+    isVisible: true,
+    order: 2,
+  },
+  {
+    id: 'upload-status',
+    name: 'Upload Status',
+    description: 'Pie chart showing completed vs pending uploads',
+    icon: 'PieChart',
+    category: 'charts',
+    isVisible: true,
+    order: 3,
+  },
+  {
+    id: 'data-sources',
+    name: 'Data Sources',
+    description: 'Pie chart showing distribution of data source file types',
+    icon: 'PieChart',
+    category: 'charts',
+    isVisible: true,
+    order: 4,
+  },
+  {
+    id: 'system-health',
+    name: 'System Health',
+    description: 'Database and Redis health status monitoring',
+    icon: 'Shield',
+    category: 'alerts',
+    isVisible: true,
+    order: 5,
+  },
+];
+
 // Storage key for widget visibility
 export const WIDGET_VISIBILITY_KEY = 'nirmaya_widget_visibility';
 
 // Get widget visibility settings for a dashboard
 export const getWidgetVisibility = (dashboardId: string): DashboardWidget[] => {
+  // Select appropriate defaults based on dashboard ID
+  const defaults = dashboardId === 'admin-overview' 
+    ? DEFAULT_ADMIN_OVERVIEW_WIDGETS 
+    : DEFAULT_SCIENTIST_OVERVIEW_WIDGETS;
+
   try {
     const stored = localStorage.getItem(`${WIDGET_VISIBILITY_KEY}_${dashboardId}`);
     if (stored) {
       const parsed = JSON.parse(stored);
       // Merge with defaults to handle new widgets
-      return DEFAULT_SCIENTIST_OVERVIEW_WIDGETS.map(defaultWidget => {
+      return defaults.map(defaultWidget => {
         const savedWidget = parsed.find((w: DashboardWidget) => w.id === defaultWidget.id);
         return savedWidget ? { ...defaultWidget, ...savedWidget } : defaultWidget;
       });
@@ -77,7 +140,7 @@ export const getWidgetVisibility = (dashboardId: string): DashboardWidget[] => {
   } catch {
     // Return defaults on error
   }
-  return [...DEFAULT_SCIENTIST_OVERVIEW_WIDGETS];
+  return [...defaults];
 };
 
 // Save widget visibility settings
@@ -105,7 +168,9 @@ export const updateWidgetVisibility = (
 
 // Reset to default visibility
 export const resetWidgetVisibility = (dashboardId: string): DashboardWidget[] => {
-  const defaults = [...DEFAULT_SCIENTIST_OVERVIEW_WIDGETS];
+  const defaults = dashboardId === 'admin-overview'
+    ? [...DEFAULT_ADMIN_OVERVIEW_WIDGETS]
+    : [...DEFAULT_SCIENTIST_OVERVIEW_WIDGETS];
   saveWidgetVisibility(dashboardId, defaults);
   return defaults;
 };

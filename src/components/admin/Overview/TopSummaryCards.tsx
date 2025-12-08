@@ -1,83 +1,124 @@
-import { Users, Activity, HardDrive, Shield, Bell } from "lucide-react";
+import { Users, Activity, HardDrive, Shield, Bell, UserPlus, Database, Calculator, FileText, Beaker } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import type { SystemStats } from '@/types/admin.types';
 
-const TopSummaryCards = () => {
+interface TopSummaryCardsProps {
+  stats: SystemStats | null;
+  loading?: boolean;
+}
+
+const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
+  // Format file size
+  const formatSize = (mb: number) => {
+    if (mb >= 1024) {
+      return `${(mb / 1024).toFixed(1)} GB`;
+    }
+    return `${mb.toFixed(1)} MB`;
+  };
+
+  const cards = [
+    {
+      title: "Total Users",
+      value: stats?.overview.total_users ?? 0,
+      subtitle: `${stats?.users.active_users ?? 0} active`,
+      icon: Users,
+      gradient: "from-blue-500 to-cyan-500",
+      bgColor: "bg-blue-50",
+      textColor: "text-blue-700",
+      borderColor: "border-blue-300"
+    },
+    {
+      title: "Scientists",
+      value: stats?.users.by_role.scientist ?? 0,
+      subtitle: "Role users",
+      icon: Beaker,
+      gradient: "from-purple-500 to-pink-500",
+      bgColor: "bg-purple-50",
+      textColor: "text-purple-700",
+      borderColor: "border-purple-300"
+    },
+    {
+      title: "Researchers",
+      value: stats?.users.by_role.researcher ?? 0,
+      subtitle: "Role users",
+      icon: Shield,
+      gradient: "from-green-500 to-emerald-500",
+      bgColor: "bg-green-50",
+      textColor: "text-green-700",
+      borderColor: "border-green-300"
+    },
+    {
+      title: "Calculations",
+      value: stats?.overview.total_calculations ?? 0,
+      subtitle: `${stats?.calculations.recent_calculations ?? 0} recent`,
+      icon: Calculator,
+      gradient: "from-orange-500 to-red-500",
+      bgColor: "bg-orange-50",
+      textColor: "text-orange-700",
+      borderColor: "border-orange-300"
+    },
+    {
+      title: "Data Sources",
+      value: stats?.overview.total_data_sources ?? 0,
+      subtitle: formatSize(stats?.data_sources.total_size_mb ?? 0),
+      icon: Database,
+      gradient: "from-teal-500 to-cyan-500",
+      bgColor: "bg-teal-50",
+      textColor: "text-teal-700",
+      borderColor: "border-teal-300"
+    },
+    {
+      title: "Reports",
+      value: stats?.overview.total_reports ?? 0,
+      subtitle: `${stats?.reports.recent_reports ?? 0} recent`,
+      icon: FileText,
+      gradient: "from-indigo-500 to-purple-500",
+      bgColor: "bg-indigo-50",
+      textColor: "text-indigo-700",
+      borderColor: "border-indigo-300"
+    },
+    {
+      title: "Total Uploads",
+      value: stats?.overview.total_uploads ?? 0,
+      subtitle: formatSize(stats?.uploads.total_size_mb ?? 0),
+      icon: HardDrive,
+      gradient: "from-amber-500 to-orange-500",
+      bgColor: "bg-amber-50",
+      textColor: "text-amber-700",
+      borderColor: "border-amber-300"
+    },
+    {
+      title: "Custom Formulas",
+      value: stats?.overview.total_formulas ?? 0,
+      subtitle: `${stats?.formulas.active_formulas ?? 0} active`,
+      icon: Activity,
+      gradient: "from-pink-500 to-rose-500",
+      bgColor: "bg-pink-50",
+      textColor: "text-pink-700",
+      borderColor: "border-pink-300"
+    }
+  ];
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-xl">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-emerald-600 font-medium mb-2">Active Users</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-emerald-800">248</h3>
-              <p className="text-xs text-emerald-600 mt-1">Online now</p>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {cards.map((card) => (
+        <Card key={card.title} className={`cursor-pointer hover:shadow-lg transition-all duration-200 border-2 ${card.borderColor} ${card.bgColor} ${card.textColor} hover:opacity-90 rounded-xl`}>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium mb-2 opacity-90">{card.title}</p>
+                <h3 className="text-2xl md:text-3xl font-bold">
+                  {loading ? '...' : card.value.toLocaleString()}
+                </h3>
+                <p className="text-xs mt-1 opacity-75">{card.subtitle}</p>
+              </div>
+              <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${card.gradient} flex items-center justify-center shadow-sm`}>
+                <card.icon className="w-6 h-6 text-white" />
+              </div>
             </div>
-            <div className="w-12 h-12 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center">
-              <Users className="w-6 h-6 text-emerald-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-blue-300 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-xl">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-blue-600 font-medium mb-2">Server Uptime</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-blue-800">99.97%</h3>
-              <p className="text-xs text-blue-600 mt-1">Last 30 days</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-blue-100 border border-blue-300 flex items-center justify-center">
-              <Activity className="w-6 h-6 text-blue-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-amber-300 bg-amber-50 text-amber-700 hover:bg-amber-100 rounded-xl">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-amber-600 font-medium mb-2">Storage Usage</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-amber-800">72%</h3>
-              <p className="text-xs text-amber-600 mt-1">of 500GB</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center">
-              <HardDrive className="w-6 h-6 text-amber-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100 rounded-xl">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-slate-600 font-medium mb-2">System Health</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-800">Optimal</h3>
-              <p className="text-xs text-slate-600 mt-1">All systems OK</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-300 flex items-center justify-center">
-              <Shield className="w-6 h-6 text-slate-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-red-300 bg-red-50 text-red-700 hover:bg-red-100 rounded-xl">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-red-600 font-medium mb-2">Pending Alerts</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-red-800">3</h3>
-              <p className="text-xs text-red-600 mt-1">2 Critical</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center">
-              <Bell className="w-6 h-6 text-red-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 };

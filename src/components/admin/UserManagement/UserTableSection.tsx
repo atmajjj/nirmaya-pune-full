@@ -1,4 +1,3 @@
-import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -46,30 +45,27 @@ const UserTable = ({
 
   return (
     <Card className="bg-white/80 backdrop-blur-sm border-slate-200/50 shadow-lg">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
-        <div>
-          <CardTitle className="text-lg font-semibold">All Users</CardTitle>
-          <p className="text-sm text-slate-600 mt-1">{users.length} users</p>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <Select value={roleFilter} onValueChange={onRoleFilterChange}>
-            <SelectTrigger className="w-32 bg-white/70">
-              <SelectValue placeholder="Role" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Roles</SelectItem>
-              <SelectItem value="admin">Admin</SelectItem>
-              <SelectItem value="scientist">Scientist</SelectItem>
-              <SelectItem value="policymaker">Policymaker</SelectItem>
-              <SelectItem value="researcher">Researcher</SelectItem>
-            </SelectContent>
-          </Select>
+      <CardHeader className="pb-4 space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <CardTitle className="text-base md:text-lg font-semibold">All Users</CardTitle>
+            <p className="text-xs md:text-sm text-slate-600 mt-1">{users.length} users</p>
+          </div>
           
-          <Button variant="outline" size="sm" className="bg-white/70">
-            <Download className="w-4 h-4 mr-2" />
-            Export
-          </Button>
+          <div className="flex items-center gap-2">
+            <Select value={roleFilter} onValueChange={onRoleFilterChange}>
+              <SelectTrigger className="w-full sm:w-32 bg-white/70">
+                <SelectValue placeholder="Role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Roles</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="scientist">Scientist</SelectItem>
+                <SelectItem value="policymaker">Policymaker</SelectItem>
+                <SelectItem value="researcher">Researcher</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </CardHeader>
       
@@ -78,13 +74,13 @@ const UserTable = ({
           <Table>
             <TableHeader>
               <TableRow className="bg-slate-50/50">
-                <TableHead className="w-12"></TableHead>
-                <TableHead>User</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Department</TableHead>
-                <TableHead>Last Active</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="w-10 md:w-12"></TableHead>
+                <TableHead className="min-w-[200px]">User</TableHead>
+                <TableHead className="min-w-[100px]">Role</TableHead>
+                <TableHead className="hidden sm:table-cell min-w-[100px]">Status</TableHead>
+                <TableHead className="hidden lg:table-cell">Department</TableHead>
+                <TableHead className="hidden md:table-cell">Last Active</TableHead>
+                <TableHead className="text-right min-w-[100px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -115,7 +111,7 @@ const UserTable = ({
                       onClick={() => onUserSelect(user)}
                     >
                     <TableCell>
-                      <Avatar className="w-8 h-8">
+                      <Avatar className="w-7 h-7 md:w-8 md:h-8">
                         <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
                           {user.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
@@ -123,29 +119,30 @@ const UserTable = ({
                     </TableCell>
                     <TableCell>
                       <div>
-                        <p className="font-medium text-slate-800">{user.name}</p>
-                        <p className="text-xs text-slate-500">{user.email}</p>
+                        <p className="font-medium text-slate-800 text-sm md:text-base">{user.name}</p>
+                        <p className="text-xs text-slate-500 truncate max-w-[200px]">{user.email}</p>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={getRoleBadge(user.role)} className="capitalize">
+                      <Badge variant={getRoleBadge(user.role)} className="capitalize text-xs">
                         {user.role}
                       </Badge>
                     </TableCell>
-                    <TableCell>
-                      <span className={`flex items-center gap-1 text-sm ${statusInfo.color}`}>
+                    <TableCell className="hidden sm:table-cell">
+                      <span className={`flex items-center gap-1 text-xs md:text-sm ${statusInfo.color}`}>
                         {statusInfo.icon} {user.status || 'active'}
                       </span>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="hidden lg:table-cell">
                       <span className="text-sm text-slate-600">{user.department || 'N/A'}</span>
                     </TableCell>
-                    <TableCell>
-                      <span className="text-sm text-slate-600">{user.lastActive || 'N/A'}</span>
+                    <TableCell className="hidden md:table-cell">
+                      <span className="text-xs md:text-sm text-slate-600">{user.lastActive || 'N/A'}</span>
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
-                        View Details
+                      <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 text-xs md:text-sm px-2 md:px-3">
+                        <span className="hidden sm:inline">View Details</span>
+                        <span className="sm:hidden">View</span>
                       </Button>
                     </TableCell>
                   </TableRow>

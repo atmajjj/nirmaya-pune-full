@@ -1,40 +1,35 @@
 import { useState, useEffect, useCallback } from 'react';
-import { LayoutGrid } from "lucide-react";
+import { LayoutGrid, AlertCircle } from "lucide-react";
 
 // Import Overview components
 import OverviewHeader from "@/components/admin/Overview/OverviewHeader";
 import TopSummaryCards from "@/components/admin/Overview/TopSummaryCards";
-import SystemPerformanceChart from "@/components/admin/Overview/SystemPerformanceChart";
-import UserActivityChart from "@/components/admin/Overview/UserActivityChart";
-import UserDistributionChart from "@/components/admin/Overview/UserDistributionChart";
-import APIEndpoints from "@/components/admin/Overview/APIEndpoints";
-import SystemServices from "@/components/admin/Overview/SystemServices";
-import SystemAlerts from "@/components/admin/Overview/SystemAlerts";
-import RecentLoginActivity from "@/components/admin/Overview/RecentLoginActivity";
-import AdminActions from "@/components/admin/Overview/AdminActions";
+import UsersByRoleChart from "@/components/admin/Overview/UsersByRoleChart";
+import CalculationsByIndexChart from "@/components/admin/Overview/CalculationsByIndexChart";
+import UploadStatusChart from "@/components/admin/Overview/UploadStatusChart";
+import DataSourcesChart from "@/components/admin/Overview/DataSourcesChart";
+import SystemHealthPanel from "@/components/admin/Overview/SystemHealthPanel";
 import SavedVisualizationsGrid from "@/components/scientist/Overview/SavedVisualizationsGrid";
 import { SavedVisualization, getDashboardVisualizations } from "@/components/scientist/Overview/dashboardTypes";
 import { DashboardWidget, getWidgetVisibility } from "@/components/scientist/Overview/widgetVisibility";
 import { Toaster } from "@/components/ui/toaster";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
-// Import data
-import {
-  systemPerformanceData,
-  networkData,
-  userActivityData,
-  apiEndpoints,
-  systemServices,
-  systemAlerts,
-  recentLogins
-} from "@/components/admin/Overview/systemData";
+// Import API services
+import { adminService } from "@/services/api/adminService";
+import type { SystemStats } from '@/types/admin.types';
 
 const DASHBOARD_ID = 'admin-overview';
 
 const AdminOverview = () => {
-  const [timeRange, setTimeRange] = useState("24h");
   const [refreshing, setRefreshing] = useState(false);
   const [savedVisualizations, setSavedVisualizations] = useState<SavedVisualization[]>([]);
   const [widgetVisibility, setWidgetVisibility] = useState<DashboardWidget[]>([]);
+  
+  // Dynamic data states
+  const [systemStats, setSystemStats] = useState<SystemStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const loadVisualizations = useCallback(() => {
     const vizs = getDashboardVisualizations(DASHBOARD_ID);
@@ -46,10 +41,32 @@ const AdminOverview = () => {
     setWidgetVisibility(widgets);
   }, []);
 
+  // Fetch dynamic data from APIs
+  const fetchDynamicData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      // Fetch comprehensive system stats
+      const stats = await adminService.getStats();
+      setSystemStats(stats);
+
+      // Note: Recent users list removed - endpoint not available
+      // Dashboard will show stats-based data only
+
+    } catch (err) {
+      console.error('Failed to fetch admin overview data:', err);
+      setError('Failed to load dashboard data. Please try refreshing.');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     loadVisualizations();
     loadWidgetVisibility();
-  }, [loadVisualizations, loadWidgetVisibility]);
+    fetchDynamicData();
+  }, [loadVisualizations, loadWidgetVisibility, fetchDynamicData]);
 
   const handleVisualizationsChange = useCallback(() => {
     loadVisualizations();
@@ -59,10 +76,11 @@ const AdminOverview = () => {
     setWidgetVisibility(widgets);
   }, []);
 
-  const handleRefresh = () => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    setTimeout(() => setRefreshing(false), 2000);
-  };
+    await fetchDynamicData();
+    setTimeout(() => setRefreshing(false), 500);
+  }, [fetchDynamicData]);
 
   // Helper to check if a widget is visible
   const isWidgetVisible = (widgetId: string): boolean => {
@@ -85,6 +103,14 @@ const AdminOverview = () => {
           dashboardId={DASHBOARD_ID}
         />
 
+        {/* Error Alert */}
+        {error && (
+          <Alert variant="destructive" className="border-red-200 bg-red-50">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
+
         {/* Show message if all widgets are hidden */}
         {allWidgetsHidden && (
           <div className="bg-white rounded-xl border border-dashed border-slate-300 p-12 text-center">
@@ -100,8 +126,10 @@ const AdminOverview = () => {
           </div>
         )}
 
-        {/* Summary Cards */}
-        {isWidgetVisible('summary-cards') && <TopSummaryCards />}
+        {/* Summary Cards - Comprehensive Metrics */}
+        {isWidgetVisible('summary-cards') && (
+          <TopSummaryCards stats={systemStats} loading={loading} />
+        )}
 
         {/* Saved Visualizations Section */}
         {savedVisualizations.length > 0 && (
@@ -123,42 +151,33 @@ const AdminOverview = () => {
           </div>
         )}
 
-        {/* Performance Charts */}
-        {(isWidgetVisible('system-performance') || isWidgetVisible('user-activity')) && (
+        {/* Users and Calculations Charts */}
+        {(isWidgetVisible('users-by-role') || isWidgetVisible('calculations-by-index')) && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {isWidgetVisible('system-performance') && (
-              <SystemPerformanceChart 
-                data={systemPerformanceData} 
-                timeRange={timeRange}
-                onTimeRangeChange={setTimeRange}
-              />
+            {isWidgetVisible('users-by-role') && (
+              <UsersByRoleChart stats={systemStats} loading={loading} />
             )}
-            {isWidgetVisible('user-activity') && <UserActivityChart data={networkData} />}
+            {isWidgetVisible('calculations-by-index') && (
+              <CalculationsByIndexChart stats={systemStats} loading={loading} />
+            )}
           </div>
         )}
 
-        {/* User Distribution & API Performance */}
-        {(isWidgetVisible('user-distribution') || isWidgetVisible('api-endpoints')) && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {isWidgetVisible('user-distribution') && <UserDistributionChart data={userActivityData} />}
-            {isWidgetVisible('api-endpoints') && <APIEndpoints endpoints={apiEndpoints} />}
-          </div>
-        )}
-
-        {/* System Services & Alerts */}
-        {(isWidgetVisible('system-services') || isWidgetVisible('system-alerts')) && (
+        {/* Upload Status and Data Sources */}
+        {(isWidgetVisible('upload-status') || isWidgetVisible('data-sources')) && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {isWidgetVisible('system-services') && <SystemServices services={systemServices} />}
-            {isWidgetVisible('system-alerts') && <SystemAlerts alerts={systemAlerts} />}
+            {isWidgetVisible('upload-status') && (
+              <UploadStatusChart stats={systemStats} loading={loading} />
+            )}
+            {isWidgetVisible('data-sources') && (
+              <DataSourcesChart stats={systemStats} loading={loading} />
+            )}
           </div>
         )}
 
-        {/* Recent Activity & Admin Actions */}
-        {(isWidgetVisible('recent-logins') || isWidgetVisible('admin-actions')) && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {isWidgetVisible('recent-logins') && <RecentLoginActivity recentLogins={recentLogins} />}
-            {isWidgetVisible('admin-actions') && <AdminActions />}
-          </div>
+        {/* System Health */}
+        {isWidgetVisible('system-health') && (
+          <SystemHealthPanel stats={systemStats} loading={loading} />
         )}
 
       <Toaster />
