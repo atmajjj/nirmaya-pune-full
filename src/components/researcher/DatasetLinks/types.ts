@@ -9,6 +9,7 @@ export interface Dataset {
   updated: string;
   available: boolean;
   category: string;
+  url?: string;
 }
 
 export interface FilterCategory {

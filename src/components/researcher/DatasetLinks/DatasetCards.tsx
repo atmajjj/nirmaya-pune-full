@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Building, Globe, GraduationCap, Database, FileText, FileSpreadsheet, FileJson, Download, ExternalLink, Calendar, HardDrive } from "lucide-react";
+import { Building, Globe, GraduationCap, Database, FileText, FileSpreadsheet, FileJson, ExternalLink, Calendar, HardDrive } from "lucide-react";
 import type { Dataset } from './types';
 
 interface DatasetCardsProps {
@@ -123,23 +123,18 @@ export const DatasetCards = ({ datasets }: DatasetCardsProps) => {
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <Button 
-                        size="sm" 
-                        variant="outline"
-                        disabled={!dataset.available}
-                        className="border-brand/30 text-brand hover:bg-brand/10 rounded-md text-xs h-7"
-                      >
-                        <ExternalLink className="w-3 h-3 mr-1" />
-                        View
-                      </Button>
-                      <Button 
-                        size="sm" 
-                        disabled={!dataset.available}
-                        className="bg-brand text-white hover:bg-brand-light rounded-md text-xs h-7"
-                      >
-                        <Download className="w-3 h-3 mr-1" />
-                        Download
-                      </Button>
+                      {dataset.url && (
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          disabled={!dataset.available}
+                          className="border-brand/30 text-brand hover:bg-brand/10 rounded-md text-xs h-7"
+                          onClick={() => window.open(dataset.url, '_blank')}
+                        >
+                          <ExternalLink className="w-3 h-3 mr-1" />
+                          View
+                        </Button>
+                      )}
                     </div>
                   </div>
 

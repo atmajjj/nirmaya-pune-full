@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Database, Download, RefreshCw } from "lucide-react";
 
-export const DatasetLinksHeader = () => {
+interface DatasetLinksHeaderProps {
+  onExport?: () => void;
+}
+
+export const DatasetLinksHeader = ({ onExport }: DatasetLinksHeaderProps) => {
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-100 via-slate-50 to-blue-50 border border-slate-200/80 shadow-lg mb-6">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5"></div>
@@ -23,7 +27,10 @@ export const DatasetLinksHeader = () => {
             <RefreshCw className="w-4 h-4" />
             Refresh
           </Button>
-          <Button className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300 gap-2">
+          <Button 
+            onClick={onExport}
+            className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300 gap-2"
+          >
             <Download className="w-4 h-4" />
             Export All
           </Button>

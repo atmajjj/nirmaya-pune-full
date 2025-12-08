@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Globe, Database, CheckCircle, ExternalLink, Copy, BarChart3, Code2 } from "lucide-react";
+import { Globe, Database, CheckCircle, ExternalLink, Copy, BarChart3 } from "lucide-react";
 import type { PublicAPI } from './types';
 
 interface APIServiceCardsProps {
@@ -79,22 +79,6 @@ export const APIServiceCards = ({ apis, copyToClipboard }: APIServiceCardsProps)
           </Card>
         );
       })}
-
-      {/* Request Access Card */}
-      <Card className="bg-slate-50 border border-slate-200 rounded-lg">
-        <CardContent className="p-5 flex flex-col items-center justify-center text-center h-full">
-          <div className="w-12 h-12 bg-brand rounded-lg flex items-center justify-center mb-3">
-            <Code2 className="w-6 h-6 text-white" />
-          </div>
-          <h3 className="text-sm font-semibold text-slate-900 mb-2">Need More APIs?</h3>
-          <p className="text-xs text-slate-500 mb-4 max-w-sm">
-            Request access to additional government and private water quality data APIs for your research
-          </p>
-          <Button className="bg-brand text-white hover:bg-brand-light rounded-md text-xs">
-            Request API Access
-          </Button>
-        </CardContent>
-      </Card>
     </div>
   );
 };

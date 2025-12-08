@@ -12,53 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Mail, Phone, Calendar, Shield, Edit, Save, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-
-// Import navigation items for each role
-import { Users, BarChart3, FileCheck, Database, MessageCircle, Activity, Map, Calculator, TrendingUp, AlertTriangle, FileText, Wind, Link as LinkIcon, Code, Folder } from "lucide-react";
-
-const getNavItemsForRole = (role: string) => {
-  switch (role) {
-    case 'admin':
-      return [
-        { title: "Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
-        { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
-        { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
-        { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
-        { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
-        { title: "Settings", path: "/profile", icon: <Shield className="w-5 h-5" /> },
-      ];
-    case 'scientist':
-      return [
-        { title: "Overview", path: "/scientist/overview", icon: <Activity className="w-5 h-5" /> },
-        { title: "HMPI Engine", path: "/scientist/hmpi-engine", icon: <Calculator className="w-5 h-5" /> },
-        { title: "Formula Editor", path: "/scientist/formula-editor", icon: <Edit className="w-5 h-5" /> },
-        { title: "Geo Map", path: "/scientist/geo-map", icon: <Map className="w-5 h-5" /> },
-        { title: "Settings", path: "/profile", icon: <Shield className="w-5 h-5" /> },
-      ];
-    case 'policymaker':
-      return [
-        { title: "Early Warning", path: "/policymaker/early-warning", icon: <Wind className="w-5 h-5" /> },
-        { title: "Risk Alerts", path: "/policymaker/risk-alerts", icon: <AlertTriangle className="w-5 h-5" /> },
-        { title: "WHO Reports", path: "/policymaker/who-reports", icon: <FileText className="w-5 h-5" /> },
-        { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
-        { title: "Geo Map", path: "/policymaker/geo-map", icon: <Map className="w-5 h-5" /> },
-        { title: "Settings", path: "/profile", icon: <Shield className="w-5 h-5" /> },
-      ];
-    case 'researcher':
-      return [
-        { title: "Overview", path: "/researcher/overview", icon: <Activity className="w-5 h-5" /> },
-        { title: "Datasets", path: "/researcher/datasets", icon: <LinkIcon className="w-5 h-5" /> },
-        { title: "APIs", path: "/researcher/apis", icon: <Code className="w-5 h-5" /> },
-        { title: "Workspace", path: "/researcher/workspace", icon: <Folder className="w-5 h-5" /> },
-        { title: "Geo Map", path: "/researcher/geo-map", icon: <Map className="w-5 h-5" /> },
-        { title: "Settings", path: "/profile", icon: <Shield className="w-5 h-5" /> },
-      ];
-    default:
-      return [
-        { title: "Settings", path: "/profile", icon: <Shield className="w-5 h-5" /> },
-      ];
-  }
-};
+import { getNavItemsForRole } from "@/config/navigation";
 
 const Profile = () => {
   const navigate = useNavigate();

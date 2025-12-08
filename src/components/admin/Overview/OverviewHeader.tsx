@@ -1,9 +1,10 @@
 import { useState, useCallback } from 'react';
-import { BookOpen, Settings2 } from "lucide-react";
+import { Monitor, RefreshCw, Settings2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { AddVisualizationMenu } from "@/components/scientist/Visualizations";
 import { VisualizationType } from "@/components/scientist/Visualizations/types";
 import { UniversalOptions, ChartSpecificOptions, SaveAsType } from "@/components/scientist/Visualizations/customizationTypes";
-import { Button } from "@/components/ui/button";
 import { showSuccessToast } from '@/lib/toast-utils';
 import DashboardSelectorModal from '@/components/scientist/Overview/DashboardSelectorModal';
 import SimplifiedCustomizePanel from '@/components/scientist/Overview/SimplifiedCustomizePanel';
@@ -17,19 +18,22 @@ import {
 } from '@/components/scientist/Overview/dashboardTypes';
 
 interface OverviewHeaderProps {
+  onRefresh: () => void;
+  refreshing: boolean;
   onAddVisualization?: (vizType: VisualizationType) => void;
   onVisualizationsChange?: () => void;
   onWidgetVisibilityChange?: (widgets: DashboardWidget[]) => void;
   dashboardId?: string;
 }
 
-export const OverviewHeader = ({ 
+const OverviewHeader = ({ 
+  onRefresh, 
+  refreshing,
   onAddVisualization, 
   onVisualizationsChange,
   onWidgetVisibilityChange,
-  dashboardId = 'researcher-overview'
+  dashboardId = 'admin-overview'
 }: OverviewHeaderProps) => {
-  
   const [showDashboardSelector, setShowDashboardSelector] = useState(false);
   const [showCustomizePanel, setShowCustomizePanel] = useState(false);
   const [pendingVisualization, setPendingVisualization] = useState<{
@@ -41,7 +45,6 @@ export const OverviewHeader = ({
     vizType: VisualizationType, 
     config?: { universal: UniversalOptions; chartSpecific: ChartSpecificOptions; saveAs: SaveAsType }
   ) => {
-    // Store the pending visualization and show dashboard selector
     setPendingVisualization({ vizType, config });
     setShowDashboardSelector(true);
   };
@@ -53,8 +56,6 @@ export const OverviewHeader = ({
     if (!pendingVisualization) return;
 
     const { vizType, config } = pendingVisualization;
-    
-    // Calculate position number
     const existingVisualizations = getDashboardVisualizations(dashboard.id);
     let positionNum: number;
     
@@ -68,7 +69,6 @@ export const OverviewHeader = ({
       positionNum = Math.floor(existingVisualizations.length / 2);
     }
 
-    // Determine chart type from visualization ID
     const chartTypeMap: Record<string, string> = {
       'hmpi-trend-line': 'line',
       'contaminant-bar': 'bar',
@@ -84,7 +84,6 @@ export const OverviewHeader = ({
       'sampling-bubble': 'bubble',
     };
 
-    // Create the saved visualization
     const savedViz: SavedVisualization = {
       id: generateVisualizationId(),
       visualizationId: vizType.id,
@@ -98,19 +97,15 @@ export const OverviewHeader = ({
       },
       position: positionNum,
       isVisible: true,
-      ownerRole: 'researcher',
+      ownerRole: 'admin',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
 
-    // Save to storage
     saveVisualizationToDashboard(savedViz);
-
-    // Close modal and reset state
     setShowDashboardSelector(false);
     setPendingVisualization(null);
 
-    // Notify parent
     if (onVisualizationsChange) {
       onVisualizationsChange();
     }
@@ -119,7 +114,6 @@ export const OverviewHeader = ({
       onAddVisualization(vizType);
     }
 
-    // Show success toast
     showSuccessToast("Visualization Added", `"${savedViz.title}" has been added to ${dashboard.name}`);
   }, [pendingVisualization, onVisualizationsChange, onAddVisualization]);
 
@@ -128,7 +122,6 @@ export const OverviewHeader = ({
       onVisualizationsChange();
     }
   }, [onVisualizationsChange]);
-
   return (
     <>
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-100 via-slate-50 to-blue-50 border border-slate-200/80 shadow-lg">
@@ -138,16 +131,27 @@ export const OverviewHeader = ({
         <div className="relative flex items-center justify-between p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-br from-[#0A3D62] to-[#0d4a75] rounded-2xl flex items-center justify-center shadow-lg">
-              <BookOpen className="w-6 h-6 text-white" />
+              <Monitor className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-800 mb-1">Researcher Dashboard</h1>
-              <p className="text-sm text-slate-600">Comprehensive research activities and publications overview</p>
+              <h1 className="text-2xl font-bold text-slate-800 mb-1">Admin Dashboard</h1>
+              <p className="text-sm text-slate-600">Comprehensive system monitoring and administration</p>
             </div>
           </div>
           
           <div className="flex items-center gap-3">
+            <Button
+              variant="outline"
+              onClick={onRefresh}
+              disabled={refreshing}
+              className="bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700 gap-2"
+            >
+              <RefreshCw className={cn("w-4 h-4", refreshing && "animate-spin")} />
+              Refresh
+            </Button>
+            
             <AddVisualizationMenu onSelectVisualization={handleSelectVisualization} />
+            
             <Button 
               variant="outline" 
               className="gap-2 bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700"
@@ -186,3 +190,5 @@ export const OverviewHeader = ({
     </>
   );
 };
+
+export default OverviewHeader;

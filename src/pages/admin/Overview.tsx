@@ -1,28 +1,38 @@
 import { useState, useEffect, useCallback } from 'react';
-import { BookOpen, Award, FlaskConical, DollarSign, LayoutGrid } from "lucide-react";
-import { OverviewHeader } from "@/components/researcher/Overview/OverviewHeader";
-import { MetricsCards } from "@/components/researcher/Overview/MetricsCards";
-import { CitationsChart } from "@/components/researcher/Overview/CitationsChart";
-import { ResearchAreasChart } from "@/components/researcher/Overview/ResearchAreasChart";
-import { PublicationsList } from "@/components/researcher/Overview/PublicationsList";
-import { ResearchStatusPanel } from "@/components/researcher/Overview/ResearchStatusPanel";
-import { monthlyCitationsData, researchAreasData, recentPublications } from "@/components/researcher/Overview/overviewData";
+import { LayoutGrid } from "lucide-react";
+
+// Import Overview components
+import OverviewHeader from "@/components/admin/Overview/OverviewHeader";
+import TopSummaryCards from "@/components/admin/Overview/TopSummaryCards";
+import SystemPerformanceChart from "@/components/admin/Overview/SystemPerformanceChart";
+import UserActivityChart from "@/components/admin/Overview/UserActivityChart";
+import UserDistributionChart from "@/components/admin/Overview/UserDistributionChart";
+import APIEndpoints from "@/components/admin/Overview/APIEndpoints";
+import SystemServices from "@/components/admin/Overview/SystemServices";
+import SystemAlerts from "@/components/admin/Overview/SystemAlerts";
+import RecentLoginActivity from "@/components/admin/Overview/RecentLoginActivity";
+import AdminActions from "@/components/admin/Overview/AdminActions";
 import SavedVisualizationsGrid from "@/components/scientist/Overview/SavedVisualizationsGrid";
 import { SavedVisualization, getDashboardVisualizations } from "@/components/scientist/Overview/dashboardTypes";
 import { DashboardWidget, getWidgetVisibility } from "@/components/scientist/Overview/widgetVisibility";
 import { Toaster } from "@/components/ui/toaster";
-import type { MetricCard } from "@/components/researcher/Overview/types";
 
-const metricsData: MetricCard[] = [
-  { title: "Publications", value: "156", icon: BookOpen, gradient: "from-blue-500 to-cyan-500" },
-  { title: "Citations", value: "42", icon: Award, gradient: "from-green-500 to-emerald-500" },
-  { title: "Projects", value: "8", icon: FlaskConical, gradient: "from-purple-500 to-pink-500" },
-  { title: "Research Grants", value: "8", icon: DollarSign, gradient: "from-orange-500 to-red-500" }
-];
+// Import data
+import {
+  systemPerformanceData,
+  networkData,
+  userActivityData,
+  apiEndpoints,
+  systemServices,
+  systemAlerts,
+  recentLogins
+} from "@/components/admin/Overview/systemData";
 
-const DASHBOARD_ID = 'researcher-overview';
+const DASHBOARD_ID = 'admin-overview';
 
-const ResearcherOverview = () => {
+const AdminOverview = () => {
+  const [timeRange, setTimeRange] = useState("24h");
+  const [refreshing, setRefreshing] = useState(false);
   const [savedVisualizations, setSavedVisualizations] = useState<SavedVisualization[]>([]);
   const [widgetVisibility, setWidgetVisibility] = useState<DashboardWidget[]>([]);
 
@@ -49,6 +59,11 @@ const ResearcherOverview = () => {
     setWidgetVisibility(widgets);
   }, []);
 
+  const handleRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 2000);
+  };
+
   // Helper to check if a widget is visible
   const isWidgetVisible = (widgetId: string): boolean => {
     const widget = widgetVisibility.find(w => w.id === widgetId);
@@ -63,6 +78,8 @@ const ResearcherOverview = () => {
   return (
     <div className="space-y-6 bg-slate-50 min-h-screen p-6">
         <OverviewHeader 
+          refreshing={refreshing} 
+          onRefresh={handleRefresh}
           onVisualizationsChange={handleVisualizationsChange}
           onWidgetVisibilityChange={handleWidgetVisibilityChange}
           dashboardId={DASHBOARD_ID}
@@ -83,9 +100,9 @@ const ResearcherOverview = () => {
           </div>
         )}
 
-        {/* Key Research Metrics */}
-        {isWidgetVisible('key-research-metrics') && <MetricsCards metrics={metricsData} />}
-        
+        {/* Summary Cards */}
+        {isWidgetVisible('summary-cards') && <TopSummaryCards />}
+
         {/* Saved Visualizations Section */}
         {savedVisualizations.length > 0 && (
           <div className="space-y-4">
@@ -106,29 +123,47 @@ const ResearcherOverview = () => {
           </div>
         )}
 
-        {/* Research Trends */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
-          {isWidgetVisible('research-trend-chart') && <CitationsChart data={monthlyCitationsData} />}
-          {isWidgetVisible('top-research-areas') && <ResearchAreasChart data={researchAreasData} />}
-        </div>
+        {/* Performance Charts */}
+        {(isWidgetVisible('system-performance') || isWidgetVisible('user-activity')) && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {isWidgetVisible('system-performance') && (
+              <SystemPerformanceChart 
+                data={systemPerformanceData} 
+                timeRange={timeRange}
+                onTimeRangeChange={setTimeRange}
+              />
+            )}
+            {isWidgetVisible('user-activity') && <UserActivityChart data={networkData} />}
+          </div>
+        )}
 
-        {/* Publications and Status */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mb-6">
-          {isWidgetVisible('recent-publications') && (
-            <div className="xl:col-span-2">
-              <PublicationsList publications={recentPublications} />
-            </div>
-          )}
-          {isWidgetVisible('research-status-panel') && (
-            <div>
-              <ResearchStatusPanel />
-            </div>
-          )}
-        </div>
+        {/* User Distribution & API Performance */}
+        {(isWidgetVisible('user-distribution') || isWidgetVisible('api-endpoints')) && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {isWidgetVisible('user-distribution') && <UserDistributionChart data={userActivityData} />}
+            {isWidgetVisible('api-endpoints') && <APIEndpoints endpoints={apiEndpoints} />}
+          </div>
+        )}
+
+        {/* System Services & Alerts */}
+        {(isWidgetVisible('system-services') || isWidgetVisible('system-alerts')) && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {isWidgetVisible('system-services') && <SystemServices services={systemServices} />}
+            {isWidgetVisible('system-alerts') && <SystemAlerts alerts={systemAlerts} />}
+          </div>
+        )}
+
+        {/* Recent Activity & Admin Actions */}
+        {(isWidgetVisible('recent-logins') || isWidgetVisible('admin-actions')) && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {isWidgetVisible('recent-logins') && <RecentLoginActivity recentLogins={recentLogins} />}
+            {isWidgetVisible('admin-actions') && <AdminActions />}
+          </div>
+        )}
 
       <Toaster />
     </div>
   );
 };
 
-export default ResearcherOverview;
+export default AdminOverview;

@@ -113,10 +113,10 @@ const InteractiveGeoMap = () => {
     : indiaSites.filter(site => site.riskLevel.toLowerCase() === riskFilter.toLowerCase());
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="space-y-6 bg-slate-50 min-h-screen p-6">
       <GeoMapHeader />
       
-      <div className="p-6">
+      <div>
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">
           {/* Controls Sidebar */}
           <div className="xl:col-span-1 space-y-4">

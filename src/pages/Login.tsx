@@ -37,7 +37,7 @@ const backgroundImages = [
  */
 const getDashboardRoute = (role: UserRole): string => {
   const roleRoutes: Record<UserRole, string> = {
-    admin: '/admin/system-overview',
+    admin: '/admin/overview',
     scientist: '/scientist/overview',
     researcher: '/researcher/overview',
     policymaker: '/policymaker/risk-alerts',

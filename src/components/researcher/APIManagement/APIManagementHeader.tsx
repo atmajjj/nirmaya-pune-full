@@ -13,8 +13,8 @@ export const APIManagementHeader = () => {
             <Code2 className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">Public APIs & Integration</h1>
-            <p className="text-sm text-slate-600">Access water quality data through our comprehensive API ecosystem</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">API Catalogue</h1>
+            <p className="text-sm text-slate-600">Browse and access external water quality data APIs</p>
           </div>
         </div>
         
@@ -22,10 +22,6 @@ export const APIManagementHeader = () => {
           <Button variant="outline" className="bg-white/70 border-slate-300 hover:bg-slate-100 text-slate-700 gap-2">
             <RefreshCw className="w-4 h-4" />
             Refresh
-          </Button>
-          <Button className="bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300 gap-2">
-            <Key className="w-4 h-4" />
-            Generate Key
           </Button>
         </div>
       </div>
