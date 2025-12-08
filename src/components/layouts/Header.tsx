@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { LogOut, Menu, Settings, UserCircle, Shield, Mail } from "lucide-react";
+import { LogOut, Menu, UserCircle, Shield } from "lucide-react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,7 +15,6 @@ interface UserInfo {
   email: string;
   role: string;
   initials: string;
-  department: string;
 }
 
 interface HeaderProps {
@@ -51,6 +51,8 @@ declare global {
 const headerButtonClass = "text-brand-surface hover:bg-brand-secondary/20 hover:text-brand-accent focus:bg-brand-secondary/20 transition-all duration-200";
 
 export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     // Initialize Google Translate widget when component mounts
     const initializeGoogleTranslate = () => {
@@ -161,25 +163,14 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => 
               </div>
             </div>
             
-            {/* Department Info */}
-            <div className="px-4 py-3 bg-slate-50 border-b border-slate-100">
-              <p className="text-xs text-slate-500">Department</p>
-              <p className="text-sm font-medium text-slate-700">{userInfo.department}</p>
-            </div>
-            
             {/* Menu Items */}
             <div className="p-2">
-              <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer hover:bg-slate-100 focus:bg-slate-100">
+              <DropdownMenuItem 
+                onClick={() => navigate('/profile')}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer hover:bg-slate-100 focus:bg-slate-100"
+              >
                 <UserCircle className="w-4 h-4 text-slate-500" />
                 <span className="text-sm text-slate-700">View Profile</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer hover:bg-slate-100 focus:bg-slate-100">
-                <Settings className="w-4 h-4 text-slate-500" />
-                <span className="text-sm text-slate-700">Settings</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer hover:bg-slate-100 focus:bg-slate-100">
-                <Mail className="w-4 h-4 text-slate-500" />
-                <span className="text-sm text-slate-700">Notifications</span>
               </DropdownMenuItem>
             </div>
             

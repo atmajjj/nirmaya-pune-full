@@ -42,6 +42,7 @@ const ResearcherOverview = () => {
     { title: "APIs", path: "/researcher/apis", icon: <Code2 className="w-5 h-5" /> },
     { title: "Workspace", path: "/researcher/workspace", icon: <Beaker className="w-5 h-5" /> },
     { title: "Geo-Map", path: "/researcher/geo-map", icon: <Globe className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ];
 
   const chartTypes = [

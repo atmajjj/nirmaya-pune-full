@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { AlertTriangle, FileText, TrendingUp, MapPin, Brain, Factory, Sprout, Building2, Mountain, BarChart3, Truck, CloudRain, Droplets } from "lucide-react";
+import { AlertTriangle, FileText, TrendingUp, MapPin, Brain, Factory, Sprout, Building2, Mountain, BarChart3, Truck, CloudRain, Droplets, Settings } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 // Import components
@@ -37,6 +37,7 @@ const navItems = [
     { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
     { title: "Early Warning", path: "/policymaker/early-warning", icon: <Brain className="w-5 h-5" /> },
     { title: "Geo Map", path: "/policymaker/geo-map", icon: <MapPin className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ];
   
   const [lastUpdated, setLastUpdated] = useState(new Date());

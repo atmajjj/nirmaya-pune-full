@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { AlertTriangle, FileText, TrendingUp, MapPin } from "lucide-react";
+import { AlertTriangle, FileText, TrendingUp, MapPin, Settings } from "lucide-react";
 
 // Components
 import WHOReportsHeader from "@/components/policymaker/WHOReports/WHOReportsHeader";
@@ -19,6 +19,7 @@ const navItems = [
     { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
     { title: "Early Warning", path: "/policymaker/early-warning", icon: <AlertTriangle className="w-5 h-5" /> },
     { title: "Geo Map", path: "/policymaker/geo-map", icon: <MapPin className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ];
   const [lastUpdated, setLastUpdated] = useState(new Date());
   const [reportType, setReportType] = useState("annual");

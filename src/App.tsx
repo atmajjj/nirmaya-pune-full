@@ -35,6 +35,8 @@ const APIManagement = lazy(() => import("./pages/researcher/APIManagement"));
 const ResearchWorkspace = lazy(() => import("./pages/researcher/ResearchWorkspace"));
 const InteractiveGeoMap = lazy(() => import("./pages/researcher/InteractiveGeoMap"));
 
+const Profile = lazy(() => import("./pages/Profile"));
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -48,6 +50,16 @@ const App = () => (
             <Suspense fallback={<Loading message="Loading page..." />}>
               <Routes>
                 <Route path="/" element={<Login />} />
+
+                {/* Profile Route (shared across all roles) */}
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* Scientist Routes (protected) */}
                 <Route

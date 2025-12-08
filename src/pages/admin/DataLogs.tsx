@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
 import { useState } from "react";
-import { Users, BarChart3, FileCheck, Database, MessageCircle } from "lucide-react";
+import { Users, BarChart3, FileCheck, Database, MessageCircle, Settings } from "lucide-react";
 
 // Import extracted components
 import DataLogsHeader from "@/components/admin/DataLogs/DataLogsHeader";
@@ -14,11 +14,12 @@ import { logs, activityData, actionTypeData, severityData } from "@/components/a
 import { LogEntry } from "@/components/admin/DataLogs/types";
 
 const navItems = [
+  { title: "Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
-  { title: "System Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
   { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
   { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 const DataLogs = () => {
@@ -42,45 +43,43 @@ const DataLogs = () => {
 
   return (
     <DashboardLayout navItems={navItems} userRole="admin">
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50">
-        <div className="space-y-6 p-6">
-          {/* Header Section */}
-          <DataLogsHeader />
+      <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+        {/* Header Section */}
+        <DataLogsHeader />
 
-          {/* Enhanced Summary Cards */}
-          <SummaryCards />
+        {/* Enhanced Summary Cards */}
+        <SummaryCards />
 
-          {/* Log Visualization Section */}
-          <LogVisualizationCharts
-            activityData={activityData}
-            actionTypeData={actionTypeData}
-            severityData={severityData}
-          />
+        {/* Log Visualization Section */}
+        <LogVisualizationCharts
+          activityData={activityData}
+          actionTypeData={actionTypeData}
+          severityData={severityData}
+        />
 
-          {/* Filters and Search */}
-          <LogFilters
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            filterRole={filterRole}
-            onRoleFilterChange={setFilterRole}
-            filterStatus={filterStatus}
-            onStatusFilterChange={setFilterStatus}
-            filterSeverity={filterSeverity}
-            onSeverityFilterChange={setFilterSeverity}
-            viewMode={viewMode}
-            onViewModeChange={setViewMode}
-          />
+        {/* Filters and Search */}
+        <LogFilters
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          filterRole={filterRole}
+          onRoleFilterChange={setFilterRole}
+          filterStatus={filterStatus}
+          onStatusFilterChange={setFilterStatus}
+          filterSeverity={filterSeverity}
+          onSeverityFilterChange={setFilterSeverity}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
 
-          {/* Enhanced Activity Log */}
-          <ActivityLogTable
-            logs={filteredLogs}
-            viewMode={viewMode}
-            onLogSelect={setSelectedLog}
-          />
+        {/* Enhanced Activity Log */}
+        <ActivityLogTable
+          logs={filteredLogs}
+          viewMode={viewMode}
+          onLogSelect={setSelectedLog}
+        />
 
-          {/* Security & Compliance Section */}
-          <SecurityComplianceSection />
-        </div>
+        {/* Security & Compliance Section */}
+        <SecurityComplianceSection />
       </div>
       
       {/* NIRA AI Assistant Chatbot */}

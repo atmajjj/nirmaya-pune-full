@@ -9,10 +9,11 @@ import { savedFormulas, availableVariables } from "@/components/scientist/Formul
 const FormulaEditor = () => {
   
   const navItems = [
-    { title: "Overview", path: "/scientist/overview", icon: <BarChart3 className="w-5 h-5" /> },
-    { title: "HMPI Engine", path: "/scientist/hmpi-engine", icon: <Beaker className="w-5 h-5" /> },
-    { title: "Formula Editor", path: "/scientist/formula-editor", icon: <BarChart3 className="w-5 h-5" /> },
-    { title: "Geo-Map", path: "/scientist/geo-map", icon: <MapPin className="w-5 h-5" /> },
+    { title: "Overview", path: "/scientist/overview", icon: <Activity className="w-5 h-5" /> },
+    { title: "HMPI Engine", path: "/scientist/hmpi-engine", icon: <Calculator className="w-5 h-5" /> },
+    { title: "Formula Editor", path: "/scientist/formula-editor", icon: <Edit className="w-5 h-5" /> },
+    { title: "Geo-Map", path: "/scientist/geo-map", icon: <Map className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ];
 
   return (

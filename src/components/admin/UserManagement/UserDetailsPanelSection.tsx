@@ -9,7 +9,7 @@ import { User } from './types';
 interface UserDetailsPanelProps {
   user: User | null;
   onDelete: (userId: number) => void;
-  onPermissionChange: (userId: number, permission: keyof User['permissions'], value: boolean) => void;
+  onPermissionChange: (userId: number, permission: keyof NonNullable<User['permissions']>, value: boolean) => void;
 }
 
 const UserDetailsPanel = ({ user, onDelete, onPermissionChange }: UserDetailsPanelProps) => {
@@ -76,24 +76,26 @@ const UserDetailsPanel = ({ user, onDelete, onPermissionChange }: UserDetailsPan
           </div>
 
           {/* Permissions */}
-          <div className="space-y-3">
-            <h4 className="font-semibold text-sm text-slate-700">Permissions</h4>
-            <div className="space-y-2">
-              {Object.entries(user.permissions).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between">
-                  <span className="text-sm text-slate-600 capitalize">
-                    {key.replace(/([A-Z])/g, ' $1').trim()}
-                  </span>
-                  <Switch 
-                    checked={value}
-                    onCheckedChange={(checked) => 
-                      onPermissionChange(user.id, key as keyof User['permissions'], checked)
-                    }
-                  />
-                </div>
-              ))}
+          {user.permissions && (
+            <div className="space-y-3">
+              <h4 className="font-semibold text-sm text-slate-700">Permissions</h4>
+              <div className="space-y-2">
+                {Object.entries(user.permissions).map(([key, value]) => (
+                  <div key={key} className="flex items-center justify-between">
+                    <span className="text-sm text-slate-600 capitalize">
+                      {key.replace(/([A-Z])/g, ' $1').trim()}
+                    </span>
+                    <Switch 
+                      checked={value}
+                      onCheckedChange={(checked) => 
+                        onPermissionChange(user.id, key as keyof NonNullable<User['permissions']>, checked)
+                      }
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Actions */}
           <div className="flex gap-2 pt-4">

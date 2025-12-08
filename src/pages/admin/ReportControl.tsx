@@ -1,7 +1,7 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
 import { useState } from "react";
-import { Users, BarChart3, FileCheck, Database, MessageCircle } from "lucide-react";
+import { Users, BarChart3, FileCheck, Database, MessageCircle, Settings } from "lucide-react";
 
 // Import extracted components
 import ReportControlHeader from "@/components/admin/ReportControl/ReportControlHeader";
@@ -13,11 +13,12 @@ import { initialReports, publicationTimeline } from "@/components/admin/ReportCo
 import { Report } from "@/components/admin/ReportControl/types";
 
 const navItems = [
+  { title: "Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
-  { title: "System Overview", path: "/admin/system-overview", icon: <BarChart3 className="w-5 h-5" /> },
   { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
   { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
   { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
+  { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
 ];
 
 const ReportControl = () => {
@@ -60,41 +61,39 @@ const ReportControl = () => {
 
   return (
     <DashboardLayout navItems={navItems} userRole="admin">
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/20">
-        <div className="space-y-6 p-6">
-          {/* Header Section */}
-          <ReportControlHeader />
+      <div className="space-y-6 bg-slate-50 min-h-screen p-6">
+        {/* Header Section */}
+        <ReportControlHeader />
 
-          {/* Summary Cards */}
-          <ReportStatsCards stats={reportStats} />
+        {/* Summary Cards */}
+        <ReportStatsCards stats={reportStats} />
 
-          {/* Main Content Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Report Management Table */}
-            <div className="lg:col-span-3">
-              <ReportManagementTable
-                reports={filteredReports}
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                statusFilter={statusFilter}
-                onStatusFilterChange={setStatusFilter}
-                categoryFilter={categoryFilter}
-                onCategoryFilterChange={setCategoryFilter}
-                selectedReports={selectedReports}
-                onSelectedReportsChange={setSelectedReports}
-                onReportClick={(report) => {
-                  setSelectedReport(report);
-                  setShowPreview(true);
-                }}
-                onReportAction={handleReportAction}
-              />
-            </div>
+        {/* Main Content Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Report Management Table */}
+          <div className="lg:col-span-3">
+            <ReportManagementTable
+              reports={filteredReports}
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              statusFilter={statusFilter}
+              onStatusFilterChange={setStatusFilter}
+              categoryFilter={categoryFilter}
+              onCategoryFilterChange={setCategoryFilter}
+              selectedReports={selectedReports}
+              onSelectedReportsChange={setSelectedReports}
+              onReportClick={(report) => {
+                setSelectedReport(report);
+                setShowPreview(true);
+              }}
+              onReportAction={handleReportAction}
+            />
+          </div>
 
-            {/* Publication Timeline & Quick Actions */}
-            <div className="space-y-6">
-              <PublicationTimeline timeline={publicationTimeline} />
-              <QuickActions selectedReportsCount={selectedReports.length} />
-            </div>
+          {/* Publication Timeline & Quick Actions */}
+          <div className="space-y-6">
+            <PublicationTimeline timeline={publicationTimeline} />
+            <QuickActions selectedReportsCount={selectedReports.length} />
           </div>
         </div>
       </div>
