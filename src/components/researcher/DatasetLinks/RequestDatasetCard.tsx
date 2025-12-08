@@ -44,7 +44,7 @@ export const RequestDatasetCard = () => {
     switch (status) {
       case 'approved':
         return (
-          <span className="inline-flex items-center gap-1 text-xs font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 text-xs font-medium text-brand bg-brand/10 px-2 py-0.5 rounded-full">
             <CheckCircle2 className="w-3 h-3" />
             Approved
           </span>
@@ -115,8 +115,8 @@ export const RequestDatasetCard = () => {
         <DialogContent className="sm:max-w-lg bg-white">
           {requestSubmitted ? (
             <div className="py-8 text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <CheckCircle2 className="w-8 h-8 text-green-600" />
+              <div className="w-16 h-16 bg-brand/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle2 className="w-8 h-8 text-brand" />
               </div>
               <h3 className="text-lg font-semibold text-slate-900 mb-2">Request Submitted!</h3>
               <p className="text-sm text-slate-500">

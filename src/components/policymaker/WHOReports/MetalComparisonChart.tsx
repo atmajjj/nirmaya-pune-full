@@ -15,9 +15,9 @@ return (
           <div className="w-8 h-8 bg-gradient-to-br from-red-100 to-orange-100 rounded-lg flex items-center justify-center">
             <TrendingUp className="w-5 h-5 text-red-600" />
           </div>
-          "Who Comparison"
+          Who Comparison
         </CardTitle>
-        <p className="text-slate-600 mt-2">"Who Comparison Subtitle"</p>
+        <p className="text-slate-600 mt-2">Who Comparison Subtitle</p>
       </CardHeader>
       <CardContent className="p-6">
         <ResponsiveContainer width="100%" height={400}>

@@ -27,7 +27,7 @@ export const MapControls = ({
     <Card className="bg-white border border-slate-200 rounded-lg">
       <CardHeader className="border-b border-slate-100 pb-3">
         <div className="flex items-center gap-2">
-          <Settings className="w-4 h-4 text-teal-600" />
+          <Settings className="w-4 h-4 text-brand" />
           <h3 className="text-sm font-semibold text-slate-900">Map Controls</h3>
         </div>
       </CardHeader>

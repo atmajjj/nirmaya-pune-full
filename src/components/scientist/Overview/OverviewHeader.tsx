@@ -141,8 +141,8 @@ export const OverviewHeader = ({
               <BarChart3 className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-800 mb-1">"Scientist Dashboard"</h1>
-              <p className="text-sm text-slate-600">"Real-time groundwater monitoring and analysis"</p>
+              <h1 className="text-2xl font-bold text-slate-800 mb-1">Scientist Dashboard</h1>
+              <p className="text-sm text-slate-600">Real-time groundwater monitoring and analysis</p>
             </div>
           </div>
           

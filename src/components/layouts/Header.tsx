@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { LogOut, Menu, Settings, UserCircle, Shield, Mail } from "lucide-react";
+import { useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +34,30 @@ interface HeaderProps {
   onLogout: () => void;
 }
 
+// TypeScript declarations for Google Translate
+declare global {
+  interface Window {
+    google: {
+      translate: {
+        TranslateElement: {
+          new (
+            config: {
+              pageLanguage: string;
+              includedLanguages: string;
+              layout: any;
+              autoDisplay: boolean;
+            },
+            elementId: string
+          ): void;
+          InlineLayout: {
+            SIMPLE: any;
+          };
+        };
+      };
+    };
+  }
+}
+
 // Reusable class constants for header elements
 const headerButtonClass = "text-brand-surface hover:bg-brand-secondary/20 hover:text-brand-accent focus:bg-brand-secondary/20 transition-all duration-200";
 
@@ -47,6 +72,41 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => 
     setShowLogoutDialog(false);
     onLogout();
   };
+  useEffect(() => {
+    // Initialize Google Translate widget when component mounts
+    const initializeGoogleTranslate = () => {
+      if (window.google && window.google.translate && document.getElementById('google_translate_element')) {
+        try {
+          new window.google.translate.TranslateElement({
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,bn,te,mr,ta,gu,ur,kn,ml,or,pa,as',
+            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+            autoDisplay: false
+          }, 'google_translate_element');
+        } catch (error) {
+          console.error('Failed to initialize Google Translate:', error);
+        }
+      }
+    };
+
+    // Check if Google Translate is already loaded
+    if (window.google && window.google.translate) {
+      initializeGoogleTranslate();
+    } else {
+      // Wait for Google Translate to load
+      const checkGoogleTranslate = setInterval(() => {
+        if (window.google && window.google.translate) {
+          clearInterval(checkGoogleTranslate);
+          initializeGoogleTranslate();
+        }
+      }, 100);
+
+      // Timeout after 10 seconds
+      setTimeout(() => {
+        clearInterval(checkGoogleTranslate);
+      }, 10000);
+    }
+  }, []);
 
   return (
     <>
@@ -86,6 +146,11 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => 
 
       {/* Right Section */}
       <div className="flex items-center gap-3">
+        {/* Language Selector */}
+        <div className="border-r border-brand-surface/20 pr-3">
+          <div id="google_translate_element" className="translate-widget"></div>
+        </div>
+
         {/* User Profile Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

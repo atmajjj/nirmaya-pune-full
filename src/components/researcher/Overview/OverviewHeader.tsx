@@ -7,7 +7,7 @@ export const OverviewHeader = () => {
       <div className="p-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-teal-600 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-brand rounded-lg flex items-center justify-center">
               <BookOpen className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -16,11 +16,11 @@ export const OverviewHeader = () => {
             </div>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-50">
+            <Button variant="outline" className="border-brand/30 text-brand hover:bg-brand/10">
               <Plus className="w-4 h-4 mr-2" />
               New Publication
             </Button>
-            <Button className="bg-teal-600 text-white hover:bg-teal-700">
+            <Button className="bg-brand text-white hover:bg-brand-light">
               <Eye className="w-4 h-4 mr-2" />
               View All
             </Button>

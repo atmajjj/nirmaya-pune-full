@@ -34,7 +34,7 @@ return (
               <p className="text-slate-700 font-semibold text-lg">{trend.title}</p>
               <div className="space-y-2">
                 <div className="flex justify-between items-center text-sm text-slate-600">
-                  <span>"Progress"</span>
+                  <span>Progress</span>
                   <span className="font-semibold">{trend.progress}%</span>
                 </div>
                 <Progress 

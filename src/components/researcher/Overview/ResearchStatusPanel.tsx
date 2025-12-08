@@ -24,8 +24,8 @@ export const ResearchStatusPanel = () => {
       title: "Funding",
       value: "₹2.5Cr",
       subtitle: "Total grants",
-      color: "text-emerald-600",
-      bgColor: "bg-emerald-50"
+      color: "text-brand",
+      bgColor: "bg-brand/10"
     }
   ];
 

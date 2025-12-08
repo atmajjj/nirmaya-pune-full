@@ -78,7 +78,7 @@ const ResearchWorkspace = () => {
                     onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                       activeTab === tab.id
-                        ? 'bg-teal-600 text-white'
+                        ? 'bg-brand text-white'
                         : 'text-slate-600 hover:bg-slate-50'
                     }`}
                   >
@@ -109,7 +109,7 @@ const ResearchWorkspace = () => {
                 <CardContent className="p-4 space-y-2">
                   {teamMembers.slice(0, 3).map((member) => (
                     <div key={member.id} className="flex items-center gap-3 p-2 rounded-md border border-slate-200 hover:border-slate-300 transition-colors">
-                      <div className="w-9 h-9 bg-teal-600 rounded-lg flex items-center justify-center">
+                      <div className="w-9 h-9 bg-brand rounded-lg flex items-center justify-center">
                         <span className="text-xs font-semibold text-white">{member.avatar}</span>
                       </div>
                       <div className="flex-1">

@@ -17,13 +17,13 @@ return (
             <div className="w-8 h-8 bg-gradient-to-br from-teal-100 to-blue-100 rounded-lg flex items-center justify-center">
               <FileText className="w-5 h-5 text-teal-600" />
             </div>
-            "Recent Reports"
+            Recent Reports
           </CardTitle>
           <Badge variant="secondary" className="bg-teal-100 text-teal-700 hover:bg-teal-200 transition-colors">
-            {reports.length} "Reports"
+            {reports.length} Reports
           </Badge>
         </div>
-        <p className="text-slate-600 mt-2">"Recent Reports Subtitle"</p>
+        <p className="text-slate-600 mt-2">Recent Reports Subtitle</p>
       </CardHeader>
       <CardContent className="p-6">
         <div className="grid gap-4">
@@ -74,7 +74,7 @@ return (
                       className="group/btn border-teal-300 text-teal-600 hover:bg-teal-50 hover:border-teal-400 transition-all duration-300 rounded-lg"
                     >
                       <Download className="w-4 h-4 mr-2 group-hover/btn:rotate-12 transition-transform" />
-                      "Download"
+                      Download
                     </Button>
                   </div>
                 </div>

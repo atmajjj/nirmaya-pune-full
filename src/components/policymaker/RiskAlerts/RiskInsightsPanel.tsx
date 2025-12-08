@@ -21,7 +21,7 @@ return (
       <CardHeader className="border-b border-red-100 pb-4">
         <CardTitle className="text-xl font-bold text-red-800 flex items-center gap-2">
           <AlertTriangle className="w-5 h-5" />
-          "Critical Risk Insights"
+          Critical Risk Insights
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6 space-y-4">

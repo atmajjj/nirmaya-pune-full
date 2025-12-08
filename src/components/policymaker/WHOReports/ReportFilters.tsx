@@ -36,17 +36,17 @@ return (
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                 <FileText className="w-4 h-4 text-teal-600" />
-                "Report Type"
+                Report Type
               </label>
               <Select value={reportType} onValueChange={onReportTypeChange}>
                 <SelectTrigger className="bg-white border-slate-300 hover:border-teal-400 focus:border-teal-500 transition-colors rounded-xl">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-slate-200">
-                  <SelectItem value="annual">"Annual"</SelectItem>
-                  <SelectItem value="quarterly">"Quarterly"</SelectItem>
-                  <SelectItem value="special">"Special"</SelectItem>
-                  <SelectItem value="compliance">"Compliance"</SelectItem>
+                  <SelectItem value="annual">Annual</SelectItem>
+                  <SelectItem value="quarterly">Quarterly</SelectItem>
+                  <SelectItem value="special">Special</SelectItem>
+                  <SelectItem value="compliance">Compliance</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -55,17 +55,17 @@ return (
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-teal-600" />
-                "Geographic Scope"
+                Geographic Scope
               </label>
               <Select value={geographicScope} onValueChange={onGeographicScopeChange}>
                 <SelectTrigger className="bg-white border-slate-300 hover:border-teal-400 focus:border-teal-500 transition-colors rounded-xl">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="rounded-xl border-slate-200">
-                  <SelectItem value="national">"National"</SelectItem>
-                  <SelectItem value="state">"State"</SelectItem>
-                  <SelectItem value="district">"District"</SelectItem>
-                  <SelectItem value="custom">"Custom"</SelectItem>
+                  <SelectItem value="national">National</SelectItem>
+                  <SelectItem value="state">State</SelectItem>
+                  <SelectItem value="district">District</SelectItem>
+                  <SelectItem value="custom">Custom</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -74,7 +74,7 @@ return (
             <div className="space-y-2">
               <label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-teal-600" />
-                "Time Period"
+                Time Period
               </label>
               <div className="relative">
                 <Input
@@ -97,12 +97,12 @@ return (
                 {isGeneratingReport ? (
                   <>
                     <RotateCcw className="w-4 h-4 mr-2 animate-spin" />
-                    "Generating"
+                    Generating
                   </>
                 ) : (
                   <>
                     <FileText className="w-4 h-4 mr-2" />
-                    "Generate Report"
+                    Generate Report
                   </>
                 )}
               </Button>
@@ -113,7 +113,7 @@ return (
           <div className="flex items-center gap-4 mt-6 pt-6 border-t border-slate-200">
             <div className="ml-auto flex items-center gap-2 text-sm text-slate-500 bg-white px-3 py-2 rounded-lg border border-slate-200">
               <RefreshCw className="w-4 h-4 animate-spin text-teal-500" />
-              <span>"Last Updated": {lastUpdated.toLocaleTimeString()}</span>
+              <span>Last Updated: {lastUpdated.toLocaleTimeString()}</span>
             </div>
           </div>
         </div>

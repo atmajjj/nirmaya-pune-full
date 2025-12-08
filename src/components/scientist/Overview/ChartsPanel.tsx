@@ -28,8 +28,8 @@ const barData = useMemo(() => cityData.map((d, idx) => ({ name: d.city, value: d
       {showHMPIChart && (
         <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
           <CardHeader className="border-b border-slate-100 pb-4">
-            <CardTitle className="text-slate-800 text-lg font-semibold">"Heavy Metal Pollution Index"</CardTitle>
-            <p className="text-sm text-slate-500 mt-1">"HMPI values across monitoring locations"</p>
+            <CardTitle className="text-slate-800 text-lg font-semibold">Heavy Metal Pollution Index</CardTitle>
+            <p className="text-sm text-slate-500 mt-1">HMPI values across monitoring locations</p>
           </CardHeader>
           <CardContent className="p-6">
             <ResponsiveContainer width="100%" height={320}>
@@ -61,7 +61,7 @@ const barData = useMemo(() => cityData.map((d, idx) => ({ name: d.city, value: d
             </ResponsiveContainer>
 
             <div className="mt-3 text-sm text-slate-500 bg-slate-50 p-3 rounded-lg">
-              "Hover over bars for detailed information"
+              Hover over bars for detailed information
             </div>
           </CardContent>
         </Card>
@@ -70,8 +70,8 @@ const barData = useMemo(() => cityData.map((d, idx) => ({ name: d.city, value: d
       {showContaminantChart && (
         <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
           <CardHeader className="border-b border-slate-100 pb-4">
-            <CardTitle className="text-slate-800 text-lg font-semibold">"Metal Distribution"</CardTitle>
-            <p className="text-sm text-slate-500 mt-1">"Percentage breakdown by contaminant"</p>
+            <CardTitle className="text-slate-800 text-lg font-semibold">Metal Distribution</CardTitle>
+            <p className="text-sm text-slate-500 mt-1">Percentage breakdown by contaminant</p>
           </CardHeader>
           <CardContent className="p-6">
             <div style={{ width: '100%', height: 280 }}>
@@ -105,7 +105,7 @@ const barData = useMemo(() => cityData.map((d, idx) => ({ name: d.city, value: d
                     <span className="text-sm font-medium text-slate-700">{c.name}</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className="text-sm text-slate-600">{c.sites} "sites"</span>
+                    <span className="text-sm text-slate-600">{c.sites} sites</span>
                     <span className="text-sm font-semibold text-slate-800">{c.value}%</span>
                   </div>
                 </div>

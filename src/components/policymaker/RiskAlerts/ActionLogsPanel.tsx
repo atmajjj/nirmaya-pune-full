@@ -13,7 +13,7 @@ return (
       <CardHeader className="border-b border-slate-100 pb-4">
         <CardTitle className="text-xl font-bold text-slate-800 flex items-center gap-2">
           <Activity className="w-5 h-5 text-teal-600" />
-          "Recent Actions"
+          Recent Actions
         </CardTitle>
       </CardHeader>
       <CardContent className="p-6">

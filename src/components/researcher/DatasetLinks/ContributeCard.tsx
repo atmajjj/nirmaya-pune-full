@@ -7,7 +7,7 @@ export const ContributeCard = () => {
     <Card className="bg-white border border-slate-200 rounded-lg">
       <div className="p-5">
         <div className="flex items-start gap-4">
-          <div className="w-10 h-10 bg-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center flex-shrink-0">
             <Upload className="w-5 h-5 text-white" />
           </div>
           <div className="flex-1">
@@ -18,7 +18,7 @@ export const ContributeCard = () => {
             <div className="flex gap-2">
               <Button 
                 size="sm" 
-                className="bg-teal-600 text-white hover:bg-teal-700 rounded-md text-xs"
+                className="bg-brand text-white hover:bg-brand-light rounded-md text-xs"
               >
                 <Upload className="w-3 h-3 mr-1.5" />
                 Submit Dataset
@@ -26,7 +26,7 @@ export const ContributeCard = () => {
               <Button 
                 size="sm" 
                 variant="outline"
-                className="border-slate-300 text-slate-600 hover:bg-slate-50 rounded-md text-xs"
+                className="border-brand/30 text-brand hover:bg-brand/10 rounded-md text-xs"
               >
                 <HelpCircle className="w-3 h-3 mr-1.5" />
                 Guidelines

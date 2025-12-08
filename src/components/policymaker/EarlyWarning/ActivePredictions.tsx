@@ -57,7 +57,7 @@ const [expanded, setExpanded] = useState(false);
         <div className="space-y-4">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-slate-600">"Risk Probability"</span>
+              <span className="text-sm font-medium text-slate-600">Risk Probability</span>
               <span className={cn("text-3xl font-bold", prediction.riskColor)}>
                 {prediction.probability}%
               </span>
@@ -69,15 +69,15 @@ const [expanded, setExpanded] = useState(false);
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-slate-500" />
               <div>
-                <p className="text-xs text-slate-500">"Timeframe"</p>
+                <p className="text-xs text-slate-500">Timeframe</p>
                 <p className="text-sm font-semibold text-slate-800">{prediction.timeframe}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="w-5 h-5 text-slate-500" />
               <div>
-                <p className="text-xs text-slate-500">"Location"</p>
-                <p className="text-sm font-semibold text-slate-800">"View Map"</p>
+                <p className="text-xs text-slate-500">Location</p>
+                <p className="text-sm font-semibold text-slate-800">View Map</p>
               </div>
             </div>
           </div>
@@ -86,10 +86,10 @@ const [expanded, setExpanded] = useState(false);
             <div className="pt-4 border-t border-slate-200 animate-in fade-in slide-in-from-top-2 duration-300">
               <div className="flex gap-2">
                 <Button size="sm" className={cn("flex-1 bg-gradient-to-r", prediction.color, "text-white")}>
-                  "Deploy Response"
+                  Deploy Response
                 </Button>
                 <Button size="sm" variant="outline" className="flex-1">
-                  "View Details"
+                  View Details
                 </Button>
               </div>
             </div>
@@ -107,7 +107,7 @@ return (
         <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center">
           <AlertTriangle className="w-5 h-5 text-white" />
         </div>
-        "Active Risk Predictions"
+        Active Risk Predictions
       </h2>
 
       <div className="grid gap-6">
