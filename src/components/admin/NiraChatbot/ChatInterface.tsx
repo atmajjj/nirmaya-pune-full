@@ -4,7 +4,7 @@ import ChatMessages from './ChatMessages';
 import MessageInput from './MessageInput';
 import { Source, Message } from './types';
 import { chatbotService } from '@/services/api';
-import { useToast } from '@/hooks/use-toast';
+import { showErrorToast } from '@/lib/toast-utils';
 
 interface ChatInterfaceProps {
   sources: Source[];
@@ -19,7 +19,6 @@ const ChatInterface = ({ sources, setSources, messages, setMessages }: ChatInter
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentSessionId, setCurrentSessionId] = useState<number | undefined>();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
@@ -56,11 +55,7 @@ const ChatInterface = ({ sources, setSources, messages, setMessages }: ChatInter
       }
     } catch (error) {
       console.error('Chat error:', error);
-      toast({
-        title: "Chat Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
+      showErrorToast("Chat Error", "Failed to send message. Please try again.");
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: "Sorry, I'm having trouble connecting right now. Please try again later.",

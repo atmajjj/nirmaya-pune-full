@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageCircle, X, Bot, Minimize2, Maximize2, Expand, Shrink } from 'lucide-react';
 import { ChatMessage, ChatInput, type Message } from '@/components/chatbot';
 import { chatbotService } from '@/services/api';
-import { useToast } from '@/hooks/use-toast';
+import { showErrorToast } from '@/lib/toast-utils';
 
 interface NIRAChatbotProps {
   className?: string;
@@ -19,7 +19,6 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [currentSessionId, setCurrentSessionId] = useState<number | undefined>();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { toast } = useToast();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -116,11 +115,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
       
       // Show detailed error to user
       const errorMsg = error instanceof Error ? error.message : 'Unknown error';
-      toast({
-        title: "Chat Error",
-        description: `Failed to send message: ${errorMsg}. Please check your connection and try again.`,
-        variant: "destructive",
-      });
+      showErrorToast("Chat Error", `Failed to send message: ${errorMsg}. Please check your connection and try again.`);
       
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),

@@ -5,7 +5,7 @@ import { Upload, Sparkles, FileText, BookOpen, CheckCircle, Clock, Loader2, Tras
 import { cn } from "@/lib/utils";
 import { Source } from './types';
 import { chatbotService } from '@/services/api';
-import { useToast } from '@/hooks/use-toast';
+import { showSuccessToast, showErrorToast } from '@/lib/toast-utils';
 import type { ChatbotDocument } from '@/types/chatbot.types';
 import {
   Select,
@@ -29,7 +29,6 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
 
   // Auto-refresh for processing documents
   useEffect(() => {
@@ -75,11 +74,7 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
     } catch (error) {
       console.error('Failed to fetch documents:', error);
       if (!silent) {
-        toast({
-          title: "Error",
-          description: "Failed to load documents.",
-          variant: "destructive",
-        });
+        showErrorToast("Error", "Failed to load documents.");
       }
     } finally {
       setIsLoading(false);
@@ -108,11 +103,7 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
         try {
           // Check file size (20MB limit)
           if (file.size > 20 * 1024 * 1024) {
-            toast({
-              title: "File too large",
-              description: `${file.name} exceeds 20MB limit.`,
-              variant: "destructive",
-            });
+            showErrorToast("File too large", `${file.name} exceeds 20MB limit.`);
             errorCount++;
             continue;
           }
@@ -131,11 +122,7 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
                            file.name.endsWith('.txt');
           
           if (!isAllowed) {
-            toast({
-              title: "Unsupported file type",
-              description: `${file.name} is not supported. Use PDF, DOC, DOCX, TXT, or MD files.`,
-              variant: "destructive",
-            });
+            showErrorToast("Unsupported file type", `${file.name} is not supported. Use PDF, DOC, DOCX, TXT, or MD files.`);
             errorCount++;
             continue;
           }
@@ -155,21 +142,14 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
 
       // Show summary toast
       if (successCount > 0) {
-        toast({
-          title: "Upload complete",
-          description: `${successCount} file(s) uploaded successfully. ${errorCount > 0 ? `${errorCount} failed.` : 'Processing will begin shortly.'}`,
-        });
+        showSuccessToast("Upload complete", `${successCount} file(s) uploaded successfully. ${errorCount > 0 ? `${errorCount} failed.` : 'Processing will begin shortly.'}`);
         
         // Refresh documents after a short delay
         setTimeout(() => {
           fetchDocuments();
         }, 1500);
       } else if (errorCount > 0) {
-        toast({
-          title: "Upload failed",
-          description: `Failed to upload ${errorCount} file(s).`,
-          variant: "destructive",
-        });
+        showErrorToast("Upload failed", `Failed to upload ${errorCount} file(s).`);
       }
     } finally {
       setIsUploading(false);
@@ -193,10 +173,7 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
       console.log('Deleting document:', { documentId, numericId, documentName });
       await chatbotService.deleteDocument(numericId);
       
-      toast({
-        title: "Document deleted",
-        description: `${documentName} has been removed successfully.`,
-      });
+      showSuccessToast("Document deleted", `${documentName} has been removed successfully.`);
       setSources(prev => prev.filter(s => s.id !== documentId));
       
       // Refresh the list after deletion
@@ -204,11 +181,7 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
     } catch (error) {
       console.error('Delete error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to delete document';
-      toast({
-        title: "Delete failed",
-        description: errorMessage,
-        variant: "destructive",
-      });
+      showErrorToast("Delete failed", errorMessage);
     }
   };
 

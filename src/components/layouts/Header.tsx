@@ -7,6 +7,17 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 interface UserInfo {
   name: string;
@@ -26,7 +37,19 @@ interface HeaderProps {
 const headerButtonClass = "text-brand-surface hover:bg-brand-secondary/20 hover:text-brand-accent focus:bg-brand-secondary/20 transition-all duration-200";
 
 export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => {
+  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+
+  const handleLogoutClick = () => {
+    setShowLogoutDialog(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setShowLogoutDialog(false);
+    onLogout();
+  };
+
   return (
+    <>
     <header className="h-16 flex items-center justify-between px-6 flex-shrink-0 bg-gradient-to-r from-brand via-brand to-brand-light shadow-lg border-b border-brand-navy-light/30">
       {/* Left Section */}
       <div className="flex items-center gap-4">
@@ -122,7 +145,7 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => 
             {/* Logout */}
             <div className="p-2">
               <DropdownMenuItem 
-                onClick={onLogout}
+                onClick={handleLogoutClick}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-red-600 hover:bg-red-50 focus:bg-red-50 hover:text-red-700"
               >
                 <LogOut className="w-4 h-4" />
@@ -136,7 +159,7 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => 
         <Button 
           variant="ghost" 
           size="icon" 
-          onClick={onLogout}
+          onClick={handleLogoutClick}
           className={headerButtonClass}
           aria-label="Logout"
         >
@@ -144,5 +167,25 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => 
         </Button>
       </div>
     </header>
+
+    {/* Logout Confirmation Dialog */}
+    <AlertDialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Confirm Logout</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to logout? You will need to sign in again to access your account.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirmLogout} className="bg-red-600 hover:bg-red-700">
+            Logout
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    </>
   );
 };
+
