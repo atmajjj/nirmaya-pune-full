@@ -3,7 +3,8 @@ import SourcesPanel from './SourcesPanel';
 import ChatMessages from './ChatMessages';
 import MessageInput from './MessageInput';
 import { Source, Message } from './types';
-import { generateNiraResponse } from './aiResponseGenerator';
+import { chatbotService } from '@/services/api';
+import { showErrorToast } from '@/lib/toast-utils';
 
 interface ChatInterfaceProps {
   sources: Source[];
@@ -16,6 +17,7 @@ const ChatInterface = ({ sources, setSources, messages, setMessages }: ChatInter
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [currentSessionId, setCurrentSessionId] = useState<number | undefined>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSendMessage = async () => {
@@ -32,20 +34,38 @@ const ChatInterface = ({ sources, setSources, messages, setMessages }: ChatInter
     setInputMessage('');
     setIsTyping(true);
 
-    // Simulate AI response
-    setTimeout(() => {
-      const botResponse = generateNiraResponse(inputMessage, sources);
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: botResponse,
-        isBot: true,
-        timestamp: new Date(),
-        referencedSources: sources.length > 0 ? [sources[0].id] : undefined
-      };
+    try {
+      const response = await chatbotService.sendMessage({
+        message: inputMessage,
+        sessionId: currentSessionId
+      });
 
-      setMessages(prev => [...prev, botMessage]);
+      if (response.success) {
+        setCurrentSessionId(response.data.sessionId);
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          content: response.data.message,
+          isBot: true,
+          timestamp: new Date(),
+          referencedSources: response.data.sources?.map(s => s.documentId.toString()) || undefined
+        };
+        setMessages(prev => [...prev, botMessage]);
+      } else {
+        throw new Error('Failed to get response');
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
+      showErrorToast("Chat Error", "Failed to send message. Please try again.");
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "Sorry, I'm having trouble connecting right now. Please try again later.",
+        isBot: true,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 2000);
+    }
   };
 
   return (

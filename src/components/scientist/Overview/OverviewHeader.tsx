@@ -4,7 +4,7 @@ import { AddVisualizationMenu } from "@/components/scientist/Visualizations";
 import { VisualizationType } from "@/components/scientist/Visualizations/types";
 import { UniversalOptions, ChartSpecificOptions, SaveAsType } from "@/components/scientist/Visualizations/customizationTypes";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { showSuccessToast } from '@/lib/toast-utils';
 import DashboardSelectorModal from './DashboardSelectorModal';
 import SimplifiedCustomizePanel from './SimplifiedCustomizePanel';
 import { DashboardWidget } from './widgetVisibility';
@@ -29,7 +29,6 @@ export const OverviewHeader = ({
   onWidgetVisibilityChange,
   dashboardId = 'scientist-overview'
 }: OverviewHeaderProps) => {
-const { toast } = useToast();
   
   const [showDashboardSelector, setShowDashboardSelector] = useState(false);
   const [showCustomizePanel, setShowCustomizePanel] = useState(false);
@@ -121,17 +120,8 @@ const { toast } = useToast();
     }
 
     // Show success toast
-    toast({
-      title: (
-        <div className="flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-green-500" />
-          <span>Visualization Added</span>
-        </div>
-      ),
-      description: `"${savedViz.title}" has been added to ${dashboard.name}`,
-      duration: 4000,
-    });
-  }, [pendingVisualization, onVisualizationsChange, onAddVisualization, toast]);
+    showSuccessToast("Visualization Added", `"${savedViz.title}" has been added to ${dashboard.name}`);
+  }, [pendingVisualization, onVisualizationsChange, onAddVisualization]);
 
   const handleVisualizationsChange = useCallback(() => {
     if (onVisualizationsChange) {

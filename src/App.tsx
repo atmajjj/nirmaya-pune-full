@@ -1,6 +1,5 @@
 import React, { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider } from "./context/AuthContext";
@@ -35,19 +34,24 @@ const APIManagement = lazy(() => import("./pages/researcher/APIManagement"));
 const ResearchWorkspace = lazy(() => import("./pages/researcher/ResearchWorkspace"));
 const InteractiveGeoMap = lazy(() => import("./pages/researcher/InteractiveGeoMap"));
 
+// Debug page (accessible to all)
+const ChatbotDebug = lazy(() => import("./pages/ChatbotDebug"));
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
       <BrowserRouter>
         <ErrorBoundary>
           <AuthProvider>
             <Suspense fallback={<Loading message="Loading page..." />}>
               <Routes>
                 <Route path="/" element={<Login />} />
+
+                {/* Debug Route - Accessible to all for troubleshooting */}
+                <Route path="/chatbot-debug" element={<ChatbotDebug />} />
 
                 {/* Scientist Routes (protected) */}
                 <Route
