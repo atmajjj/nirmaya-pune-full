@@ -41,7 +41,6 @@ const ResearcherApplications = lazy(() => import("./pages/admin/ResearcherApplic
 const ResearcherOverview = lazy(() => import("./pages/researcher/Overview"));
 const DatasetLinks = lazy(() => import("./pages/researcher/DatasetLinks"));
 const APIManagement = lazy(() => import("./pages/researcher/APIManagement"));
-const ResearchWorkspace = lazy(() => import("./pages/researcher/ResearchWorkspace"));
 const InteractiveGeoMap = lazy(() => import("./pages/researcher/InteractiveGeoMap"));
 
 const Profile = lazy(() => import("./pages/Profile"));
@@ -130,7 +129,6 @@ const App = () => (
                   <Route path="overview" element={<ResearcherOverview />} />
                   <Route path="datasets" element={<DatasetLinks />} />
                   <Route path="apis" element={<APIManagement />} />
-                  <Route path="workspace" element={<ResearchWorkspace />} />
                   <Route path="geo-map" element={<InteractiveGeoMap />} />
                 </Route>
 
