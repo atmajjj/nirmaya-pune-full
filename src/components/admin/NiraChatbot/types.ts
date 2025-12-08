@@ -1,6 +1,6 @@
 // Type definitions for NiraChatbot components
 
-export type TrainingStatus = 'pending' | 'processing' | 'trained' | 'failed';
+export type TrainingStatus = 'pending' | 'processing' | 'completed' | 'failed';
 
 export interface Source {
   id: string;
@@ -11,6 +11,8 @@ export interface Source {
   content?: string;
   size?: string;
   status?: TrainingStatus;
+  chunkCount?: number;
+  errorMessage?: string;
 }
 
 export interface Message {

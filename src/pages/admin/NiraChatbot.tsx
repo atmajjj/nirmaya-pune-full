@@ -15,7 +15,9 @@ const navItems = [
 
 const NiraChatbotRefactored = () => {
   const [sources, setSources] = useState<Source[]>([]);
-  const trainedCount = sources.filter(s => s.status === 'trained').length;
+  const completedCount = sources.filter(s => s.status === 'completed').length;
+  const processingCount = sources.filter(s => s.status === 'processing' || s.status === 'pending').length;
+  const failedCount = sources.filter(s => s.status === 'failed').length;
 
   return (
     <DashboardLayout navItems={navItems} userRole="admin">
@@ -28,15 +30,27 @@ const NiraChatbotRefactored = () => {
                 <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">NIRA Training Center</h1>
                 <p className="text-sm sm:text-base text-slate-600">Upload and manage training documents to enhance NIRA's knowledge base</p>
               </div>
-              <div className="flex gap-4 sm:gap-6">
-                <div className="text-center sm:text-right">
-                  <p className="text-xs text-slate-500 mb-1">Total Documents</p>
+              <div className="grid grid-cols-3 gap-3 sm:gap-4">
+                <div className="text-center">
+                  <p className="text-xs text-slate-500 mb-1">Total</p>
                   <p className="text-2xl sm:text-3xl font-bold text-[#0A3D62]">{sources.length}</p>
                 </div>
-                <div className="text-center sm:text-right">
-                  <p className="text-xs text-slate-500 mb-1">Trained</p>
-                  <p className="text-2xl sm:text-3xl font-bold text-emerald-600">{trainedCount}</p>
+                <div className="text-center">
+                  <p className="text-xs text-emerald-600 mb-1">Trained</p>
+                  <p className="text-2xl sm:text-3xl font-bold text-emerald-600">{completedCount}</p>
                 </div>
+                {(processingCount > 0 || failedCount > 0) && (
+                  <div className="text-center">
+                    <p className="text-xs text-amber-600 mb-1">Processing</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-amber-600">{processingCount}</p>
+                  </div>
+                )}
+                {failedCount > 0 && (
+                  <div className="text-center">
+                    <p className="text-xs text-red-600 mb-1">Failed</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-red-600">{failedCount}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>

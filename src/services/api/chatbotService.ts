@@ -82,7 +82,8 @@ export const chatbotService = {
     if (description) formData.append('description', description);
 
     // Use fetch directly for FormData since apiClient assumes JSON
-    const token = localStorage.getItem('accessToken');
+    const { tokenManager } = await import('./apiClient');
+    const token = tokenManager.getAccessToken();
     const response = await fetch(`${ENV.API_URL}/chatbot/documents`, {
       method: 'POST',
       headers: token ? { 'Authorization': `Bearer ${token}` } : {},
@@ -102,12 +103,33 @@ export const chatbotService = {
    */
   async getDocuments(
     page = 1,
-    limit = 10,
+    limit = 20,
     status?: string
   ): Promise<DocumentsResponse> {
     return apiClient.get<DocumentsResponse>('/chatbot/documents', {
-      params: { page, limit, status },
+      params: { page, limit, ...(status && { status }) },
     });
+  },
+
+  /**
+   * Get document statistics (Admin only)
+   */
+  async getDocumentStats(): Promise<{
+    success: boolean;
+    message: string;
+    data: {
+      totalDocuments: number;
+      totalChunks: number;
+      byStatus: {
+        pending: number;
+        processing: number;
+        completed: number;
+        failed: number;
+      };
+      totalFileSize: number;
+    };
+  }> {
+    return apiClient.get('/chatbot/documents/stats');
   },
 
   /**
