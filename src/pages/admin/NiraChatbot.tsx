@@ -1,7 +1,7 @@
 import { useState } from "react";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import NIRAChatbot from "@/components/NIRAChatbot";
-import { Users, BarChart3, FileCheck, Database, Brain } from "lucide-react";
+import { Users, BarChart3, FileCheck, Database, Brain, MessageCircle, Settings } from "lucide-react";
 import SourcesPanel from "@/components/admin/NiraChatbot/SourcesPanel";
 import { Source } from "@/components/admin/NiraChatbot/types";
 
