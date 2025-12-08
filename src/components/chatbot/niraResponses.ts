@@ -1,4 +1,4 @@
-// NIRA Response Generator - Handles AI-like responses for groundwater queries
+// NIRA AI Chatbot Response Generator - Handles AI-like responses for groundwater queries
 
 export const generateNIRAResponse = (input: string): string => {
   const lowerInput = input.toLowerCase();
@@ -12,7 +12,7 @@ export const generateNIRAResponse = (input: string): string => {
   }
   
   if (lowerInput.includes('policy') || lowerInput.includes('recommendation')) {
-    return "📋 **NIRA Policy Recommendations**:\n\n🎯 **Immediate Actions**:\n1. Implement Zero Liquid Discharge for industries\n2. Mandatory HMPI monitoring every 48 hours\n3. Cross-state coordination protocol\n\n🔬 **Long-term Strategy**:\n- AI-powered early warning systems\n- Industrial cluster risk assessment\n- Community awareness programs\n\nWhich policy area needs detailed analysis?";
+    return "📋 **NIRA AI Chatbot Policy Recommendations**:\n\n🎯 **Immediate Actions**:\n1. Implement Zero Liquid Discharge for industries\n2. Mandatory HMPI monitoring every 48 hours\n3. Cross-state coordination protocol\n\n🔬 **Long-term Strategy**:\n- AI-powered early warning systems\n- Industrial cluster risk assessment\n- Community awareness programs\n\nWhich policy area needs detailed analysis?";
   }
   
   if (lowerInput.includes('contamination') || lowerInput.includes('pollution')) {
@@ -24,13 +24,13 @@ export const generateNIRAResponse = (input: string): string => {
   }
   
   if (lowerInput.includes('data') || lowerInput.includes('statistics')) {
-    return "📊 **NIRA Data Insights**:\n\n🔢 **Current Statistics**:\n- Total Risk Zones: 156\n- Active Monitoring Points: 2,847\n- Population Affected: 54.2M+\n- Response Time: 3.8 hours avg\n\n🎯 **Tamil Nadu Focus**:\n- Highest risk concentration (32%)\n- 4 districts in emergency status\n- Industrial cluster intervention\n\nNeed detailed dataset for analysis?";
+    return "📊 **NIRA AI Chatbot Data Insights**:\n\n🔢 **Current Statistics**:\n- Total Risk Zones: 156\n- Active Monitoring Points: 2,847\n- Population Affected: 54.2M+\n- Response Time: 3.8 hours avg\n\n🎯 **Tamil Nadu Focus**:\n- Highest risk concentration (32%)\n- 4 districts in emergency status\n- Industrial cluster intervention\n\nNeed detailed dataset for analysis?";
   }
   
   if (lowerInput.includes('help') || lowerInput.includes('what can you do')) {
-    return "🤖 **NIRA Capabilities**:\n\n🔍 **Analysis & Insights**:\n- HMPI data interpretation\n- Risk assessment & predictions\n- Multi-state pattern analysis\n\n📋 **Policy Support**:\n- Recommendation generation\n- Compliance monitoring\n- Action plan optimization\n\n🚨 **Real-time Updates**:\n- Alert notifications\n- Contamination tracking\n- Response coordination\n\nJust ask me about any groundwater or policy topic!";
+    return "🤖 **NIRA AI Chatbot Capabilities**:\n\n🔍 **Analysis & Insights**:\n- HMPI data interpretation\n- Risk assessment & predictions\n- Multi-state pattern analysis\n\n📋 **Policy Support**:\n- Recommendation generation\n- Compliance monitoring\n- Action plan optimization\n\n🚨 **Real-time Updates**:\n- Alert notifications\n- Contamination tracking\n- Response coordination\n\nJust ask me about any groundwater or policy topic!";
   }
   
   // Default response
-  return "🤖 I'm NIRA, your AI assistant for groundwater insights! I can help with:\n\n🔍 HMPI data analysis\n📊 Risk assessments\n🚨 Alert management\n📋 Policy recommendations\n🌍 Multi-state coordination\n\nTry asking about specific regions like 'Tamil Nadu status' or 'HMPI analysis' for detailed insights!";
+  return "🤖 I'm NIRA AI Chatbot, your AI assistant for groundwater insights! I can help with:\n\n🔍 HMPI data analysis\n📊 Risk assessments\n🚨 Alert management\n📋 Policy recommendations\n🌍 Multi-state coordination\n\nTry asking about specific regions like 'Tamil Nadu status' or 'HMPI analysis' for detailed insights!";
 };

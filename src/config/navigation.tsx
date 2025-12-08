@@ -10,9 +10,8 @@ export const NAVIGATION_ITEMS = {
     { title: "Overview", path: "/admin/overview", icon: <BarChart3 className="w-5 h-5" /> },
     { title: "User Management", path: "/admin/user-management", icon: <Users className="w-5 h-5" /> },
     { title: "Report Control", path: "/admin/report-control", icon: <FileCheck className="w-5 h-5" /> },
-    { title: "Data Logs", path: "/admin/data-logs", icon: <Database className="w-5 h-5" /> },
     { title: "Researcher Applications", path: "/admin/researcher-applications", icon: <UserPlus className="w-5 h-5" /> },
-    { title: "Nira Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
+    { title: "NIRA AI Chatbot", path: "/admin/nira-chatbot", icon: <MessageCircle className="w-5 h-5" /> },
     { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ],
   scientist: [
@@ -23,10 +22,9 @@ export const NAVIGATION_ITEMS = {
     { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ],
   policymaker: [
+    { title: "Overview", path: "/policymaker/overview", icon: <BarChart3 className="w-5 h-5" /> },
     { title: "Risk Alerts", path: "/policymaker/risk-alerts", icon: <Bell className="w-5 h-5" /> },
     { title: "BIS Reports", path: "/policymaker/who-reports", icon: <FileText className="w-5 h-5" /> },
-    { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
-    { title: "Early Warning", path: "/policymaker/early-warning", icon: <Zap className="w-5 h-5" /> },
     { title: "Geo Map", path: "/policymaker/geo-map", icon: <Map className="w-5 h-5" /> },
     { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ],

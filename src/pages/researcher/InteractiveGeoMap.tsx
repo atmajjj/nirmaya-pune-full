@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { BarChart3, Code2, Globe, LinkIcon, Beaker, MapPin, TrendingUp, Users, Layers, Download, RefreshCw, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { GeoMapHeader } from "@/components/researcher/InteractiveGeoMap/GeoMapHeader";
-import { MapControls } from "@/components/researcher/InteractiveGeoMap/MapControls";
-import { LayerControl } from "@/components/researcher/InteractiveGeoMap/LayerControl";
-import { SiteDetails } from "@/components/researcher/InteractiveGeoMap/SiteDetails";
-import { mapLayers } from "@/components/researcher/InteractiveGeoMap/mapData";
+import { GeoMapHeader } from "@/components/common/GeoMap/GeoMapHeader";
+import { MapControls } from "@/components/common/GeoMap/MapControls";
+import { LayerControl } from "@/components/common/GeoMap/LayerControl";
+import { SiteDetails } from "@/components/common/GeoMap/SiteDetails";
+import { mapLayers } from "@/components/common/GeoMap/mapData";
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 

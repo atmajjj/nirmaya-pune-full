@@ -29,7 +29,7 @@ const generateMockResponse = (message: string): string => {
   const lowerMessage = message.toLowerCase();
 
   if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-    return "Hello! I'm NIRA AI, powered by uploaded documents in the knowledge base. I can help you with questions about groundwater management, policy recommendations, and research insights. What would you like to know?";
+    return "Hello! I'm NIRA AI Chatbot, powered by uploaded documents in the knowledge base. I can help you with questions about groundwater management, policy recommendations, and research insights. What would you like to know?";
   }
 
   if (lowerMessage.includes('document') || lowerMessage.includes('upload')) {

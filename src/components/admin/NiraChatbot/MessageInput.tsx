@@ -36,7 +36,7 @@ const MessageInput = ({ inputMessage, setInputMessage, isTyping, onSendMessage, 
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Ask Nira about your uploaded data…"
+            placeholder="Ask NIRA AI Chatbot about your uploaded data…"
             className="bg-white/70 border-slate-300 focus:border-blue-400 focus:ring-blue-200 hover:border-blue-300 pr-12 resize-none transition-all duration-200"
             disabled={isTyping}
           />

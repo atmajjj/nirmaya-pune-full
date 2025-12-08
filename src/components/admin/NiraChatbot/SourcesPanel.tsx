@@ -264,7 +264,7 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
               <BookOpen className="w-5 h-5 text-[#0A3D62]" />
               Training Documents
             </h2>
-            <p className="text-xs text-slate-500 mt-1">Upload documents to enhance NIRA</p>
+            <p className="text-xs text-slate-500 mt-1">Upload documents to enhance NIRA AI Chatbot</p>
           </div>
           <Button
             variant="ghost"
@@ -361,7 +361,7 @@ const SourcesPanel = ({ sources, setSources, collapsed }: SourcesPanelProps) => 
             ) : (
               <>
                 <h3 className="text-sm font-medium text-gray-700 mb-2">No training documents yet</h3>
-                <p className="text-xs text-gray-500 mb-4">Upload research papers, datasets, or findings to train NIRA</p>
+                <p className="text-xs text-gray-500 mb-4">Upload research papers, datasets, or findings to train NIRA AI Chatbot</p>
                 <div className="text-xs text-slate-400 space-y-1">
                   <p>Supported formats:</p>
                   <p className="font-medium">PDF, DOC, DOCX, TXT, MD</p>

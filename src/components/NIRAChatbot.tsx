@@ -165,8 +165,8 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
                   <Bot className="w-5 h-5 text-white" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <CardTitle className="text-base font-bold text-white leading-tight">NIRA</CardTitle>
-                  <p className="text-xs text-blue-100 opacity-90 leading-tight">NEERA AI Assistant</p>
+                  <CardTitle className="text-base font-bold text-white leading-tight">NIRA AI Chatbot</CardTitle>
+                  <p className="text-xs text-blue-100 opacity-90 leading-tight">AI Assistant</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">

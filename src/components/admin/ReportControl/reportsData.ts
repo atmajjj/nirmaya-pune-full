@@ -38,7 +38,7 @@ export const initialReports: Report[] = [
     id: 3,
     title: "AI-Generated Risk Assessment: Kolkata Industrial Zone",
     category: "Risk Assessment",
-    author: "Nira AI System",
+    author: "NIRA AI Chatbot",
     status: "draft",
     lastUpdated: "2024-11-11",
     submittedOn: "2024-11-11",

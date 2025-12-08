@@ -21,13 +21,13 @@ const NiraChatbotHeader = ({ onClearChat, totalSources = 0, trainedSources = 0 }
             </div>
             <div>
               <div className="flex items-center gap-3">
-                <h1 className="text-2xl font-bold text-slate-800 tracking-wide">NIRA Knowledge Base</h1>
+                <h1 className="text-2xl font-bold text-slate-800 tracking-wide">NIRA AI Chatbot Knowledge Base</h1>
                 <Badge className="bg-amber-100 text-amber-700 border-amber-200 hover:bg-amber-100">
                   <Cpu className="w-3 h-3 mr-1" />
                   Training Mode
                 </Badge>
               </div>
-              <p className="text-sm text-slate-600 mt-1">Upload research papers & findings to enhance NIRA's knowledge</p>
+              <p className="text-sm text-slate-600 mt-1">Upload research papers & findings to enhance NIRA AI Chatbot's knowledge</p>
             </div>
           </div>
           

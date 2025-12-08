@@ -26,7 +26,7 @@ const ChatbotAPITest = () => {
       console.log('Sending message:', testMessage);
 
       const result = await chatbotService.sendMessage({
-        message: testMessage || 'Hello, NIRA!',
+        message: testMessage || 'Hello, NIRA AI Chatbot!',
       });
 
       console.log('API Response:', result);

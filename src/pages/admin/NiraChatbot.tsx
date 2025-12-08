@@ -15,8 +15,8 @@ const NiraChatbotRefactored = () => {
           <div className="mb-4 sm:mb-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">NIRA Training Center</h1>
-                <p className="text-sm sm:text-base text-slate-600">Upload and manage training documents to enhance NIRA's knowledge base</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">NIRA AI Chatbot Training Center</h1>
+                <p className="text-sm sm:text-base text-slate-600">Upload and manage training documents to enhance NIRA AI Chatbot's knowledge base</p>
               </div>
               <div className="grid grid-cols-3 gap-3 sm:gap-4">
                 <div className="text-center">

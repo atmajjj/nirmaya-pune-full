@@ -26,15 +26,13 @@ const FormulaEditor = lazy(() => import("./pages/scientist/FormulaEditor"));
 const ScientistGeoMap = lazy(() => import("./pages/scientist/GeoMap"));
 
 const RiskAlerts = lazy(() => import("./pages/policymaker/RiskAlerts"));
-const WHOReports = lazy(() => import("./pages/policymaker/WHOReports"));
-const TrendAnalysis = lazy(() => import("./pages/policymaker/TrendAnalysis"));
-const EarlyWarning = lazy(() => import("./pages/policymaker/EarlyWarning"));
+const WHOReports = lazy(() => import("./pages/policymaker/Reports"));
 const PolicymakerGeoMap = lazy(() => import("./pages/policymaker/GeoMap"));
+const PolicymakerOverview = lazy(() => import("./pages/policymaker/Overview"));
 
 const UserManagement = lazy(() => import("./pages/admin/UserManagement"));
 const AdminOverview = lazy(() => import("./pages/admin/Overview"));
 const ReportControl = lazy(() => import("./pages/admin/ReportControl"));
-const DataLogs = lazy(() => import("./pages/admin/DataLogs"));
 const NiraChatbotPage = lazy(() => import("./pages/admin/NiraChatbot"));
 const ResearcherApplications = lazy(() => import("./pages/admin/ResearcherApplications"));
 
@@ -93,10 +91,9 @@ const App = () => (
                     </ProtectedRoute>
                   }
                 >
+                  <Route path="overview" element={<PolicymakerOverview />} />
                   <Route path="risk-alerts" element={<RiskAlerts />} />
                   <Route path="who-reports" element={<WHOReports />} />
-                  <Route path="trend-analysis" element={<TrendAnalysis />} />
-                  <Route path="early-warning" element={<EarlyWarning />} />
                   <Route path="geo-map" element={<PolicymakerGeoMap />} />
                 </Route>
 
@@ -112,7 +109,6 @@ const App = () => (
                   <Route path="user-management" element={<UserManagement />} />
                   <Route path="overview" element={<AdminOverview />} />
                   <Route path="report-control" element={<ReportControl />} />
-                  <Route path="data-logs" element={<DataLogs />} />
                   <Route path="researcher-applications" element={<ResearcherApplications />} />
                   <Route path="nira-chatbot" element={<NiraChatbotPage />} />
                 </Route>
