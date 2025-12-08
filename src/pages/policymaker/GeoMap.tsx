@@ -1,5 +1,3 @@
-import DashboardLayout from "@/components/layouts/DashboardLayout";
-import NIRAChatbot from "@/components/NIRAChatbot";
 import { AlertTriangle, FileText, TrendingUp, MapPin, Brain, Settings } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,15 +10,6 @@ const contaminatedZones = [
 ];
 
 const GeoMap = () => {
-const navItems = [
-    { title: "Risk Alerts", path: "/policymaker/risk-alerts", icon: <AlertTriangle className="w-5 h-5" /> },
-    { title: "Who Reports", path: "/policymaker/who-reports", icon: <FileText className="w-5 h-5" /> },
-    { title: "Trend Analysis", path: "/policymaker/trend-analysis", icon: <TrendingUp className="w-5 h-5" /> },
-    { title: "Early Warning", path: "/policymaker/early-warning", icon: <Brain className="w-5 h-5" /> },
-    { title: "Geo Map", path: "/policymaker/geo-map", icon: <MapPin className="w-5 h-5" /> },
-    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
-  ];
-  
   const getSeverityColor = (severity: string) => {
     const colors = { high: "bg-destructive", moderate: "bg-primary", low: "bg-secondary" };
     return colors[severity as keyof typeof colors] || "bg-muted";
@@ -36,8 +25,7 @@ const navItems = [
   };
 
   return (
-    <DashboardLayout navItems={navItems} userRole="policymaker">
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50">
         <div className="space-y-6 p-6">
           {/* Header */}
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-100 via-slate-50 to-blue-50 border border-slate-200/80 shadow-lg">
@@ -151,8 +139,6 @@ const navItems = [
           </div>
         </div>
       </div>
-      <NIRAChatbot />
-    </DashboardLayout>
   );
 };
 

@@ -10,6 +10,12 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import Loading from "./components/common/Loading";
 
+// Layout components
+const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
+const ScientistLayout = lazy(() => import("./layouts/ScientistLayout"));
+const PolicymakerLayout = lazy(() => import("./layouts/PolicymakerLayout"));
+const ResearcherLayout = lazy(() => import("./layouts/ResearcherLayout"));
+
 // Lazy-loaded pages to improve initial bundle size
 const ScientistOverview = lazy(() => import("./pages/scientist/Overview"));
 const HMPIEngine = lazy(() => import("./pages/scientist/HMPIEngine"));
@@ -59,165 +65,68 @@ const App = () => (
                   }
                 />
 
-                {/* Scientist Routes (protected) */}
+                {/* Scientist Routes (protected with layout) */}
                 <Route
-                  path="/scientist/overview"
+                  path="/scientist"
                   element={
                     <ProtectedRoute>
-                      <ScientistOverview />
+                      <ScientistLayout />
                     </ProtectedRoute>
                   }
-                />
-                <Route
-                  path="/scientist/hmpi-engine"
-                  element={
-                    <ProtectedRoute>
-                      <HMPIEngine />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/scientist/formula-editor"
-                  element={
-                    <ProtectedRoute>
-                      <FormulaEditor />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/scientist/geo-map"
-                  element={
-                    <ProtectedRoute>
-                      <ScientistGeoMap />
-                    </ProtectedRoute>
-                  }
-                />
+                >
+                  <Route path="overview" element={<ScientistOverview />} />
+                  <Route path="hmpi-engine" element={<HMPIEngine />} />
+                  <Route path="formula-editor" element={<FormulaEditor />} />
+                  <Route path="geo-map" element={<ScientistGeoMap />} />
+                </Route>
 
-                {/* Policymaker Routes (protected) */}
+                {/* Policymaker Routes (protected with layout) */}
                 <Route
-                  path="/policymaker/risk-alerts"
+                  path="/policymaker"
                   element={
                     <ProtectedRoute>
-                      <RiskAlerts />
+                      <PolicymakerLayout />
                     </ProtectedRoute>
                   }
-                />
-                <Route
-                  path="/policymaker/who-reports"
-                  element={
-                    <ProtectedRoute>
-                      <WHOReports />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/policymaker/trend-analysis"
-                  element={
-                    <ProtectedRoute>
-                      <TrendAnalysis />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/policymaker/early-warning"
-                  element={
-                    <ProtectedRoute>
-                      <EarlyWarning />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/policymaker/geo-map"
-                  element={
-                    <ProtectedRoute>
-                      <PolicymakerGeoMap />
-                    </ProtectedRoute>
-                  }
-                />
+                >
+                  <Route path="risk-alerts" element={<RiskAlerts />} />
+                  <Route path="who-reports" element={<WHOReports />} />
+                  <Route path="trend-analysis" element={<TrendAnalysis />} />
+                  <Route path="early-warning" element={<EarlyWarning />} />
+                  <Route path="geo-map" element={<PolicymakerGeoMap />} />
+                </Route>
 
-                {/* Admin Routes (protected) */}
+                {/* Admin Routes (protected with layout) */}
                 <Route
-                  path="/admin/user-management"
+                  path="/admin"
                   element={
                     <ProtectedRoute>
-                      <UserManagement />
+                      <AdminLayout />
                     </ProtectedRoute>
                   }
-                />
-                <Route
-                  path="/admin/system-overview"
-                  element={
-                    <ProtectedRoute>
-                      <SystemOverview />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/report-control"
-                  element={
-                    <ProtectedRoute>
-                      <ReportControl />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/data-logs"
-                  element={
-                    <ProtectedRoute>
-                      <DataLogs />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/admin/nira-chatbot"
-                  element={
-                    <ProtectedRoute>
-                      <NiraChatbotPage />
-                    </ProtectedRoute>
-                  }
-                />
+                >
+                  <Route path="user-management" element={<UserManagement />} />
+                  <Route path="system-overview" element={<SystemOverview />} />
+                  <Route path="report-control" element={<ReportControl />} />
+                  <Route path="data-logs" element={<DataLogs />} />
+                  <Route path="nira-chatbot" element={<NiraChatbotPage />} />
+                </Route>
 
-                {/* Researcher Routes (protected) */}
+                {/* Researcher Routes (protected with layout) */}
                 <Route
-                  path="/researcher/overview"
+                  path="/researcher"
                   element={
                     <ProtectedRoute>
-                      <ResearcherOverview />
+                      <ResearcherLayout />
                     </ProtectedRoute>
                   }
-                />
-                <Route
-                  path="/researcher/datasets"
-                  element={
-                    <ProtectedRoute>
-                      <DatasetLinks />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/researcher/apis"
-                  element={
-                    <ProtectedRoute>
-                      <APIManagement />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/researcher/workspace"
-                  element={
-                    <ProtectedRoute>
-                      <ResearchWorkspace />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/researcher/geo-map"
-                  element={
-                    <ProtectedRoute>
-                      <InteractiveGeoMap />
-                    </ProtectedRoute>
-                  }
-                />
+                >
+                  <Route path="overview" element={<ResearcherOverview />} />
+                  <Route path="datasets" element={<DatasetLinks />} />
+                  <Route path="apis" element={<APIManagement />} />
+                  <Route path="workspace" element={<ResearchWorkspace />} />
+                  <Route path="geo-map" element={<InteractiveGeoMap />} />
+                </Route>
 
                 {/* Catch-all */}
                 <Route path="*" element={<NotFound />} />
