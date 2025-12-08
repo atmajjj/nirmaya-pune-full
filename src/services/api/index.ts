@@ -10,4 +10,16 @@ export { userService } from './userService';
 export type { User, UpdateUserData, PaginatedUsersResponse, GetUsersParams } from './userService';
 
 export { chatbotService } from './chatbotService';
+export { researcherApplicationService } from './researcherApplicationService';
+export { invitationService } from './invitationService';
+export type { 
+  ResearcherApplication, 
+  GetApplicationsParams, 
+  AcceptApplicationRequest, 
+  RejectApplicationRequest 
+} from './researcherApplicationService';
+export type {
+  AcceptInvitationRequest,
+  AcceptInvitationResponse
+} from './invitationService';
 

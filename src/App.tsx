@@ -10,6 +10,9 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import Loading from "./components/common/Loading";
 
+// Public pages
+const AcceptInvitation = lazy(() => import("./pages/AcceptInvitation"));
+
 // Layout components
 const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
 const ScientistLayout = lazy(() => import("./layouts/ScientistLayout"));
@@ -33,6 +36,7 @@ const SystemOverview = lazy(() => import("./pages/admin/SystemOverview"));
 const ReportControl = lazy(() => import("./pages/admin/ReportControl"));
 const DataLogs = lazy(() => import("./pages/admin/DataLogs"));
 const NiraChatbotPage = lazy(() => import("./pages/admin/NiraChatbot"));
+const ResearcherApplications = lazy(() => import("./pages/admin/ResearcherApplications"));
 
 const ResearcherOverview = lazy(() => import("./pages/researcher/Overview"));
 const DatasetLinks = lazy(() => import("./pages/researcher/DatasetLinks"));
@@ -54,6 +58,7 @@ const App = () => (
             <Suspense fallback={<Loading message="Loading page..." />}>
               <Routes>
                 <Route path="/" element={<Login />} />
+                <Route path="/accept-invitation" element={<AcceptInvitation />} />
 
                 {/* Profile Route (shared across all roles) */}
                 <Route
@@ -109,6 +114,7 @@ const App = () => (
                   <Route path="system-overview" element={<SystemOverview />} />
                   <Route path="report-control" element={<ReportControl />} />
                   <Route path="data-logs" element={<DataLogs />} />
+                  <Route path="researcher-applications" element={<ResearcherApplications />} />
                   <Route path="nira-chatbot" element={<NiraChatbotPage />} />
                 </Route>
 
