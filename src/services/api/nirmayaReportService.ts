@@ -13,7 +13,7 @@ import type {
   ReportStatusResponse
 } from '@/types/nirmaya-report.types';
 
-const BASE_PATH = '/nirmaya-report';
+const BASE_PATH = '/hmpi-report';
 
 export const nirmayaReportService = {
   /**
