@@ -41,6 +41,7 @@ const getDashboardRoute = (role: UserRole): string => {
     scientist: '/scientist/overview',
     researcher: '/researcher/overview',
     policymaker: '/policymaker/risk-alerts',
+    field_technician: '/field-technician/overview',
   };
   return roleRoutes[role] || '/scientist/overview';
 };

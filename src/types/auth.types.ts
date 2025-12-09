@@ -4,7 +4,7 @@
  */
 
 // User roles as defined in the API
-export type UserRole = 'admin' | 'scientist' | 'researcher' | 'policymaker';
+export type UserRole = 'admin' | 'scientist' | 'researcher' | 'policymaker' | 'field_technician';
 
 // User status types
 export type UserStatus = 'active' | 'suspended' | 'pending';

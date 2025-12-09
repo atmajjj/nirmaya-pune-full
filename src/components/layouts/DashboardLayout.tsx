@@ -43,6 +43,12 @@ const getUserInfo = (userRole: string) => {
       email: 'admin@nirmaya.gov.in',
       role: 'Admin Dashboard',
       initials: 'SA'
+    },
+    field_technician: {
+      name: 'Field Technician',
+      email: 'fieldtech@nirmaya.gov.in',
+      role: 'Field Technician Dashboard',
+      initials: 'FT'
     }
   };
 
@@ -59,7 +65,8 @@ const getDashboardTitle = (userRole: string): string => {
     scientist: 'Scientist Dashboard',
     policymaker: 'Policymaker Dashboard',
     researcher: 'Researcher Dashboard',
-    admin: 'Admin Dashboard'
+    admin: 'Admin Dashboard',
+    field_technician: 'Field Technician'
   };
   return titles[userRole] || 'Dashboard';
 };

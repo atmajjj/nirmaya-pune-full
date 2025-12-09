@@ -18,9 +18,11 @@ const AdminLayout = lazy(() => import("./layouts/AdminLayout"));
 const ScientistLayout = lazy(() => import("./layouts/ScientistLayout"));
 const PolicymakerLayout = lazy(() => import("./layouts/PolicymakerLayout"));
 const ResearcherLayout = lazy(() => import("./layouts/ResearcherLayout"));
+const FieldTechnicianLayout = lazy(() => import("./layouts/FieldTechnicianLayout"));
 
 // Lazy-loaded pages to improve initial bundle size
 const ScientistOverview = lazy(() => import("./pages/scientist/Overview"));
+const DataSources = lazy(() => import("./pages/scientist/DataSources"));
 const HMPIEngine = lazy(() => import("./pages/scientist/HMPIEngine"));
 const FormulaEditor = lazy(() => import("./pages/scientist/FormulaEditor"));
 const ScientistGeoMap = lazy(() => import("./pages/scientist/GeoMap"));
@@ -40,6 +42,10 @@ const ResearcherOverview = lazy(() => import("./pages/researcher/Overview"));
 const DatasetLinks = lazy(() => import("./pages/researcher/DatasetLinks"));
 const APIManagement = lazy(() => import("./pages/researcher/APIManagement"));
 const InteractiveGeoMap = lazy(() => import("./pages/researcher/InteractiveGeoMap"));
+
+const FieldTechnicianOverview = lazy(() => import("./pages/field-technician/Overview"));
+const UploadDataset = lazy(() => import("./pages/field-technician/UploadDataset"));
+const UploadHistory = lazy(() => import("./pages/field-technician/UploadHistory"));
 
 const Profile = lazy(() => import("./pages/Profile"));
 
@@ -77,6 +83,7 @@ const App = () => (
                   }
                 >
                   <Route path="overview" element={<ScientistOverview />} />
+                  <Route path="data-sources" element={<DataSources />} />
                   <Route path="hmpi-engine" element={<HMPIEngine />} />
                   <Route path="formula-editor" element={<FormulaEditor />} />
                   <Route path="geo-map" element={<ScientistGeoMap />} />
@@ -126,6 +133,20 @@ const App = () => (
                   <Route path="datasets" element={<DatasetLinks />} />
                   <Route path="apis" element={<APIManagement />} />
                   <Route path="geo-map" element={<InteractiveGeoMap />} />
+                </Route>
+
+                {/* Field Technician Routes (protected with layout) */}
+                <Route
+                  path="/field-technician"
+                  element={
+                    <ProtectedRoute>
+                      <FieldTechnicianLayout />
+                    </ProtectedRoute>
+                  }
+                >
+                  <Route path="overview" element={<FieldTechnicianOverview />} />
+                  <Route path="upload-dataset" element={<UploadDataset />} />
+                  <Route path="upload-history" element={<UploadHistory />} />
                 </Route>
 
                 {/* Catch-all */}

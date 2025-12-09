@@ -2,7 +2,7 @@ import {
   BarChart3, Database, BookOpen, Map, Settings, 
   Users, FileCheck, MessageCircle, UserPlus,
   Activity, Calculator, Edit, Brain,
-  Bell, FileText, TrendingUp, Zap
+  Bell, FileText, TrendingUp, Zap, Upload, History
 } from "lucide-react";
 
 export const NAVIGATION_ITEMS = {
@@ -16,6 +16,7 @@ export const NAVIGATION_ITEMS = {
   ],
   scientist: [
     { title: "Overview", path: "/scientist/overview", icon: <BarChart3 className="w-5 h-5" /> },
+    { title: "Data Sources", path: "/scientist/data-sources", icon: <Database className="w-5 h-5" /> },
     { title: "HMPI Engine", path: "/scientist/hmpi-engine", icon: <Brain className="w-5 h-5" /> },
     { title: "Formula Editor", path: "/scientist/formula-editor", icon: <Calculator className="w-5 h-5" /> },
     { title: "Geo Map", path: "/scientist/geo-map", icon: <Map className="w-5 h-5" /> },
@@ -33,6 +34,12 @@ export const NAVIGATION_ITEMS = {
     { title: "Dataset Links", path: "/researcher/datasets", icon: <Database className="w-5 h-5" /> },
     { title: "API Catalogue", path: "/researcher/apis", icon: <BookOpen className="w-5 h-5" /> },
     { title: "Interactive Geo Map", path: "/researcher/geo-map", icon: <Map className="w-5 h-5" /> },
+    { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
+  ],
+  field_technician: [
+    { title: "Overview", path: "/field-technician/overview", icon: <BarChart3 className="w-5 h-5" /> },
+    { title: "Upload Dataset", path: "/field-technician/upload-dataset", icon: <Upload className="w-5 h-5" /> },
+    { title: "Upload History", path: "/field-technician/upload-history", icon: <History className="w-5 h-5" /> },
     { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ]
 };

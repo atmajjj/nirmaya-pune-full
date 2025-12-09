@@ -9,6 +9,7 @@ export { hmpiEngineService } from './hmpiEngineService';
 export { hmpiReportService } from './hmpiReportService';
 export { userService } from './userService';
 export type { User, UpdateUserData, PaginatedUsersResponse, GetUsersParams } from './userService';
+export { dataSourceService } from './dataSourceService';
 
 export { chatbotService } from './chatbotService';
 export { researcherApplicationService } from './researcherApplicationService';
