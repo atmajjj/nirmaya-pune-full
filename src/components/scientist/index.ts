@@ -22,14 +22,6 @@ export { AnalysisProgress } from './HMPIEngine/AnalysisProgress';
 export { ResultsMetrics } from './HMPIEngine/ResultsMetrics';
 export { LocationResultsTable } from './HMPIEngine/LocationResultsTable';
 
-// Scientist Formula Editor Components
-export * from './FormulaEditor/types';
-export * from './FormulaEditor/formulasData';
-export { FormulaEditorHeader } from './FormulaEditor/FormulaEditorHeader';
-export { EditorPanel } from './FormulaEditor/EditorPanel';
-export { SavedFormulas } from './FormulaEditor/SavedFormulas';
-export { AvailableVariables } from './FormulaEditor/AvailableVariables';
-
 // Scientist GeoMap Components
 export * from './GeoMap/types';
 export * from './GeoMap/locationsData';

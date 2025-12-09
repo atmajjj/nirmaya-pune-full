@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Database, FileText, Clock, CheckCircle, XCircle, RefreshCw, Trash2, Calculator, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import { toast } from "@/hooks/use-toast";
 import { formatBytes, formatDate } from "@/lib/utils";
 
 const DataSources = () => {
+  const navigate = useNavigate();
   const [dataSources, setDataSources] = useState<DataSource[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -102,17 +104,28 @@ const DataSources = () => {
     setSelectedSource(id);
     try {
       const result = await dataSourceService.calculateFromSource(id);
+      
       toast({
         title: "Calculation Complete",
-        description: `Successfully calculated ${result.successful_calculations} records from ${result.total_records} total.`,
+        description: `Successfully calculated ${result.successful_calculations} records from ${result.total_records} total. Redirecting to results...`,
       });
+
+      // Navigate to Nirmaya Engine page with calculation results
+      setTimeout(() => {
+        navigate('/scientist/nirmaya-engine', {
+          state: {
+            calculationResult: result,
+            uploadId: result.upload_id,
+            fromDataSource: true
+          }
+        });
+      }, 1000);
     } catch (error: any) {
       toast({
         title: "Calculation Failed",
         description: error?.message || "Failed to calculate HMPI indices",
         variant: "destructive",
       });
-    } finally {
       setSelectedSource(null);
     }
   };

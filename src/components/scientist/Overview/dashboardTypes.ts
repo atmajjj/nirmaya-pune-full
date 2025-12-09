@@ -42,13 +42,6 @@ export const SCIENTIST_DASHBOARDS: DashboardPage[] = [
     description: 'Heavy Metal Pollution Index calculations'
   },
   {
-    id: 'scientist-formula-editor',
-    name: 'Formula Editor',
-    path: '/scientist/formula-editor',
-    icon: 'Calculator',
-    description: 'Custom formula creation and testing'
-  },
-  {
     id: 'scientist-geo-map',
     name: 'Geo Map',
     path: '/scientist/geo-map',
