@@ -1,6 +1,6 @@
 /**
- * HMPI Report Service
- * API service for HMPI report generation and management
+ * Nirmaya Report Service
+ * API service for Nirmaya report generation and management
  */
 
 import { apiClient } from './apiClient';
@@ -11,14 +11,14 @@ import type {
   ListReportsParams,
   ListReportsResponse,
   ReportStatusResponse
-} from '@/types/hmpi-report.types';
+} from '@/types/nirmaya-report.types';
 
-const BASE_PATH = '/hmpi-report';
+const BASE_PATH = '/nirmaya-report';
 
-export const hmpiReportService = {
+export const nirmayaReportService = {
   /**
-   * Generate a new HMPI report
-   * POST /api/hmpi-report/generate
+   * Generate a new Nirmaya report
+   * POST /api/nirmaya-report/generate
    */
   generateReport: async (data: GenerateReportRequest): Promise<GenerateReportResponse> => {
     return apiClient.post<GenerateReportResponse>(`${BASE_PATH}/generate`, data);
@@ -26,7 +26,7 @@ export const hmpiReportService = {
 
   /**
    * Get report details by ID
-   * GET /api/hmpi-report/:reportId
+   * GET /api/nirmaya-report/:reportId
    */
   getReport: async (reportId: number): Promise<GetReportResponse> => {
     return apiClient.get<GetReportResponse>(`${BASE_PATH}/${reportId}`);
@@ -34,7 +34,7 @@ export const hmpiReportService = {
 
   /**
    * Get report status
-   * GET /api/hmpi-report/:reportId/status
+   * GET /api/nirmaya-report/:reportId/status
    */
   getReportStatus: async (reportId: number): Promise<ReportStatusResponse> => {
     return apiClient.get<ReportStatusResponse>(`${BASE_PATH}/${reportId}/status`);
@@ -42,7 +42,7 @@ export const hmpiReportService = {
 
   /**
    * Download report (redirects to S3 presigned URL)
-   * GET /api/hmpi-report/:reportId/download
+   * GET /api/nirmaya-report/:reportId/download
    */
   downloadReport: (reportId: number): void => {
     const token = localStorage.getItem('accessToken');
@@ -52,7 +52,7 @@ export const hmpiReportService = {
 
   /**
    * List all reports with pagination and filters
-   * GET /api/hmpi-report?page=1&limit=10&status=completed&sort_by=created_at&sort_order=desc
+   * GET /api/nirmaya-report?page=1&limit=10&status=completed&sort_by=created_at&sort_order=desc
    */
   listReports: async (params?: ListReportsParams): Promise<ListReportsResponse> => {
     return apiClient.get<ListReportsResponse>(BASE_PATH, { 
@@ -62,7 +62,7 @@ export const hmpiReportService = {
 
   /**
    * List reports by upload ID
-   * GET /api/hmpi-report/upload/:uploadId
+   * GET /api/nirmaya-report/upload/:uploadId
    */
   listReportsByUpload: async (
     uploadId: number,
@@ -88,7 +88,7 @@ export const hmpiReportService = {
       const poll = async () => {
         try {
           attempts++;
-          const response = await hmpiReportService.getReportStatus(reportId);
+          const response = await nirmayaReportService.getReportStatus(reportId);
 
           if (response.data.status === 'completed' || response.data.status === 'failed') {
             resolve(response);

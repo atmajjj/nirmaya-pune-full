@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { BarChart3, Beaker, MapPin } from "lucide-react";
-import { HMPIEngineHeader } from "@/components/scientist/HMPIEngine/HMPIEngineHeader";
-import { DataInputPanel } from "@/components/scientist/HMPIEngine/DataInputPanel";
-import { AnalysisProgress } from "@/components/scientist/HMPIEngine/AnalysisProgress";
-import { ResultsMetrics } from "@/components/scientist/HMPIEngine/ResultsMetrics";
-import { LocationResultsTable } from "@/components/scientist/HMPIEngine/LocationResultsTable";
-import type { CalculationResult } from "@/types/hmpi.types";
+import { NirmayaEngineHeader } from "@/components/scientist/NirmayaEngine/NirmayaEngineHeader";
+import { DataInputPanel } from "@/components/scientist/NirmayaEngine/DataInputPanel";
+import { AnalysisProgress } from "@/components/scientist/NirmayaEngine/AnalysisProgress";
+import { ResultsMetrics } from "@/components/scientist/NirmayaEngine/ResultsMetrics";
+import { LocationResultsTable } from "@/components/scientist/NirmayaEngine/LocationResultsTable";
+import type { CalculationResult } from "@/types/nirmaya.types";
 
-const HMPIEngine = () => {
+const NirmayaEngine = () => {
   const [uploadId, setUploadId] = useState<number | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [progress] = useState(100);
@@ -26,7 +26,7 @@ const HMPIEngine = () => {
 
   return (
     <div className="space-y-6 bg-slate-50 min-h-screen p-6">
-        <HMPIEngineHeader />
+        <NirmayaEngineHeader />
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
@@ -43,4 +43,4 @@ const HMPIEngine = () => {
   );
 };
 
-export default HMPIEngine;
+export default NirmayaEngine;

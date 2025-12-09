@@ -1,6 +1,6 @@
 /**
- * HMPI Engine Types
- * Type definitions for HMPI Engine API interactions
+ * Nirmaya Engine Types
+ * Type definitions for Nirmaya Engine API interactions
  */
 
 // CSV Preview Types
@@ -116,7 +116,7 @@ export interface GeographicCoverage {
   cities: number;
 }
 
-export interface HMPIStats {
+export interface NirmayaStats {
   total_calculations: number;
   total_uploads: number;
   hpi_stats: IndexStats;

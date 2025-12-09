@@ -23,7 +23,7 @@ const FieldTechnicianLayout = lazy(() => import("./layouts/FieldTechnicianLayout
 // Lazy-loaded pages to improve initial bundle size
 const ScientistOverview = lazy(() => import("./pages/scientist/Overview"));
 const DataSources = lazy(() => import("./pages/scientist/DataSources"));
-const HMPIEngine = lazy(() => import("./pages/scientist/HMPIEngine"));
+const NirmayaEngine = lazy(() => import("./pages/scientist/NirmayaEngine"));
 const FormulaEditor = lazy(() => import("./pages/scientist/FormulaEditor"));
 const ScientistGeoMap = lazy(() => import("./pages/scientist/GeoMap"));
 
@@ -84,7 +84,7 @@ const App = () => (
                 >
                   <Route path="overview" element={<ScientistOverview />} />
                   <Route path="data-sources" element={<DataSources />} />
-                  <Route path="hmpi-engine" element={<HMPIEngine />} />
+                  <Route path="nirmaya-engine" element={<NirmayaEngine />} />
                   <Route path="formula-editor" element={<FormulaEditor />} />
                   <Route path="geo-map" element={<ScientistGeoMap />} />
                 </Route>

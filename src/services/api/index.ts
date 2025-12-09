@@ -5,8 +5,8 @@
 export { apiClient, tokenManager, ApiError } from './apiClient';
 export { authService } from './authService';
 export { adminService } from './adminService';
-export { hmpiEngineService } from './hmpiEngineService';
-export { hmpiReportService } from './hmpiReportService';
+export { nirmayaEngineService } from './nirmayaEngineService';
+export { nirmayaReportService } from './nirmayaReportService';
 export { userService } from './userService';
 export type { User, UpdateUserData, PaginatedUsersResponse, GetUsersParams } from './userService';
 export { dataSourceService } from './dataSourceService';

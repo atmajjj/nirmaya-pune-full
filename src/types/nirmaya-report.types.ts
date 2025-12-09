@@ -1,12 +1,12 @@
 /**
- * HMPI Report Types
+ * Nirmaya Report Types
  * Based on report-api.md specification
  */
 
 export type ReportStatus = 'pending' | 'generating' | 'completed' | 'failed';
 export type ReportType = 'comprehensive' | 'summary';
 
-export interface HMPIReport {
+export interface NirmayaReport {
   id: number;
   upload_id: number;
   report_title: string;
@@ -31,7 +31,7 @@ export interface HMPIReport {
   deleted_at: string | null;
 }
 
-export interface HMPIReportListItem {
+export interface NirmayaReportListItem {
   id: number;
   upload_id: number;
   report_title: string;
@@ -68,7 +68,7 @@ export interface GenerateReportResponse {
 
 export interface GetReportResponse {
   success: boolean;
-  data: HMPIReport;
+  data: NirmayaReport;
 }
 
 export interface ReportStatusResponse {
@@ -100,7 +100,7 @@ export interface PaginationMeta {
 export interface ListReportsResponse {
   success: boolean;
   message: string;
-  data: HMPIReportListItem[];
+  data: NirmayaReportListItem[];
   meta: {
     pagination: PaginationMeta;
   };

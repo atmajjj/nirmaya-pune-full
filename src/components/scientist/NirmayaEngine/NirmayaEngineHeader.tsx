@@ -1,6 +1,6 @@
 import { Beaker } from "lucide-react";
 
-export const HMPIEngineHeader = () => {
+export const NirmayaEngineHeader = () => {
 return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-100 via-slate-50 to-blue-50 border border-slate-200/80 shadow-lg">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-purple-400/5"></div>
@@ -12,8 +12,8 @@ return (
             <Beaker className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">HMPI Engine</h1>
-            <p className="text-sm text-slate-600">Heavy Metal Pollution Index Calculator</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">Nirmaya Engine</h1>
+            <p className="text-sm text-slate-600">Water Quality Analysis Calculator</p>
           </div>
         </div>
         

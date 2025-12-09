@@ -1,6 +1,6 @@
 /**
- * HMPI Engine Service
- * API service for HMPI Engine calculations
+ * Nirmaya Engine Service
+ * API service for Nirmaya Engine calculations
  */
 
 import { apiClient } from './apiClient';
@@ -10,17 +10,17 @@ import type {
   Calculation,
   ListCalculationsParams,
   ListCalculationsResponse,
-  HMPIStats,
+  NirmayaStats,
   StatsParams,
   APIResponse,
-} from '@/types/hmpi.types';
+} from '@/types/nirmaya.types';
 
-const BASE_URL = '/hmpi-engine';
+const BASE_URL = '/nirmaya-engine';
 
 /**
- * HMPI Engine API Service
+ * Nirmaya Engine API Service
  */
-export const hmpiEngineService = {
+export const nirmayaEngineService = {
   /**
    * Preview CSV file before calculation
    * Detects available columns and shows which indices can be calculated
@@ -116,13 +116,13 @@ export const hmpiEngineService = {
   },
 
   /**
-   * Get aggregate statistics for calculations
+   * Get statistics for Nirmaya Engine
    */
-  async getStats(params?: StatsParams): Promise<APIResponse<HMPIStats>> {
-    return apiClient.get<APIResponse<HMPIStats>>(`${BASE_URL}/stats`, {
+  async getStats(params?: StatsParams): Promise<APIResponse<NirmayaStats>> {
+    return apiClient.get<APIResponse<NirmayaStats>>(`${BASE_URL}/stats`, {
       params: params as any,
     });
   },
 };
 
-export default hmpiEngineService;
+export default nirmayaEngineService;

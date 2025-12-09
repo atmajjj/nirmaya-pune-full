@@ -88,7 +88,7 @@ export const dataSourceService = {
   },
 
   /**
-   * Calculate HMPI indices from a data source
+   * Calculate Nirmaya indices from a data source
    * @param dataSourceId - Data source ID to use for calculation
    * @returns Calculation results
    */
@@ -100,7 +100,7 @@ export const dataSourceService = {
     };
 
     const response = await apiClient.post<CalculateFromSourceResponse>(
-      '/hmpi-engine/calculate-from-source',
+      '/nirmaya-engine/calculate-from-source',
       request
     );
 
