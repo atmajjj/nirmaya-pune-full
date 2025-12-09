@@ -30,7 +30,7 @@ export const Sidebar = ({ navItems, sidebarOpen, dashboardTitle }: SidebarProps)
           <img
             src="/jal-shakti-logo.png"
             alt="Jal Shakti Logo"
-            className="w-10 h-10 object-contain flex-shrink-0"
+            className="w-12 h-12 object-contain flex-shrink-0"
           />
           {sidebarOpen && (
             <div>
