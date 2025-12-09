@@ -40,19 +40,27 @@ export const geomapService = {
    * Get all geomap stations with optional filters
    */
   getStations: async (filters?: GeomapFilters): Promise<GeomapStation[]> => {
-    const params = new URLSearchParams();
-    
-    if (filters?.state) params.append('state', filters.state);
-    if (filters?.upload_id) params.append('upload_id', filters.upload_id.toString());
-    if (filters?.risk_level) params.append('risk_level', filters.risk_level);
-    if (filters?.year) params.append('year', filters.year.toString());
-    if (filters?.min_hpi !== undefined) params.append('min_hpi', filters.min_hpi.toString());
-    if (filters?.max_hpi !== undefined) params.append('max_hpi', filters.max_hpi.toString());
-    
-    const queryString = params.toString();
-    const url = `/nirmaya-engine/geomap${queryString ? `?${queryString}` : ''}`;
-    
-    const response = await apiClient.get<GeomapResponse>(url);
-    return response.data;
+    try {
+      const params = new URLSearchParams();
+      
+      if (filters?.state) params.append('state', filters.state);
+      if (filters?.upload_id) params.append('upload_id', filters.upload_id.toString());
+      if (filters?.risk_level) params.append('risk_level', filters.risk_level);
+      if (filters?.year) params.append('year', filters.year.toString());
+      if (filters?.min_hpi !== undefined) params.append('min_hpi', filters.min_hpi.toString());
+      if (filters?.max_hpi !== undefined) params.append('max_hpi', filters.max_hpi.toString());
+      
+      const queryString = params.toString();
+      const url = `/nirmaya-engine/geomap${queryString ? `?${queryString}` : ''}`;
+      
+      const response = await apiClient.get<GeomapResponse>(url);
+      return response.data;
+    } catch (error) {
+      console.error('Geomap API error:', error);
+      
+      // Return empty array if API is not available
+      // This prevents the app from crashing while backend is being developed
+      return [];
+    }
   },
 };

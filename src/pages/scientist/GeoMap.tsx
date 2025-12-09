@@ -91,6 +91,16 @@ const InteractiveGeoMap = () => {
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
+
+      {!loading && stations.length === 0 && (
+        <Alert>
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            No monitoring stations found. The geomap API endpoint may not be available yet or there's no data matching your filters.
+            {riskFilter !== 'all' && ' Try removing the risk level filter.'}
+          </AlertDescription>
+        </Alert>
+      )}
       
       <div>
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-4">

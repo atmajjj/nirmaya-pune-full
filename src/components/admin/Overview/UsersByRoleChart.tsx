@@ -30,11 +30,11 @@ const UsersByRoleChart = ({ stats, loading }: UsersByRoleChartProps) => {
   }
 
   const data = [
-    { name: 'Admin', value: stats.users.by_role.admin, color: COLORS.admin },
-    { name: 'Scientist', value: stats.users.by_role.scientist, color: COLORS.scientist },
-    { name: 'Field Technician', value: stats.users.by_role.field_technician, color: COLORS.field_technician },
-    { name: 'Researcher', value: stats.users.by_role.researcher, color: COLORS.researcher },
-    { name: 'Policymaker', value: stats.users.by_role.policymaker, color: COLORS.policymaker },
+    { name: 'Admin', value: stats?.users?.by_role?.admin ?? 0, color: COLORS.admin },
+    { name: 'Scientist', value: stats?.users?.by_role?.scientist ?? 0, color: COLORS.scientist },
+    { name: 'Field Technician', value: stats?.users?.by_role?.field_technician ?? 0, color: COLORS.field_technician },
+    { name: 'Researcher', value: stats?.users?.by_role?.researcher ?? 0, color: COLORS.researcher },
+    { name: 'Policymaker', value: stats?.users?.by_role?.policymaker ?? 0, color: COLORS.policymaker },
   ].filter(item => item.value > 0);
 
   return (
@@ -42,7 +42,7 @@ const UsersByRoleChart = ({ stats, loading }: UsersByRoleChartProps) => {
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Users by Role Distribution</CardTitle>
         <p className="text-sm text-slate-600 mt-1">
-          Total: {stats.overview.total_users.toLocaleString()} users
+          Total: {stats?.overview?.total_users?.toLocaleString() ?? 0} users
         </p>
       </CardHeader>
       <CardContent>

@@ -28,9 +28,9 @@ const DataSourcesChart = ({ stats, loading }: DataSourcesChartProps) => {
   }
 
   const data = [
-    { name: 'CSV', value: stats.data_sources.by_file_type.csv, color: COLORS.csv },
-    { name: 'XLSX', value: stats.data_sources.by_file_type.xlsx, color: COLORS.xlsx },
-    { name: 'XLS', value: stats.data_sources.by_file_type.xls, color: COLORS.xls },
+    { name: 'CSV', value: stats?.data_sources?.by_file_type?.csv ?? 0, color: COLORS.csv },
+    { name: 'XLSX', value: stats?.data_sources?.by_file_type?.xlsx ?? 0, color: COLORS.xlsx },
+    { name: 'XLS', value: stats?.data_sources?.by_file_type?.xls ?? 0, color: COLORS.xls },
   ].filter(item => item.value > 0);
 
   return (
@@ -38,7 +38,7 @@ const DataSourcesChart = ({ stats, loading }: DataSourcesChartProps) => {
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Data Sources by File Type</CardTitle>
         <p className="text-sm text-slate-600 mt-1">
-          Total: {stats.data_sources.total.toLocaleString()} files ({stats.data_sources.total_size_mb.toFixed(1)} MB)
+          Total: {stats?.data_sources?.total?.toLocaleString() ?? 0} files ({(stats?.data_sources?.total_size_mb ?? 0).toFixed(1)} MB)
         </p>
       </CardHeader>
       <CardContent>

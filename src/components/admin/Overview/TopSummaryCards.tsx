@@ -19,8 +19,8 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
   const cards = [
     {
       title: "Total Users",
-      value: stats?.overview.total_users ?? 0,
-      subtitle: `${stats?.users.active_users ?? 0} active`,
+      value: stats?.overview?.total_users ?? 0,
+      subtitle: `${stats?.users?.active_users ?? 0} active`,
       icon: Users,
       gradient: "from-blue-500 to-cyan-500",
       bgColor: "bg-blue-50",
@@ -29,7 +29,7 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
     },
     {
       title: "Scientists",
-      value: stats?.users.by_role.scientist ?? 0,
+      value: stats?.users?.by_role?.scientist ?? 0,
       subtitle: "Role users",
       icon: Beaker,
       gradient: "from-purple-500 to-pink-500",
@@ -39,7 +39,7 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
     },
     {
       title: "Researchers",
-      value: stats?.users.by_role.researcher ?? 0,
+      value: stats?.users?.by_role?.researcher ?? 0,
       subtitle: "Role users",
       icon: Shield,
       gradient: "from-green-500 to-emerald-500",
@@ -49,8 +49,8 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
     },
     {
       title: "Calculations",
-      value: stats?.overview.total_calculations ?? 0,
-      subtitle: `${stats?.calculations.recent_calculations ?? 0} recent`,
+      value: stats?.overview?.total_calculations ?? 0,
+      subtitle: `${stats?.calculations?.recent_calculations ?? 0} recent`,
       icon: Calculator,
       gradient: "from-orange-500 to-red-500",
       bgColor: "bg-orange-50",
@@ -59,8 +59,8 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
     },
     {
       title: "Data Sources",
-      value: stats?.overview.total_data_sources ?? 0,
-      subtitle: formatSize(stats?.data_sources.total_size_mb ?? 0),
+      value: stats?.overview?.total_data_sources ?? 0,
+      subtitle: formatSize(stats?.data_sources?.total_size_mb ?? 0),
       icon: Database,
       gradient: "from-teal-500 to-cyan-500",
       bgColor: "bg-teal-50",
@@ -69,8 +69,8 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
     },
     {
       title: "Reports",
-      value: stats?.overview.total_reports ?? 0,
-      subtitle: `${stats?.reports.recent_reports ?? 0} recent`,
+      value: stats?.overview?.total_reports ?? 0,
+      subtitle: `${stats?.reports?.recent_reports ?? 0} recent`,
       icon: FileText,
       gradient: "from-indigo-500 to-purple-500",
       bgColor: "bg-indigo-50",
@@ -79,8 +79,8 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
     },
     {
       title: "Total Uploads",
-      value: stats?.overview.total_uploads ?? 0,
-      subtitle: formatSize(stats?.uploads.total_size_mb ?? 0),
+      value: stats?.overview?.total_uploads ?? 0,
+      subtitle: formatSize(stats?.uploads?.total_size_mb ?? 0),
       icon: HardDrive,
       gradient: "from-amber-500 to-orange-500",
       bgColor: "bg-amber-50",
@@ -89,8 +89,8 @@ const TopSummaryCards = ({ stats, loading }: TopSummaryCardsProps) => {
     },
     {
       title: "Custom Formulas",
-      value: stats?.overview.total_formulas ?? 0,
-      subtitle: `${stats?.formulas.active_formulas ?? 0} active`,
+      value: stats?.overview?.total_formulas ?? 0,
+      subtitle: `${stats?.formulas?.active_formulas ?? 0} active`,
       icon: Activity,
       gradient: "from-pink-500 to-rose-500",
       bgColor: "bg-pink-50",

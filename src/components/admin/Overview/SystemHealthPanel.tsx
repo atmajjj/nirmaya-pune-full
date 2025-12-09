@@ -66,7 +66,7 @@ const SystemHealthPanel = ({ stats, loading }: SystemHealthPanelProps) => {
       <CardHeader>
         <CardTitle className="text-lg font-semibold">System Health</CardTitle>
         <p className="text-sm text-slate-600 mt-1">
-          Environment: {stats.system.environment} • API: v{stats.system.api_version}
+          Environment: {stats?.system?.environment ?? 'N/A'} • API: v{stats?.system?.api_version ?? 'N/A'}
         </p>
       </CardHeader>
       <CardContent>
@@ -83,8 +83,8 @@ const SystemHealthPanel = ({ stats, loading }: SystemHealthPanelProps) => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {getStatusIcon(stats.system.database_status)}
-              {getStatusBadge(stats.system.database_status)}
+              {getStatusIcon(stats?.system?.database_status ?? 'down')}
+              {getStatusBadge(stats?.system?.database_status ?? 'down')}
             </div>
           </div>
 
@@ -100,8 +100,8 @@ const SystemHealthPanel = ({ stats, loading }: SystemHealthPanelProps) => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {getStatusIcon(stats.system.redis_status)}
-              {getStatusBadge(stats.system.redis_status)}
+              {getStatusIcon(stats?.system?.redis_status ?? 'down')}
+              {getStatusBadge(stats?.system?.redis_status ?? 'down')}
             </div>
           </div>
         </div>

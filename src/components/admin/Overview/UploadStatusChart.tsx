@@ -29,10 +29,10 @@ const UploadStatusChart = ({ stats, loading }: UploadStatusChartProps) => {
   }
 
   const data = [
-    { name: 'Completed', value: stats.uploads.by_status.completed, color: COLORS.completed },
-    { name: 'Pending', value: stats.uploads.by_status.pending, color: COLORS.pending },
-    { name: 'Processing', value: stats.uploads.by_status.processing, color: COLORS.processing },
-    { name: 'Failed', value: stats.uploads.by_status.failed, color: COLORS.failed },
+    { name: 'Completed', value: stats?.uploads?.by_status?.completed ?? 0, color: COLORS.completed },
+    { name: 'Pending', value: stats?.uploads?.by_status?.pending ?? 0, color: COLORS.pending },
+    { name: 'Processing', value: stats?.uploads?.by_status?.processing ?? 0, color: COLORS.processing },
+    { name: 'Failed', value: stats?.uploads?.by_status?.failed ?? 0, color: COLORS.failed },
   ].filter(item => item.value > 0);
 
   return (
@@ -40,7 +40,7 @@ const UploadStatusChart = ({ stats, loading }: UploadStatusChartProps) => {
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Upload Status Distribution</CardTitle>
         <p className="text-sm text-slate-600 mt-1">
-          Total: {stats.uploads.total.toLocaleString()} uploads ({stats.uploads.total_size_mb.toFixed(1)} MB)
+          Total: {stats?.uploads?.total?.toLocaleString() ?? 0} uploads ({(stats?.uploads?.total_size_mb ?? 0).toFixed(1)} MB)
         </p>
       </CardHeader>
       <CardContent>

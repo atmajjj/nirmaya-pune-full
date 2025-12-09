@@ -22,11 +22,11 @@ const CalculationsByIndexChart = ({ stats, loading }: CalculationsByIndexChartPr
   }
 
   const data = [
-    { name: 'HPI', value: stats.calculations.by_index.hpi, fullName: 'Health Pollution Index' },
-    { name: 'MI', value: stats.calculations.by_index.mi, fullName: 'Metal Index' },
-    { name: 'CDEG', value: stats.calculations.by_index.cdeg, fullName: 'Contamination Degree' },
-    { name: 'HEI', value: stats.calculations.by_index.hei, fullName: 'Heavy Metal Evaluation Index' },
-    { name: 'PIG', value: stats.calculations.by_index.pig, fullName: 'Pollution Index of Groundwater' },
+    { name: 'HPI', value: stats?.calculations?.by_index?.hpi ?? 0, fullName: 'Health Pollution Index' },
+    { name: 'MI', value: stats?.calculations?.by_index?.mi ?? 0, fullName: 'Metal Index' },
+    { name: 'CDEG', value: stats?.calculations?.by_index?.cdeg ?? 0, fullName: 'Contamination Degree' },
+    { name: 'HEI', value: stats?.calculations?.by_index?.hei ?? 0, fullName: 'Heavy Metal Evaluation Index' },
+    { name: 'PIG', value: stats?.calculations?.by_index?.pig ?? 0, fullName: 'Pollution Index of Groundwater' },
   ];
 
   return (
@@ -34,7 +34,7 @@ const CalculationsByIndexChart = ({ stats, loading }: CalculationsByIndexChartPr
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Calculations by Water Quality Index</CardTitle>
         <p className="text-sm text-slate-600 mt-1">
-          Total: {stats.calculations.total.toLocaleString()} calculations
+          Total: {stats?.calculations?.total?.toLocaleString() ?? 0} calculations
         </p>
       </CardHeader>
       <CardContent>
