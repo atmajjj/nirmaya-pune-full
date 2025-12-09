@@ -155,7 +155,6 @@ export interface SystemStats {
     by_index: {
       hpi: number;
       mi: number;
-      wqi: number;
       cdeg: number;
       hei: number;
       pig: number;

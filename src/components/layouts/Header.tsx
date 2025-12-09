@@ -32,6 +32,7 @@ interface HeaderProps {
   userInfo: UserInfo;
   onToggleSidebar: () => void;
   onLogout: () => void;
+  dashboardTitle?: string;
 }
 
 // TypeScript declarations for Google Translate
@@ -61,7 +62,7 @@ declare global {
 // Reusable class constants for header elements
 const headerButtonClass = "text-brand-surface hover:bg-brand-secondary/20 hover:text-brand-accent focus:bg-brand-secondary/20 transition-all duration-200";
 
-export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => {
+export const Header = ({ userInfo, onToggleSidebar, onLogout, dashboardTitle }: HeaderProps) => {
   const navigate = useNavigate();
 
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
@@ -125,8 +126,7 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout }: HeaderProps) => 
         </Button>
         
         <div className="flex flex-col">
-          <h1 className="text-xl font-bold tracking-wide text-white">Nirmaya</h1>
-          <p className="text-sm font-medium text-brand-muted">Heavy Metal Monitoring</p>
+          <h1 className="text-xl font-bold tracking-wide text-white">{dashboardTitle || 'Nirmaya'}</h1>
         </div>
       </div>
 

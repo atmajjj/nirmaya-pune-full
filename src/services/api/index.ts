@@ -10,6 +10,10 @@ export { nirmayaReportService } from './nirmayaReportService';
 export { userService } from './userService';
 export type { User, UpdateUserData, PaginatedUsersResponse, GetUsersParams } from './userService';
 export { dataSourceService } from './dataSourceService';
+export { standardsService } from './standardsService';
+export type { MetalStandard, UpdateMetalStandardRequest } from './standardsService';
+export { geomapService } from './geomapService';
+export type { GeomapStation, GeomapFilters } from './geomapService';
 
 export { chatbotService } from './chatbotService';
 export { researcherApplicationService } from './researcherApplicationService';

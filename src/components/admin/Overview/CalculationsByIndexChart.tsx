@@ -24,7 +24,6 @@ const CalculationsByIndexChart = ({ stats, loading }: CalculationsByIndexChartPr
   const data = [
     { name: 'HPI', value: stats.calculations.by_index.hpi, fullName: 'Health Pollution Index' },
     { name: 'MI', value: stats.calculations.by_index.mi, fullName: 'Metal Index' },
-    { name: 'WQI', value: stats.calculations.by_index.wqi, fullName: 'Water Quality Index' },
     { name: 'CDEG', value: stats.calculations.by_index.cdeg, fullName: 'Contamination Degree' },
     { name: 'HEI', value: stats.calculations.by_index.hei, fullName: 'Heavy Metal Evaluation Index' },
     { name: 'PIG', value: stats.calculations.by_index.pig, fullName: 'Pollution Index of Groundwater' },

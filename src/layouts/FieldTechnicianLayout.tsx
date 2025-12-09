@@ -7,7 +7,7 @@ const FieldTechnicianLayout = () => {
   const navItems = getNavItemsForRole("field_technician");
 
   return (
-    <DashboardLayout navItems={navItems} userRole="field_technician">
+    <DashboardLayout navItems={navItems} userRole="field_technician" dashboardTitle="Field Technician Dashboard">
       <Outlet />
       <NIRAChatbot />
     </DashboardLayout>

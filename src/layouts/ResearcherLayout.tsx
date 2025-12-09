@@ -7,7 +7,7 @@ const ResearcherLayout = () => {
   const navItems = getNavItemsForRole("researcher");
   
   return (
-    <DashboardLayout navItems={navItems} userRole="researcher">
+    <DashboardLayout navItems={navItems} userRole="researcher" dashboardTitle="Researcher Dashboard">
       <Outlet />
       <NIRAChatbot />
     </DashboardLayout>

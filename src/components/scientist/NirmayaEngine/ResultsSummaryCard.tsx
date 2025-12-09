@@ -58,20 +58,6 @@ export const ResultsSummaryCard = ({ result }: ResultsSummaryCardProps) => {
           </div>
         )}
 
-        {/* WQI Parameters */}
-        {result.wqi_params_analyzed && result.wqi_params_analyzed.length > 0 && (
-          <div>
-            <h3 className="text-sm font-semibold text-slate-700 mb-2">WQI Parameters Analyzed</h3>
-            <div className="flex flex-wrap gap-2">
-              {result.wqi_params_analyzed.map((param, i) => (
-                <Badge key={i} variant="secondary" className="text-xs">
-                  {param}
-                </Badge>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Errors */}
         {result.errors && result.errors.length > 0 && (
           <Alert variant="destructive">

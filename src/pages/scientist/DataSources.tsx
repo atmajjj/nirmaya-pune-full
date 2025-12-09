@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Database, FileText, Clock, CheckCircle, XCircle, RefreshCw, Trash2, Calculator, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,7 @@ import { toast } from "@/hooks/use-toast";
 import { formatBytes, formatDate } from "@/lib/utils";
 
 const DataSources = () => {
+  const navigate = useNavigate();
   const [dataSources, setDataSources] = useState<DataSource[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -50,7 +52,7 @@ const DataSources = () => {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error?.message || "Failed to load data sources",
+        description: error?.message || "Failed to load field data",
         variant: "destructive",
       });
     } finally {
@@ -102,17 +104,28 @@ const DataSources = () => {
     setSelectedSource(id);
     try {
       const result = await dataSourceService.calculateFromSource(id);
+      
       toast({
         title: "Calculation Complete",
-        description: `Successfully calculated ${result.successful_calculations} records from ${result.total_records} total.`,
+        description: `Successfully calculated ${result.successful_calculations} records from ${result.total_records} total. Redirecting to results...`,
       });
+
+      // Navigate to Nirmaya Engine page with calculation results
+      setTimeout(() => {
+        navigate('/scientist/nirmaya-engine', {
+          state: {
+            calculationResult: result,
+            uploadId: result.upload_id,
+            fromDataSource: true
+          }
+        });
+      }, 1000);
     } catch (error: any) {
       toast({
         title: "Calculation Failed",
         description: error?.message || "Failed to calculate HMPI indices",
         variant: "destructive",
       });
-    } finally {
       setSelectedSource(null);
     }
   };
@@ -148,8 +161,8 @@ const DataSources = () => {
               <Database className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-800 mb-1">Data Sources</h1>
-              <p className="text-sm text-slate-600">Manage and process uploaded water quality datasets</p>
+              <h1 className="text-2xl font-bold text-slate-800 mb-1">Field Data</h1>
+              <p className="text-sm text-slate-600">Manage and process water quality datasets from field technicians</p>
             </div>
           </div>
         </div>
@@ -198,9 +211,6 @@ const DataSources = () => {
 
       {/* Data Table */}
       <Card className="bg-white border-slate-200">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Uploaded Data Sources</CardTitle>
-        </CardHeader>
         <CardContent>
           {loading ? (
             <div className="flex items-center justify-center py-12">
@@ -209,7 +219,7 @@ const DataSources = () => {
           ) : dataSources.length === 0 ? (
             <div className="text-center py-12">
               <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-600">No data sources found</p>
+              <p className="text-slate-600">No field data found</p>
             </div>
           ) : (
             <>
@@ -222,7 +232,6 @@ const DataSources = () => {
                       <TableHead>Uploaded By</TableHead>
                       <TableHead>Size</TableHead>
                       <TableHead>Records</TableHead>
-                      <TableHead>Stations</TableHead>
                       <TableHead>Date</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -249,9 +258,6 @@ const DataSources = () => {
                         <TableCell>
                           {source.metadata?.total_rows ? source.metadata.total_rows.toLocaleString() : "-"}
                         </TableCell>
-                        <TableCell>
-                          {source.metadata?.stations?.length || "-"}
-                        </TableCell>
                         <TableCell className="text-sm">{formatDate(source.created_at)}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
@@ -260,7 +266,7 @@ const DataSources = () => {
                                 size="sm"
                                 onClick={() => handleCalculate(source.id)}
                                 disabled={selectedSource === source.id}
-                                className="bg-blue-600 hover:bg-blue-700"
+                                className="bg-brand hover:bg-brand-secondary"
                               >
                                 {selectedSource === source.id ? (
                                   <RefreshCw className="w-4 h-4 animate-spin" />

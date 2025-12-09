@@ -140,7 +140,6 @@ export interface CalculationResult {
   date: string;
   hpi: number;
   mi: number;
-  wqi: number;
   classification: string;
   parameters_used: number;
   missing_parameters: string[];

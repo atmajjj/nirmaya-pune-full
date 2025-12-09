@@ -129,25 +129,6 @@ export const CalculationDetailView = ({ calculation }: CalculationDetailViewProp
               {calculation.mi_class || calculation.mi_classification || 'N/A'}
             </Badge>
           </div>
-
-          {/* WQI Card */}
-          <div className="p-4 bg-teal-50 rounded-lg border border-teal-200">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <Gauge className="w-5 h-5 text-teal-600" />
-                <h3 className="text-sm font-semibold text-slate-700">WQI</h3>
-              </div>
-            </div>
-            <p className="text-3xl font-bold text-teal-900 mb-2">
-              {calculation.wqi ? calculation.wqi.toFixed(2) : 'N/A'}
-            </p>
-            <Badge
-              variant="outline"
-              className={`text-xs font-semibold border-0 ${getClassificationColor(calculation.wqi_classification)}`}
-            >
-              {calculation.wqi_classification || 'N/A'}
-            </Badge>
-          </div>
         </div>
 
         {/* Analyzed Parameters */}
@@ -161,21 +142,6 @@ export const CalculationDetailView = ({ calculation }: CalculationDetailViewProp
                 {calculation.metals_analyzed.map((metal, i) => (
                   <Badge key={i} variant="secondary" className="text-xs">
                     {metal}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          {calculation.wqi_params_analyzed && calculation.wqi_params_analyzed.length > 0 && (
-            <div>
-              <h3 className="text-sm font-semibold text-slate-700 mb-2">
-                WQI Parameters ({calculation.wqi_params_analyzed.length})
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {calculation.wqi_params_analyzed.map((param, i) => (
-                  <Badge key={i} variant="secondary" className="text-xs">
-                    {param}
                   </Badge>
                 ))}
               </div>

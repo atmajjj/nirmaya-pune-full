@@ -15,6 +15,7 @@ interface DashboardLayoutProps {
   children: ReactNode;
   navItems: NavItem[];
   userRole: string;
+  dashboardTitle?: string;
 }
 
 // User info based on role
@@ -71,7 +72,7 @@ const getDashboardTitle = (userRole: string): string => {
   return titles[userRole] || 'Dashboard';
 };
 
-const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps) => {
+const DashboardLayout = ({ children, navItems, userRole, dashboardTitle }: DashboardLayoutProps) => {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
   
@@ -93,7 +94,7 @@ const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps)
     initials: user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
   } : defaultUserInfo;
   
-  const dashboardTitle = getDashboardTitle(userRole);
+  const finalDashboardTitle = dashboardTitle || getDashboardTitle(userRole);
 
   const handleLogout = async () => {
     const userName = user?.name || 'User';
@@ -120,7 +121,6 @@ const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps)
       <Sidebar 
         navItems={navItems} 
         sidebarOpen={sidebarOpen} 
-        dashboardTitle={dashboardTitle} 
       />
 
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -128,6 +128,7 @@ const DashboardLayout = ({ children, navItems, userRole }: DashboardLayoutProps)
           userInfo={userInfo}
           onToggleSidebar={handleToggleSidebar}
           onLogout={handleLogout}
+          dashboardTitle={finalDashboardTitle}
         />
 
         <main className="flex-1 overflow-y-auto p-6">

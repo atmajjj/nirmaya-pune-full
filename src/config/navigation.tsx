@@ -1,8 +1,8 @@
 import { 
   BarChart3, Database, BookOpen, Map, Settings, 
   Users, FileCheck, MessageCircle, UserPlus,
-  Activity, Calculator, Edit, Brain,
-  Bell, FileText, TrendingUp, Zap, Upload, History
+  Activity, Edit, Brain,
+  Bell, FileText, TrendingUp, Zap, Upload, History, Gauge
 } from "lucide-react";
 
 export const NAVIGATION_ITEMS = {
@@ -16,9 +16,9 @@ export const NAVIGATION_ITEMS = {
   ],
   scientist: [
     { title: "Overview", path: "/scientist/overview", icon: <BarChart3 className="w-5 h-5" /> },
-    { title: "Data Sources", path: "/scientist/data-sources", icon: <Database className="w-5 h-5" /> },
+    { title: "Field Data", path: "/scientist/data-sources", icon: <Database className="w-5 h-5" /> },
     { title: "Nirmaya Engine", path: "/scientist/nirmaya-engine", icon: <Brain className="w-5 h-5" /> },
-    { title: "Formula Editor", path: "/scientist/formula-editor", icon: <Calculator className="w-5 h-5" /> },
+    { title: "Standards", path: "/scientist/standards", icon: <Gauge className="w-5 h-5" /> },
     { title: "Geo Map", path: "/scientist/geo-map", icon: <Map className="w-5 h-5" /> },
     { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ],

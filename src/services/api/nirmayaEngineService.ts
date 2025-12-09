@@ -36,7 +36,7 @@ export const nirmayaEngineService = {
   },
 
   /**
-   * Calculate HPI, MI, and WQI indices from CSV file
+   * Calculate HPI and MI indices from CSV file
    */
   async calculateIndices(file: File): Promise<APIResponse<CalculationResult>> {
     const formData = new FormData();
@@ -45,6 +45,24 @@ export const nirmayaEngineService = {
     return apiClient.post<APIResponse<CalculationResult>>(
       `${BASE_URL}/calculate`,
       formData
+    );
+  },
+
+  /**
+   * Calculate indices from manual entry data
+   */
+  async calculateManual(data: {
+    station_id: string;
+    state?: string;
+    city?: string;
+    latitude?: number;
+    longitude?: number;
+    metals?: Record<string, number>;
+    save_to_database?: boolean;
+  }): Promise<APIResponse<any>> {
+    return apiClient.post<APIResponse<any>>(
+      `${BASE_URL}/calculate-manual`,
+      data
     );
   },
 
