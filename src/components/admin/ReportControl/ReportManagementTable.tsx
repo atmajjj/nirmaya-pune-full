@@ -6,11 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { HMPIReportListItem, ReportStatus } from "@/types/hmpi-report.types";
+import type { NirmayaReportListItem, ReportStatus } from "@/types/nirmaya-report.types";
 import { formatBytes, formatDate } from "@/lib/utils";
 
 interface ReportManagementTableProps {
-  reports: HMPIReportListItem[];
+  reports: NirmayaReportListItem[];
   searchTerm: string;
   onSearchChange: (value: string) => void;
   statusFilter: ReportStatus | "all";

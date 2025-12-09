@@ -5,10 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Database, Upload, PenTool, Loader2, CheckCircle, AlertCircle } from "lucide-react";
-import { hmpiEngineService } from "@/services/api";
+import { Upload, PenTool, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { nirmayaEngineService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
-import type { CSVPreviewResult, CalculationResult } from "@/types/hmpi.types";
+import type { CSVPreviewResult, CalculationResult } from "@/types/nirmaya.types";
 
 interface DataInputPanelProps {
   onUploadComplete?: (result: CalculationResult) => void;
@@ -18,9 +18,7 @@ interface DataInputPanelProps {
 export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInputPanelProps) => {
   const [formData, setFormData] = useState({ location: '', As: '', Cr: '', Pb: '', Cd: '' });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<CSVPreviewResult | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [isPreviewing, setIsPreviewing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -49,30 +47,6 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
     }
 
     setSelectedFile(file);
-    setPreview(null);
-
-    // Auto-preview the file
-    setIsPreviewing(true);
-    try {
-      const response = await hmpiEngineService.previewCSV(file);
-      if (response.success) {
-        setPreview(response.data);
-        onPreviewComplete?.(response.data);
-        toast({
-          title: "Preview complete",
-          description: response.message,
-        });
-      }
-    } catch (error) {
-      console.error('Preview error:', error);
-      toast({
-        title: "Preview failed",
-        description: error instanceof Error ? error.message : "Failed to preview file",
-        variant: "destructive",
-      });
-    } finally {
-      setIsPreviewing(false);
-    }
   };
 
   const handleCalculate = async () => {
@@ -87,7 +61,7 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
 
     setIsUploading(true);
     try {
-      const response = await hmpiEngineService.calculateIndices(selectedFile);
+      const response = await nirmayaEngineService.calculateIndices(selectedFile);
       if (response.success) {
         onUploadComplete?.(response.data);
         toast({
@@ -97,7 +71,6 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
         
         // Clear file after successful calculation
         setSelectedFile(null);
-        setPreview(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
@@ -121,12 +94,8 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
         <p className="text-sm text-slate-500 mt-1">Select Input Method</p>
       </CardHeader>
       <CardContent className="p-6">
-        <Tabs defaultValue="database" className="w-full">
-          <TabsList className="grid grid-cols-3 w-full mb-6">
-            <TabsTrigger value="database" className="flex items-center gap-2">
-              <Database className="w-4 h-4" />
-              Database
-            </TabsTrigger>
+        <Tabs defaultValue="upload" className="w-full">
+          <TabsList className="grid grid-cols-2 w-full mb-6">
             <TabsTrigger value="upload" className="flex items-center gap-2">
               <Upload className="w-4 h-4" />
               Upload
@@ -136,17 +105,6 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
               Manual
             </TabsTrigger>
           </TabsList>
-
-          <TabsContent value="database" className="space-y-4">
-            <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg">
-              <p className="text-sm text-slate-600 mb-3">Select Database</p>
-              <select className="w-full p-2 border border-slate-300 rounded-lg text-sm">
-                <option>Cgwb Database</option>
-                <option>Regional Database</option>
-                <option>Research Archive</option>
-              </select>
-            </div>
-          </TabsContent>
 
           <TabsContent value="upload" className="space-y-4">
             <div className="p-8 bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg text-center">
@@ -159,22 +117,15 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
                 accept=".csv"
                 onChange={handleFileSelect}
                 className="hidden"
-                disabled={isUploading || isPreviewing}
+                disabled={isUploading}
               />
               <Button 
                 variant="outline" 
                 size="sm" 
                 onClick={() => fileInputRef.current?.click()}
-                disabled={isUploading || isPreviewing}
+                disabled={isUploading}
               >
-                {isPreviewing ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Previewing...
-                  </>
-                ) : (
-                  'Choose File'
-                )}
+                Choose File
               </Button>
             </div>
 
@@ -187,79 +138,21 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
               </Alert>
             )}
 
-            {preview && (
-              <div className="space-y-3">
-                <Alert>
-                  <AlertDescription>
-                    <div className="space-y-2">
-                      <p><strong>Rows:</strong> {preview.valid_rows || 0} valid / {preview.total_rows || 0} total</p>
-                      <p><strong>Station ID Column:</strong> {preview.detected_columns?.station_id || 'Not found'}</p>
-                    </div>
-                  </AlertDescription>
-                </Alert>
-
-                <div className="grid grid-cols-3 gap-2">
-                  <div className={`p-3 rounded-lg border ${preview.available_calculations?.hpi?.available ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                    <p className="text-xs font-semibold mb-1">HPI</p>
-                    <p className="text-xs">
-                      {preview.available_calculations?.hpi?.available ? (
-                        <>✅ {preview.available_calculations.hpi.metals_found?.length || 0} metals</>
-                      ) : (
-                        <>❌ Not available</>
-                      )}
-                    </p>
-                  </div>
-                  <div className={`p-3 rounded-lg border ${preview.available_calculations?.mi?.available ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                    <p className="text-xs font-semibold mb-1">MI</p>
-                    <p className="text-xs">
-                      {preview.available_calculations?.mi?.available ? (
-                        <>✅ {preview.available_calculations.mi.metals_found?.length || 0} metals</>
-                      ) : (
-                        <>❌ Not available</>
-                      )}
-                    </p>
-                  </div>
-                  <div className={`p-3 rounded-lg border ${preview.available_calculations?.wqi?.available ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'}`}>
-                    <p className="text-xs font-semibold mb-1">WQI</p>
-                    <p className="text-xs">
-                      {preview.available_calculations?.wqi?.available ? (
-                        <>✅ {preview.available_calculations.wqi.params_found?.length || 0} params</>
-                      ) : (
-                        <>❌ Not available</>
-                      )}
-                    </p>
-                  </div>
-                </div>
-
-                {preview.warnings && preview.warnings.length > 0 && (
-                  <Alert variant="destructive">
-                    <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
-                      <p className="font-semibold mb-1">Warnings:</p>
-                      <ul className="list-disc list-inside text-xs">
-                        {preview.warnings.map((warning, i) => (
-                          <li key={i}>{warning}</li>
-                        ))}
-                      </ul>
-                    </AlertDescription>
-                  </Alert>
+            {selectedFile && (
+              <Button 
+                className="w-full bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                onClick={handleCalculate}
+                disabled={isUploading}
+              >
+                {isUploading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Calculating Indices...
+                  </>
+                ) : (
+                  'Calculate HPI, MI & WQI'
                 )}
-
-                <Button 
-                  className="w-full bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300"
-                  onClick={handleCalculate}
-                  disabled={isUploading}
-                >
-                  {isUploading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Calculating Indices...
-                    </>
-                  ) : (
-                    'Calculate HPI, MI & WQI'
-                  )}
-                </Button>
-              </div>
+              </Button>
             )}
           </TabsContent>
 
