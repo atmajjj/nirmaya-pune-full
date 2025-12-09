@@ -10,6 +10,10 @@ export interface DetectedColumns {
   longitude: string | null;
   state: string | null;
   city: string | null;
+  sno?: string | null;
+  district?: string | null;
+  location?: string | null;
+  year?: string | null;
 }
 
 export interface AvailableCalculation {
@@ -37,10 +41,14 @@ export interface CSVPreviewResult {
 export interface Calculation {
   id: number;
   upload_id: number;
+  sno?: number | null;
   station_id: string;
-  latitude: number | null;
-  longitude: number | null;
   state: string | null;
+  district?: string | null;
+  location?: string | null;
+  longitude: number | null;
+  latitude: number | null;
+  year?: number | null;
   city: string | null;
   hpi: number | null;
   hpi_classification: string | null;
@@ -68,6 +76,14 @@ export interface CalculationResult {
   failed_stations: number;
   calculations: Calculation[];
   errors: CalculationError[];
+  available_indices?: {
+    hpi: boolean;
+    mi: boolean;
+    wqi: boolean;
+  };
+  metals_analyzed?: string[];
+  wqi_params_analyzed?: string[];
+  warnings?: string[];
 }
 
 // List Calculations Types
@@ -76,7 +92,9 @@ export interface ListCalculationsParams {
   limit?: number;
   upload_id?: number;
   state?: string;
+  district?: string;
   city?: string;
+  year?: number;
   hpi_min?: number;
   hpi_max?: number;
   mi_min?: number;
@@ -95,7 +113,7 @@ export interface PaginationInfo {
 }
 
 export interface ListCalculationsResponse {
-  calculations: Calculation[];
+  data: Calculation[];
   pagination: PaginationInfo;
 }
 

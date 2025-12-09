@@ -53,10 +53,20 @@ export const nirmayaEngineService = {
    */
   async listCalculations(
     params: ListCalculationsParams = {}
-  ): Promise<APIResponse<Calculation[]>> {
-    return apiClient.get<APIResponse<Calculation[]>>(`${BASE_URL}/calculations`, {
+  ): Promise<ListCalculationsResponse> {
+    const response = await apiClient.get<{
+      success: boolean;
+      message: string;
+      data: Calculation[];
+      pagination: PaginationInfo;
+    }>(`${BASE_URL}/calculations`, {
       params: params as any,
     });
+
+    return {
+      data: response.data || [],
+      pagination: response.pagination || { page: 1, limit: 10, total: 0, total_pages: 0 },
+    };
   },
 
   /**
@@ -65,13 +75,15 @@ export const nirmayaEngineService = {
   async getCalculation(
     id: number,
     includeAnalysis: boolean = false
-  ): Promise<APIResponse<Calculation>> {
-    return apiClient.get<APIResponse<Calculation>>(
+  ): Promise<Calculation> {
+    const response = await apiClient.get<APIResponse<Calculation>>(
       `${BASE_URL}/calculations/${id}`,
       {
         params: { include_analysis: includeAnalysis },
       }
     );
+
+    return response.data;
   },
 
   /**

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { nirmayaReportService } from "@/services/api";
-import type { HMPIReportListItem, ReportStatus } from "@/types/hmpi-report.types";
+import type { NirmayaReportListItem, ReportStatus } from "@/types/nirmaya-report.types";
 import ReportControlHeader from "@/components/admin/ReportControl/ReportControlHeader";
 import ReportStatsCards from "@/components/admin/ReportControl/ReportStatsCards";
 import ReportManagementTable from "@/components/admin/ReportControl/ReportManagementTable";
@@ -8,7 +8,7 @@ import { showErrorToast } from "@/lib/toast-utils";
 import { Loader2 } from "lucide-react";
 
 const ReportControl = () => {
-  const [reports, setReports] = useState<HMPIReportListItem[]>([]);
+  const [reports, setReports] = useState<NirmayaReportListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<ReportStatus | "all">("all");
