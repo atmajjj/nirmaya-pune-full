@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Calendar, Users, Eye, TrendingUp, Target } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { MapPin, Calendar, Users, Eye, TrendingUp, Target, X, AlertTriangle, Droplet, Shield } from "lucide-react";
 import { RiskAlert } from "./types";
 
 interface RiskAlertsListProps {
@@ -49,7 +51,15 @@ const getStatusColor = (status: string) => {
 };
 
 const RiskAlertsList = ({ alerts, onAlertClick }: RiskAlertsListProps) => {
+  const [selectedAlert, setSelectedAlert] = useState<RiskAlert | null>(null);
+
+  const handleAlertClick = (alert: RiskAlert) => {
+    setSelectedAlert(alert);
+    onAlertClick(alert.id);
+  };
+
 return (
+    <>
     <Card className="bg-white border border-slate-200 shadow-lg rounded-2xl">
       <CardHeader className="border-b border-slate-100 pb-6">
         <div className="flex items-center justify-between">
@@ -65,21 +75,21 @@ return (
         </div>
       </CardHeader>
       <CardContent className="p-6">
-        <div className="space-y-4">
+        <div className="space-y-3">
           {alerts.map((alert) => (
             <Card 
               key={alert.id}
-              className={`border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer rounded-2xl ${
+              className={`border-2 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer rounded-xl ${
                 alert.severity === "critical" 
                   ? "border-red-200 hover:border-red-300 bg-gradient-to-r from-red-50/50 to-orange-50/50" 
                   : alert.severity === "moderate"
                   ? "border-amber-200 hover:border-amber-300 bg-gradient-to-r from-amber-50/50 to-yellow-50/50"
                   : "border-emerald-200 hover:border-emerald-300 bg-gradient-to-r from-emerald-50/50 to-teal-50/50"
               }`}
-              onClick={() => onAlertClick(alert.id)}
+              onClick={() => handleAlertClick(alert)}
             >
-              <CardContent className="p-6">
-                <div className="flex items-start justify-between mb-4">
+              <CardContent className="p-5">
+                <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
                       <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 font-mono text-xs">
@@ -87,66 +97,45 @@ return (
                       </Badge>
                       <Badge 
                         variant={getSeverityVariant(alert.severity)}
-                        className={`${getSeverityColor(alert.severity)} font-semibold border-2`}
+                        className={`${getSeverityColor(alert.severity)} font-semibold border-2 text-xs`}
                       >
                         {alert.severity.toUpperCase()}
                       </Badge>
                       <Badge 
                         variant="outline"
-                        className={`${getStatusColor(alert.status)} font-medium border-2`}
+                        className={`${getStatusColor(alert.status)} font-medium border-2 text-xs`}
                       >
                         {alert.status}
                       </Badge>
                     </div>
-                    <h3 className="text-lg font-bold text-slate-800 mb-2">{alert.title}</h3>
-                    <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm mb-3">
+                    <h3 className="text-base font-bold text-slate-800 mb-3">{alert.title}</h3>
+                    <div className="grid grid-cols-3 gap-4 text-sm">
                       <div className="flex items-center gap-2 text-slate-600">
-                        <MapPin className="w-4 h-4 text-blue-600" />
-                        <span><span className="font-semibold">{alert.district}</span>, {alert.region}</span>
+                        <MapPin className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                        <span className="truncate"><span className="font-semibold">{alert.district}</span></span>
                       </div>
                       <div className="flex items-center gap-2 text-slate-600">
-                        <Users className="w-4 h-4 text-purple-600" />
-                        <span>Population: <span className="font-semibold">{alert.population}</span></span>
-                      </div>
-                      <div className="flex items-center gap-2 text-slate-600">
-                        <TrendingUp className="w-4 h-4 text-red-600" />
+                        <TrendingUp className="w-4 h-4 text-red-600 flex-shrink-0" />
                         <span>HMPI: <span className="font-bold text-red-700">{alert.hmpi}</span></span>
                       </div>
                       <div className="flex items-center gap-2 text-slate-600">
-                        <Calendar className="w-4 h-4 text-teal-600" />
-                        <span>Detected: {alert.detectedOn}</span>
+                        <Calendar className="w-4 h-4 text-teal-600 flex-shrink-0" />
+                        <span className="truncate">{alert.detectedOn}</span>
                       </div>
-                    </div>
-                    <div className="mb-3">
-                      <p className="text-sm text-slate-700">
-                        <span className="font-semibold">Contaminant:</span> {alert.contaminant}
-                      </p>
-                      <p className="text-sm text-slate-700">
-                        <span className="font-semibold">Source:</span> {alert.source} | 
-                        <span className="font-semibold ml-2">Confidence:</span> {alert.confidence}%
-                      </p>
-                    </div>
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                      <p className="text-sm font-semibold text-blue-900 mb-1">Action Taken:</p>
-                      <p className="text-sm text-blue-800">{alert.actionTaken}</p>
-                      <p className="text-xs text-blue-600 mt-1">Assigned To: {alert.assignedTo}</p>
                     </div>
                   </div>
                   <Button 
                     variant="outline" 
                     size="sm"
                     className="ml-4 border-slate-300 hover:bg-blue-50 hover:border-blue-400 transition-all"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAlertClick(alert);
+                    }}
                   >
                     <Eye className="w-4 h-4 mr-2" />
-                    Details
+                    View
                   </Button>
-                </div>
-                <div className="flex items-center justify-between text-xs text-slate-500 pt-3 border-t border-slate-200">
-                  <span>Last Updated: {alert.lastUpdated}</span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    Live Monitoring
-                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -154,6 +143,104 @@ return (
         </div>
       </CardContent>
     </Card>
+
+    {/* Details Modal */}
+    <Dialog open={!!selectedAlert} onOpenChange={() => setSelectedAlert(null)}>
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <DialogTitle className="text-2xl font-bold text-slate-800 mb-3">
+                {selectedAlert?.title}
+              </DialogTitle>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-300 font-mono">
+                  {selectedAlert?.id}
+                </Badge>
+                <Badge 
+                  variant={getSeverityVariant(selectedAlert?.severity || "low")}
+                  className={`${getSeverityColor(selectedAlert?.severity || "low")} font-semibold border-2`}
+                >
+                  {selectedAlert?.severity.toUpperCase()}
+                </Badge>
+                <Badge 
+                  variant="outline"
+                  className={`${getStatusColor(selectedAlert?.status || "active")} font-medium border-2`}
+                >
+                  {selectedAlert?.status}
+                </Badge>
+                <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-300">
+                  {selectedAlert?.type}
+                </Badge>
+              </div>
+            </div>
+          </div>
+        </DialogHeader>
+
+        {selectedAlert && (
+          <div className="space-y-6 mt-4">
+            {/* Location & Population Info */}
+            <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+              <CardContent className="p-5">
+                <h4 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-blue-600" />
+                  Location & Demographics
+                </h4>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-slate-600 mb-1">District</p>
+                    <p className="font-semibold text-slate-800">{selectedAlert.district}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-600 mb-1">Region</p>
+                    <p className="font-semibold text-slate-800">{selectedAlert.region}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-600 mb-1">Population Affected</p>
+                    <p className="font-semibold text-slate-800">{selectedAlert.population}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-600 mb-1">Coordinates</p>
+                    <p className="font-semibold text-slate-800 font-mono text-xs">
+                      {selectedAlert.coordinates.lat.toFixed(4)}, {selectedAlert.coordinates.lng.toFixed(4)}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Risk Assessment */}
+            <Card className="bg-gradient-to-br from-red-50 to-orange-50 border-red-200">
+              <CardContent className="p-5">
+                <h4 className="font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                  <AlertTriangle className="w-5 h-5 text-red-600" />
+                  Risk Assessment
+                </h4>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-slate-600 mb-1">HMPI Score</p>
+                    <p className="font-bold text-2xl text-red-700">{selectedAlert.hmpi}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-600 mb-1">Priority Level</p>
+                    <p className="font-semibold text-slate-800">Priority {selectedAlert.priority}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-600 mb-1">Category</p>
+                    <p className="font-semibold text-slate-800">{selectedAlert.category}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-600 mb-1">Detected On</p>
+                    <p className="font-semibold text-slate-800">{selectedAlert.detectedOn}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
 

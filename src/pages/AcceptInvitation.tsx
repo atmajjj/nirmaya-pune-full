@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Droplets, Mail, Lock, AlertCircle, CheckCircle } from "lucide-react";
-import { invitationService, tokenManager } from "@/services/api";
+import { invitationService } from "@/services/api";
+import { useAuth } from "@/context/AuthContext";
 import { showSuccessToast, showErrorToast } from "@/lib/toast-utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,7 @@ const AcceptInvitation = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const token = searchParams.get('invite_token');
+  const { login } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,19 +61,30 @@ const AcceptInvitation = () => {
       });
 
       if (response.success && response.data) {
-        // Store the JWT token
-        tokenManager.setTokens(response.data.token);
-        tokenManager.setUser(response.data);
-
+        // The account has been created successfully
         showSuccessToast(
           'Account Created Successfully',
-          `Welcome, ${response.data.name}! Redirecting to your dashboard...`
+          `Welcome, ${response.data.name}! Logging you in...`
         );
 
-        // Redirect to appropriate dashboard based on role
-        setTimeout(() => {
-          navigate(getDashboardRoute(response.data.role), { replace: true });
-        }, 1500);
+        // Now login with the same credentials to get proper auth context
+        try {
+          await login({ 
+            email: email.trim(), 
+            password: password.trim() 
+          });
+          // The login function in AuthContext will handle storing tokens and redirecting
+        } catch (loginError: any) {
+          console.error('Auto-login after invitation error:', loginError);
+          // If auto-login fails, redirect to login page with success message
+          showSuccessToast(
+            'Account Created',
+            'Please login with your credentials'
+          );
+          setTimeout(() => {
+            navigate('/', { replace: true });
+          }, 1500);
+        }
       } else {
         throw new Error(response.message || 'Failed to accept invitation');
       }

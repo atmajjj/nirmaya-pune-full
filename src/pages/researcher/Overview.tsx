@@ -43,7 +43,9 @@ const ResearcherOverview = () => {
 
   const handleVisualizationsChange = useCallback(() => {
     loadVisualizations();
-  }, [loadVisualizations]);
+    // Also reload widget visibility in case it changed
+    loadWidgetVisibility();
+  }, [loadVisualizations, loadWidgetVisibility]);
 
   const handleWidgetVisibilityChange = useCallback((widgets: DashboardWidget[]) => {
     setWidgetVisibility(widgets);
@@ -86,25 +88,23 @@ const ResearcherOverview = () => {
         {/* Key Research Metrics */}
         {isWidgetVisible('key-research-metrics') && <MetricsCards metrics={metricsData} />}
         
-        {/* Saved Visualizations Section */}
-        {savedVisualizations.length > 0 && (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-800">
-                Custom Visualizations
-                {visibleVisualizations.length > 0 && (
-                  <span className="ml-2 text-sm font-normal text-slate-500">
-                    ({visibleVisualizations.length} visible)
-                  </span>
-                )}
-              </h2>
-            </div>
-            <SavedVisualizationsGrid 
-              visualizations={savedVisualizations} 
-              onUpdate={handleVisualizationsChange}
-            />
+        {/* Saved Visualizations Section - Always show */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-slate-800">
+              Custom Visualizations
+              {visibleVisualizations.length > 0 && (
+                <span className="ml-2 text-sm font-normal text-slate-500">
+                  ({visibleVisualizations.length} visible)
+                </span>
+              )}
+            </h2>
           </div>
-        )}
+          <SavedVisualizationsGrid 
+            visualizations={savedVisualizations} 
+            onUpdate={handleVisualizationsChange}
+          />
+        </div>
 
         {/* Research Trends */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-6">
