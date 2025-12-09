@@ -13,8 +13,8 @@ return (
             <FileText className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-slate-800 mb-1">WHO Reports</h1>
-            <p className="text-sm text-slate-600">World Health Organization compliance reports</p>
+            <h1 className="text-2xl font-bold text-slate-800 mb-1">BIS Reports</h1>
+            <p className="text-sm text-slate-600">Bureau of Indian Standards compliance reports</p>
           </div>
         </div>
         

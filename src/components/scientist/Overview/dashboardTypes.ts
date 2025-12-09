@@ -57,6 +57,68 @@ export const SCIENTIST_DASHBOARDS: DashboardPage[] = [
   }
 ];
 
+export const RESEARCHER_DASHBOARDS: DashboardPage[] = [
+  {
+    id: 'researcher-overview',
+    name: 'Overview',
+    path: '/researcher/overview',
+    icon: 'BarChart3',
+    description: 'Main researcher dashboard with publications'
+  },
+  {
+    id: 'researcher-datasets',
+    name: 'Datasets',
+    path: '/researcher/datasets',
+    icon: 'Database',
+    description: 'Access to research datasets'
+  },
+  {
+    id: 'researcher-apis',
+    name: 'APIs',
+    path: '/researcher/apis',
+    icon: 'Code',
+    description: 'API management and documentation'
+  },
+  {
+    id: 'researcher-geo-map',
+    name: 'Geo Map',
+    path: '/researcher/geo-map',
+    icon: 'MapPin',
+    description: 'Interactive geographic data visualization'
+  }
+];
+
+export const POLICYMAKER_DASHBOARDS: DashboardPage[] = [
+  {
+    id: 'policymaker-overview',
+    name: 'Overview',
+    path: '/policymaker/overview',
+    icon: 'BarChart3',
+    description: 'Policy overview and key metrics'
+  },
+  {
+    id: 'policymaker-risk-alerts',
+    name: 'Risk Alerts',
+    path: '/policymaker/risk-alerts',
+    icon: 'Bell',
+    description: 'Critical risk alerts and monitoring'
+  },
+  {
+    id: 'policymaker-reports',
+    name: 'BIS Reports',
+    path: '/policymaker/who-reports',
+    icon: 'FileText',
+    description: 'Compliance and regulatory reports'
+  },
+  {
+    id: 'policymaker-geo-map',
+    name: 'Geo Map',
+    path: '/policymaker/geo-map',
+    icon: 'MapPin',
+    description: 'Geographic risk visualization'
+  }
+];
+
 // Local Storage Key
 export const DASHBOARD_STORAGE_KEY = 'nirmaya_dashboard_visualizations';
 

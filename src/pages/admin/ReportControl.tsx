@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { hmpiReportService } from "@/services/api";
+import { nirmayaReportService } from "@/services/api";
 import type { HMPIReportListItem, ReportStatus } from "@/types/hmpi-report.types";
 import ReportControlHeader from "@/components/admin/ReportControl/ReportControlHeader";
 import ReportStatsCards from "@/components/admin/ReportControl/ReportStatsCards";
@@ -24,7 +24,7 @@ const ReportControl = () => {
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const response = await hmpiReportService.listReports({
+      const response = await nirmayaReportService.listReports({
         page: currentPage,
         limit,
         status: statusFilter === "all" ? undefined : statusFilter,
@@ -65,7 +65,7 @@ const ReportControl = () => {
   };
 
   const handleDownload = (reportId: number) => {
-    hmpiReportService.downloadReport(reportId);
+    nirmayaReportService.downloadReport(reportId);
   };
 
   const handleRefresh = () => {

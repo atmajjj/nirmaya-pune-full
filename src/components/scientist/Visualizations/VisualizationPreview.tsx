@@ -388,9 +388,9 @@ const VisualizationPreview: React.FC<VisualizationPreviewProps> = ({
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col max-h-[85vh]">
       {/* Preview Header */}
-      <div className="px-6 pt-6 pb-4 bg-gradient-to-r from-[#0A3D62] to-[#0d4a75]">
+      <div className="px-6 pt-6 pb-4 bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] flex-shrink-0">
         <button
           onClick={onBack}
           className="flex items-center gap-2 text-slate-300 hover:text-white mb-3 transition-colors"
@@ -410,9 +410,9 @@ const VisualizationPreview: React.FC<VisualizationPreviewProps> = ({
       </div>
 
       {/* Chart Preview */}
-      <div className="flex-1 px-6 py-4 overflow-auto">
+      <div className="flex-1 px-6 py-4 overflow-y-auto min-h-0">
         <div className="bg-white rounded-xl border border-slate-200 p-4 shadow-sm">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-3">
             <Info className="h-4 w-4 text-[#0A3D62]" />
             <span className="text-sm font-medium text-slate-700">Preview with Sample Data</span>
           </div>
@@ -420,8 +420,8 @@ const VisualizationPreview: React.FC<VisualizationPreviewProps> = ({
         </div>
 
         {/* Features & Tags */}
-        <div className="mt-4 grid grid-cols-2 gap-4">
-          <div className="bg-slate-50 rounded-lg p-4">
+        <div className="mt-4 grid grid-cols-2 gap-3 pb-4">
+          <div className="bg-slate-50 rounded-lg p-3">
             <h4 className="text-sm font-medium text-slate-700 mb-2">Key Features</h4>
             <ul className="text-sm text-slate-600 space-y-1">
               <li className="flex items-center gap-2">
@@ -438,7 +438,7 @@ const VisualizationPreview: React.FC<VisualizationPreviewProps> = ({
               </li>
             </ul>
           </div>
-          <div className="bg-slate-50 rounded-lg p-4">
+          <div className="bg-slate-50 rounded-lg p-3">
             <h4 className="text-sm font-medium text-slate-700 mb-2">Tags</h4>
             <div className="flex flex-wrap gap-1.5">
               {visualization.tags.map((tag) => (
@@ -452,7 +452,7 @@ const VisualizationPreview: React.FC<VisualizationPreviewProps> = ({
       </div>
 
       {/* Action Footer */}
-      <div className="px-6 py-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3">
+      <div className="px-6 py-4 border-t border-slate-200 bg-slate-50 flex justify-end gap-3 flex-shrink-0">
         <Button variant="outline" onClick={onBack}>
           Cancel
         </Button>

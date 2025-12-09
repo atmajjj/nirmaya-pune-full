@@ -25,7 +25,7 @@ export const NAVIGATION_ITEMS = {
   policymaker: [
     { title: "Overview", path: "/policymaker/overview", icon: <BarChart3 className="w-5 h-5" /> },
     { title: "Risk Alerts", path: "/policymaker/risk-alerts", icon: <Bell className="w-5 h-5" /> },
-    { title: "BIS Reports", path: "/policymaker/who-reports", icon: <FileText className="w-5 h-5" /> },
+    { title: "Data Export", path: "/policymaker/who-reports", icon: <Database className="w-5 h-5" /> },
     { title: "Geo Map", path: "/policymaker/geo-map", icon: <Map className="w-5 h-5" /> },
     { title: "Settings", path: "/profile", icon: <Settings className="w-5 h-5" /> },
   ],

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { BookOpen, Settings2 } from "lucide-react";
+import { BarChart3, Settings2 } from "lucide-react";
 import { AddVisualizationMenu } from "@/components/scientist/Visualizations";
 import { VisualizationType } from "@/components/scientist/Visualizations/types";
 import { UniversalOptions, ChartSpecificOptions, SaveAsType } from "@/components/scientist/Visualizations/customizationTypes";
@@ -14,7 +14,7 @@ import {
   generateVisualizationId,
   saveVisualizationToDashboard,
   getDashboardVisualizations,
-  RESEARCHER_DASHBOARDS,
+  POLICYMAKER_DASHBOARDS,
 } from '@/components/scientist/Overview/dashboardTypes';
 
 interface OverviewHeaderProps {
@@ -28,7 +28,7 @@ export const OverviewHeader = ({
   onAddVisualization, 
   onVisualizationsChange,
   onWidgetVisibilityChange,
-  dashboardId = 'researcher-overview'
+  dashboardId = 'policymaker-overview'
 }: OverviewHeaderProps) => {
   
   const [showDashboardSelector, setShowDashboardSelector] = useState(false);
@@ -71,18 +71,18 @@ export const OverviewHeader = ({
 
     // Determine chart type from visualization ID
     const chartTypeMap: Record<string, string> = {
-      'hmpi-trend-line': 'line',
-      'contaminant-bar': 'bar',
-      'multi-metal-radar': 'radar',
-      'spatial-heatmap': 'heatmap',
-      'safe-limit-comparison': 'bar',
-      'hmpi-histogram': 'histogram',
-      'correlation-heatmap': 'heatmap',
-      'contaminant-boxplots': 'boxplot',
-      'quality-pie': 'pie',
-      'time-series-multiline': 'line',
-      'depth-scatter': 'scatter',
-      'sampling-bubble': 'bubble',
+      'risk-severity-trend': 'line',
+      'compliance-rate-bar': 'bar',
+      'population-risk-heatmap': 'heatmap',
+      'economic-loss-trend': 'line',
+      'regional-risk-comparison': 'bar',
+      'alert-distribution-pie': 'pie',
+      'policy-impact-line': 'line',
+      'contamination-hotspots': 'heatmap',
+      'risk-category-distribution': 'pie',
+      'compliance-timeline': 'line',
+      'intervention-effectiveness': 'bar',
+      'health-risk-bubble': 'bubble',
     };
 
     // Create the saved visualization
@@ -99,7 +99,7 @@ export const OverviewHeader = ({
       },
       position: positionNum,
       isVisible: true,
-      ownerRole: 'researcher',
+      ownerRole: 'policymaker',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -139,11 +139,11 @@ export const OverviewHeader = ({
         <div className="relative flex items-center justify-between p-6">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gradient-to-br from-[#0A3D62] to-[#0d4a75] rounded-2xl flex items-center justify-center shadow-lg">
-              <BookOpen className="w-6 h-6 text-white" />
+              <BarChart3 className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-800 mb-1">Researcher Dashboard</h1>
-              <p className="text-sm text-slate-600">Comprehensive research activities and publications overview</p>
+              <h1 className="text-2xl font-bold text-slate-800 mb-1">Policy Overview</h1>
+              <p className="text-sm text-slate-600">Comprehensive dashboard for groundwater policy management</p>
             </div>
           </div>
           
@@ -170,7 +170,7 @@ export const OverviewHeader = ({
         }}
         onSelect={handleDashboardSelect}
         visualizationName={pendingVisualization?.vizType?.name || ''}
-        dashboards={RESEARCHER_DASHBOARDS}
+        dashboards={POLICYMAKER_DASHBOARDS}
       />
 
       {/* Simplified Customize Panel */}
