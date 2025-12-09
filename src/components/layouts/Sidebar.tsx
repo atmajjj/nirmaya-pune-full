@@ -27,9 +27,11 @@ export const Sidebar = ({ navItems, sidebarOpen, dashboardTitle }: SidebarProps)
       {/* Header with Logo */}
       <div className="h-16 px-4 flex items-center border-b border-brand-navy-light/40">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-brand-secondary to-brand-secondary-dark rounded-lg flex items-center justify-center flex-shrink-0 shadow-lg">
-            <span className="text-white font-bold text-lg">N</span>
-          </div>
+          <img
+            src="/jal-shakti-logo.png"
+            alt="Jal Shakti Logo"
+            className="w-10 h-10 object-contain flex-shrink-0"
+          />
           {sidebarOpen && (
             <div>
               <p className="text-sm text-brand-surface font-medium capitalize">{dashboardTitle}</p>
