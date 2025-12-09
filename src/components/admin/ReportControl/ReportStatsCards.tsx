@@ -1,18 +1,19 @@
-import { FileText, Clock, CheckCircle, Star } from "lucide-react";
+import { FileText, Clock, CheckCircle, Loader2, AlertCircle } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
 interface ReportStatsCardsProps {
   stats: {
     total: number;
     pending: number;
-    published: number;
-    aiGenerated: number;
+    completed: number;
+    generating: number;
+    failed: number;
   };
 }
 
 const ReportStatsCards = ({ stats }: ReportStatsCardsProps) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
       <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100 rounded-xl">
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
@@ -32,27 +33,12 @@ const ReportStatsCards = ({ stats }: ReportStatsCardsProps) => {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-amber-600 font-medium mb-2">Pending Review</p>
+              <p className="text-sm text-amber-600 font-medium mb-2">Pending</p>
               <h3 className="text-2xl md:text-3xl font-bold text-amber-800">{stats.pending}</h3>
-              <p className="text-xs text-amber-600 mt-1">Awaiting approval</p>
+              <p className="text-xs text-amber-600 mt-1">Awaiting generation</p>
             </div>
             <div className="w-12 h-12 rounded-lg bg-amber-100 border border-amber-300 flex items-center justify-center">
               <Clock className="w-6 h-6 text-amber-600" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-xl">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-emerald-600 font-medium mb-2">Published</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-emerald-800">{stats.published}</h3>
-              <p className="text-xs text-emerald-600 mt-1">Live reports</p>
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center">
-              <CheckCircle className="w-6 h-6 text-emerald-600" />
             </div>
           </div>
         </CardContent>
@@ -62,12 +48,42 @@ const ReportStatsCards = ({ stats }: ReportStatsCardsProps) => {
         <CardContent className="p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-purple-600 font-medium mb-2">AI Generated</p>
-              <h3 className="text-2xl md:text-3xl font-bold text-purple-800">{stats.aiGenerated}</h3>
-              <p className="text-xs text-purple-600 mt-1">Auto-generated</p>
+              <p className="text-sm text-purple-600 font-medium mb-2">Generating</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-purple-800">{stats.generating}</h3>
+              <p className="text-xs text-purple-600 mt-1">In progress</p>
             </div>
             <div className="w-12 h-12 rounded-lg bg-purple-100 border border-purple-300 flex items-center justify-center">
-              <Star className="w-6 h-6 text-purple-600" />
+              <Loader2 className="w-6 h-6 text-purple-600 animate-spin" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-xl">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-emerald-600 font-medium mb-2">Completed</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-emerald-800">{stats.completed}</h3>
+              <p className="text-xs text-emerald-600 mt-1">Ready to download</p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-emerald-100 border border-emerald-300 flex items-center justify-center">
+              <CheckCircle className="w-6 h-6 text-emerald-600" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-red-300 bg-red-50 text-red-700 hover:bg-red-100 rounded-xl">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-red-600 font-medium mb-2">Failed</p>
+              <h3 className="text-2xl md:text-3xl font-bold text-red-800">{stats.failed}</h3>
+              <p className="text-xs text-red-600 mt-1">Generation errors</p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center">
+              <AlertCircle className="w-6 h-6 text-red-600" />
             </div>
           </div>
         </CardContent>
