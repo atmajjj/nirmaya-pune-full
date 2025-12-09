@@ -52,7 +52,7 @@ const DataSources = () => {
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error?.message || "Failed to load data sources",
+        description: error?.message || "Failed to load field data",
         variant: "destructive",
       });
     } finally {
@@ -161,8 +161,8 @@ const DataSources = () => {
               <Database className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-800 mb-1">Data Sources</h1>
-              <p className="text-sm text-slate-600">Manage and process uploaded water quality datasets</p>
+              <h1 className="text-2xl font-bold text-slate-800 mb-1">Field Data</h1>
+              <p className="text-sm text-slate-600">Manage and process water quality datasets from field technicians</p>
             </div>
           </div>
         </div>
@@ -212,7 +212,7 @@ const DataSources = () => {
       {/* Data Table */}
       <Card className="bg-white border-slate-200">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">Uploaded Data Sources</CardTitle>
+          <CardTitle className="text-lg font-semibold">Field Data</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -222,7 +222,7 @@ const DataSources = () => {
           ) : dataSources.length === 0 ? (
             <div className="text-center py-12">
               <FileText className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-              <p className="text-slate-600">No data sources found</p>
+              <p className="text-slate-600">No field data found</p>
             </div>
           ) : (
             <>

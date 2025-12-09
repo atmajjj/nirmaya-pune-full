@@ -99,8 +99,8 @@ export const DEFAULT_ADMIN_OVERVIEW_WIDGETS: DashboardWidget[] = [
   },
   {
     id: 'data-sources',
-    name: 'Data Sources',
-    description: 'Pie chart showing distribution of data source file types',
+    name: 'Field Data',
+    description: 'Pie chart showing distribution of field data file types',
     icon: 'PieChart',
     category: 'charts',
     isVisible: true,
