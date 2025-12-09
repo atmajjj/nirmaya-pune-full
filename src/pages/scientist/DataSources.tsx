@@ -247,10 +247,10 @@ const DataSources = () => {
                         </TableCell>
                         <TableCell>{formatBytes(source.file_size)}</TableCell>
                         <TableCell>
-                          {source.metadata ? source.metadata.total_rows.toLocaleString() : "-"}
+                          {source.metadata?.total_rows ? source.metadata.total_rows.toLocaleString() : "-"}
                         </TableCell>
                         <TableCell>
-                          {source.metadata ? source.metadata.stations.length : "-"}
+                          {source.metadata?.stations?.length || "-"}
                         </TableCell>
                         <TableCell className="text-sm">{formatDate(source.created_at)}</TableCell>
                         <TableCell className="text-right">
