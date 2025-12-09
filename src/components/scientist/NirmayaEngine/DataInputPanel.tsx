@@ -150,7 +150,7 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
                     Calculating Indices...
                   </>
                 ) : (
-                  'Calculate HPI, MI & WQI'
+                  'Calculate HPI, HEI & WQI'
                 )}
               </Button>
             )}

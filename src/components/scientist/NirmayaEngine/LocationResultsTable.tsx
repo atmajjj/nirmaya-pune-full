@@ -90,9 +90,9 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     return 'Low';
   };
 
-  const getMIBadgeColor = (miClass: string | null | undefined): string => {
-    if (!miClass) return 'bg-slate-300 text-slate-700';
-    const cls = miClass.toLowerCase();
+  const getHEIBadgeColor = (heiClass: string | null | undefined): string => {
+    if (!heiClass) return 'bg-slate-300 text-slate-700';
+    const cls = heiClass.toLowerCase();
     if (cls.includes('very high') || cls.includes('extremely')) return 'bg-red-600 text-white';
     if (cls.includes('high')) return 'bg-orange-600 text-white';
     if (cls.includes('moderate') || cls.includes('medium')) return 'bg-amber-500 text-white';
@@ -228,8 +228,8 @@ return (
                   <th className="text-center p-3 text-slate-700 font-semibold">Year</th>
                   <th className="text-right p-3 text-slate-700 font-semibold">HPI</th>
                   <th className="text-left p-3 text-slate-700 font-semibold">HPI Status</th>
-                  <th className="text-right p-3 text-slate-700 font-semibold">MI</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">MI Class</th>
+                  <th className="text-right p-3 text-slate-700 font-semibold">HEI</th>
+                  <th className="text-left p-3 text-slate-700 font-semibold">HEI Class</th>
                   <th className="text-right p-3 text-slate-700 font-semibold">WQI</th>
                   <th className="text-left p-3 text-slate-700 font-semibold">WQI Status</th>
                   <th className="text-left p-3 text-slate-700 font-semibold">Metals</th>
@@ -268,7 +268,7 @@ return (
                     <td className="p-3">
                       <Badge
                         variant="outline"
-                        className={`text-xs font-semibold border-0 ${getMIBadgeColor(calc.mi_class)}`}
+                        className={`text-xs font-semibold border-0 ${getHEIBadgeColor(calc.mi_class)}`}
                       >
                         {calc.mi_class || 'N/A'}
                       </Badge>

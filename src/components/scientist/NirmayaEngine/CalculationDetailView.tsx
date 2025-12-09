@@ -111,12 +111,12 @@ export const CalculationDetailView = ({ calculation }: CalculationDetailViewProp
             </Badge>
           </div>
 
-          {/* MI Card */}
+          {/* HEI Card */}
           <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <Gauge className="w-5 h-5 text-blue-600" />
-                <h3 className="text-sm font-semibold text-slate-700">MI</h3>
+                <h3 className="text-sm font-semibold text-slate-700">HEI</h3>
               </div>
             </div>
             <p className="text-3xl font-bold text-blue-900 mb-2">
