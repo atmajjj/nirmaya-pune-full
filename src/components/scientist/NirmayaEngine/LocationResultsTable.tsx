@@ -101,18 +101,6 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     return 'bg-slate-300 text-slate-700';
   };
 
-  const getWQIBadgeColor = (wqiClass: string | null | undefined): string => {
-    if (!wqiClass) return 'bg-slate-300 text-slate-700';
-    const cls = wqiClass.toLowerCase();
-    if (cls.includes('unsuitable')) return 'bg-red-600 text-white';
-    if (cls.includes('very poor')) return 'bg-orange-600 text-white';
-    if (cls.includes('poor')) return 'bg-amber-500 text-white';
-    if (cls.includes('marginal') || cls.includes('fair')) return 'bg-yellow-400 text-slate-800';
-    if (cls.includes('good')) return 'bg-green-500 text-white';
-    if (cls.includes('excellent')) return 'bg-emerald-600 text-white';
-    return 'bg-slate-300 text-slate-700';
-  };
-
 return (
     <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <CardHeader className="border-b border-slate-100 pb-4">
@@ -228,11 +216,9 @@ return (
                   <th className="text-center p-3 text-slate-700 font-semibold">Year</th>
                   <th className="text-right p-3 text-slate-700 font-semibold">HPI</th>
                   <th className="text-left p-3 text-slate-700 font-semibold">HPI Status</th>
-                  <th className="text-right p-3 text-slate-700 font-semibold">HEI</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">HEI Class</th>
-                  <th className="text-right p-3 text-slate-700 font-semibold">WQI</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">WQI Status</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">Metals</th>
+                  <th className="text-right p-3 text-slate-700 font-semibold">MI</th>
+                  <th className="text-left p-3 text-slate-700 font-semibold">MI Status</th>
+                  <th className="text-center p-3 text-slate-700 font-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -271,17 +257,6 @@ return (
                         className={`text-xs font-semibold border-0 ${getHEIBadgeColor(calc.mi_class)}`}
                       >
                         {calc.mi_class || 'N/A'}
-                      </Badge>
-                    </td>
-                    <td className="p-3 text-slate-700 font-bold text-right">
-                      {calc.wqi?.toFixed(2) || 'N/A'}
-                    </td>
-                    <td className="p-3">
-                      <Badge
-                        variant="outline"
-                        className={`text-xs font-semibold border-0 ${getWQIBadgeColor(calc.wqi_classification)}`}
-                      >
-                        {calc.wqi_classification || 'N/A'}
                       </Badge>
                     </td>
                     <td className="p-3 text-slate-600 text-xs">

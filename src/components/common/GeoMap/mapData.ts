@@ -7,7 +7,7 @@ export const mapLayers: MapLayer[] = [
     name: "Sampling Points",
     type: "points",
     visible: true,
-    count: 247,
+    count: null,
     color: "#3b82f6",
     icon: MapPin,
     description: "Active monitoring locations"
@@ -27,7 +27,7 @@ export const mapLayers: MapLayer[] = [
     name: "Risk Zones",
     type: "polygons",
     visible: false,
-    count: 23,
+    count: null,
     color: "#f59e0b",
     icon: AlertTriangle,
     description: "High-risk contamination areas"
@@ -37,7 +37,7 @@ export const mapLayers: MapLayer[] = [
     name: "Water Bodies",
     type: "polygons",
     visible: true,
-    count: 45,
+    count: null,
     color: "#06b6d4",
     icon: Droplet,
     description: "Rivers, lakes, and reservoirs"

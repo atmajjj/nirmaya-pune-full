@@ -7,7 +7,7 @@ const AdminLayout = () => {
   const navItems = getNavItemsForRole("admin");
 
   return (
-    <DashboardLayout navItems={navItems} userRole="admin">
+    <DashboardLayout navItems={navItems} userRole="admin" dashboardTitle="Admin Dashboard">
       <Outlet />
       <NIRAChatbot />
     </DashboardLayout>

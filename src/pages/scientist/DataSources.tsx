@@ -211,9 +211,6 @@ const DataSources = () => {
 
       {/* Data Table */}
       <Card className="bg-white border-slate-200">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Field Data</CardTitle>
-        </CardHeader>
         <CardContent>
           {loading ? (
             <div className="flex items-center justify-center py-12">
@@ -235,7 +232,6 @@ const DataSources = () => {
                       <TableHead>Uploaded By</TableHead>
                       <TableHead>Size</TableHead>
                       <TableHead>Records</TableHead>
-                      <TableHead>Stations</TableHead>
                       <TableHead>Date</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -262,9 +258,6 @@ const DataSources = () => {
                         <TableCell>
                           {source.metadata?.total_rows ? source.metadata.total_rows.toLocaleString() : "-"}
                         </TableCell>
-                        <TableCell>
-                          {source.metadata?.stations?.length || "-"}
-                        </TableCell>
                         <TableCell className="text-sm">{formatDate(source.created_at)}</TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end gap-2">
@@ -273,7 +266,7 @@ const DataSources = () => {
                                 size="sm"
                                 onClick={() => handleCalculate(source.id)}
                                 disabled={selectedSource === source.id}
-                                className="bg-blue-600 hover:bg-blue-700"
+                                className="bg-brand hover:bg-brand-secondary"
                               >
                                 {selectedSource === source.id ? (
                                   <RefreshCw className="w-4 h-4 animate-spin" />

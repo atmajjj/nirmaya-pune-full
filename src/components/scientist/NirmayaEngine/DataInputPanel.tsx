@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, PenTool, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Upload, PenTool, Loader2, CheckCircle, AlertCircle, Plus, X } from "lucide-react";
 import { nirmayaEngineService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import type { CSVPreviewResult, CalculationResult } from "@/types/nirmaya.types";
@@ -15,12 +15,145 @@ interface DataInputPanelProps {
   onPreviewComplete?: (preview: CSVPreviewResult) => void;
 }
 
+// Available heavy metal fields (ppb/µg/L)
+const METAL_FIELDS = [
+  { id: 'As', label: 'Arsenic', unit: 'ppb', category: 'common' },
+  { id: 'Cd', label: 'Cadmium', unit: 'ppb', category: 'common' },
+  { id: 'Cr', label: 'Chromium', unit: 'ppb', category: 'common' },
+  { id: 'Cu', label: 'Copper', unit: 'ppb', category: 'common' },
+  { id: 'Fe', label: 'Iron', unit: 'ppb', category: 'common' },
+  { id: 'Pb', label: 'Lead', unit: 'ppb', category: 'common' },
+  { id: 'Hg', label: 'Mercury', unit: 'ppb', category: 'common' },
+  { id: 'Ni', label: 'Nickel', unit: 'ppb', category: 'common' },
+  { id: 'Zn', label: 'Zinc', unit: 'ppb', category: 'common' },
+  { id: 'Al', label: 'Aluminum', unit: 'ppb', category: 'advanced' },
+  { id: 'Ba', label: 'Barium', unit: 'ppb', category: 'advanced' },
+  { id: 'Mn', label: 'Manganese', unit: 'ppb', category: 'advanced' },
+  { id: 'Se', label: 'Selenium', unit: 'ppb', category: 'advanced' },
+  { id: 'Ag', label: 'Silver', unit: 'ppb', category: 'advanced' },
+  { id: 'Mo', label: 'Molybdenum', unit: 'ppb', category: 'advanced' },
+  { id: 'Sb', label: 'Antimony', unit: 'ppb', category: 'advanced' },
+  { id: 'Co', label: 'Cobalt', unit: 'ppb', category: 'advanced' },
+  { id: 'V', label: 'Vanadium', unit: 'ppb', category: 'advanced' },
+  { id: 'U', label: 'Uranium', unit: 'ppb', range: null },
+];
+
 export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInputPanelProps) => {
-  const [formData, setFormData] = useState({ location: '', As: '', Cr: '', Pb: '', Cd: '' });
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [stationId, setStationId] = useState('');
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [selectedMetals, setSelectedMetals] = useState<string[]>([]);
+  const [metalValues, setMetalValues] = useState<Record<string, string>>({});
+  const [file, setFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  const handleAddMetal = (metalId: string) => {
+    if (!selectedMetals.includes(metalId)) {
+      setSelectedMetals([...selectedMetals, metalId]);
+      setMetalValues({ ...metalValues, [metalId]: '' });
+    }
+  };
+
+  const handleRemoveMetal = (metalId: string) => {
+    setSelectedMetals(selectedMetals.filter(id => id !== metalId));
+    const newValues = { ...metalValues };
+    delete newValues[metalId];
+    setMetalValues(newValues);
+  };
+
+  const handleMetalValueChange = (metalId: string, value: string) => {
+    setMetalValues({ ...metalValues, [metalId]: value });
+  };
+
+  const handleManualCalculate = async () => {
+    if (!stationId) {
+      toast({
+        title: "Station ID required",
+        description: "Please enter a station ID",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (selectedMetals.length === 0) {
+      toast({
+        title: "No parameters selected",
+        description: "Please add at least one metal parameter",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsCalculating(true);
+    try {
+      const metals: Record<string, number> = {};
+      selectedMetals.forEach(id => {
+        if (metalValues[id]) {
+          metals[id] = parseFloat(metalValues[id]);
+        }
+      });
+
+      const payload: any = {
+        station_id: stationId,
+        save_to_database: true,
+      };
+
+      if (state) payload.state = state;
+      if (city) payload.city = city;
+      if (latitude) payload.latitude = parseFloat(latitude);
+      if (longitude) payload.longitude = parseFloat(longitude);
+      if (Object.keys(metals).length > 0) payload.metals = metals;
+
+      const response = await nirmayaEngineService.calculateManual(payload);
+      
+      if (response.success) {
+        toast({
+          title: "Calculation complete",
+          description: "Indices calculated successfully",
+        });
+        
+        // Transform the response to match CalculationResult type
+        const calculationResult: CalculationResult = {
+          upload_id: response.data.saved_id || 0,
+          processed_stations: 1,
+          total_stations: 1,
+          failed_stations: 0,
+          calculations: [],
+          errors: [],
+          available_indices: {
+            hpi: selectedMetals.length > 0,
+            mi: selectedMetals.length > 0,
+          },
+          metals_analyzed: selectedMetals,
+        };
+        
+        onUploadComplete?.(calculationResult);
+        
+        // Clear form
+        setStationId('');
+        setState('');
+        setCity('');
+        setLatitude('');
+        setLongitude('');
+        setSelectedMetals([]);
+        setMetalValues({});
+      }
+    } catch (error) {
+      console.error('Manual calculation error:', error);
+      toast({
+        title: "Calculation failed",
+        description: error instanceof Error ? error.message : "Failed to calculate indices",
+        variant: "destructive",
+      });
+    } finally {
+      setIsCalculating(false);
+    }
+  };
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -46,11 +179,11 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
       return;
     }
 
-    setSelectedFile(file);
+    setFile(file);
   };
 
   const handleCalculate = async () => {
-    if (!selectedFile) {
+    if (!file) {
       toast({
         title: "No file selected",
         description: "Please select a CSV file first",
@@ -61,7 +194,7 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
 
     setIsUploading(true);
     try {
-      const response = await nirmayaEngineService.calculateIndices(selectedFile);
+      const response = await nirmayaEngineService.calculateIndices(file);
       if (response.success) {
         onUploadComplete?.(response.data);
         toast({
@@ -70,7 +203,7 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
         });
         
         // Clear file after successful calculation
-        setSelectedFile(null);
+        setFile(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
@@ -129,16 +262,16 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
               </Button>
             </div>
 
-            {selectedFile && (
+            {file && (
               <Alert>
                 <CheckCircle className="h-4 w-4" />
                 <AlertDescription>
-                  Selected: <strong>{selectedFile.name}</strong> ({(selectedFile.size / 1024).toFixed(2)} KB)
+                  Selected: <strong>{file.name}</strong> ({(file.size / 1024).toFixed(2)} KB)
                 </AlertDescription>
               </Alert>
             )}
 
-            {selectedFile && (
+            {file && (
               <Button 
                 className="w-full bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300"
                 onClick={handleCalculate}
@@ -150,72 +283,164 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
                     Calculating Indices...
                   </>
                 ) : (
-                  'Calculate HPI, HEI & WQI'
+                  'Calculate HPI & HEI'
                 )}
               </Button>
             )}
           </TabsContent>
 
           <TabsContent value="manual" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2">
-                <Label htmlFor="location" className="text-sm font-medium text-slate-700">Sample Location</Label>
-                <Input
-                  id="location"
-                  placeholder="Sample Location Placeholder"
-                  value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                  className="mt-1"
-                />
+            {/* Station Information */}
+            <div className="space-y-3 pb-4 border-b">
+              <h3 className="text-sm font-semibold text-slate-800">Station Information</h3>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="stationId" className="text-sm font-medium text-slate-700">Station ID *</Label>
+                  <Input
+                    id="stationId"
+                    placeholder="Enter station ID"
+                    value={stationId}
+                    onChange={(e) => setStationId(e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="state" className="text-sm font-medium text-slate-700">State</Label>
+                  <Input
+                    id="state"
+                    placeholder="Enter state"
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
               </div>
-              <div>
-                <Label htmlFor="As" className="text-sm font-medium text-slate-700">Arsenic (As) - mg/L</Label>
-                <Input
-                  id="As"
-                  type="number"
-                  placeholder="0.00"
-                  value={formData.As}
-                  onChange={(e) => setFormData({ ...formData, As: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="Cr" className="text-sm font-medium text-slate-700">Chromium (Cr) - mg/L</Label>
-                <Input
-                  id="Cr"
-                  type="number"
-                  placeholder="0.00"
-                  value={formData.Cr}
-                  onChange={(e) => setFormData({ ...formData, Cr: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="Pb" className="text-sm font-medium text-slate-700">Lead (Pb) - mg/L</Label>
-                <Input
-                  id="Pb"
-                  type="number"
-                  placeholder="0.00"
-                  value={formData.Pb}
-                  onChange={(e) => setFormData({ ...formData, Pb: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="Cd" className="text-sm font-medium text-slate-700">Cadmium (Cd) - mg/L</Label>
-                <Input
-                  id="Cd"
-                  type="number"
-                  placeholder="0.00"
-                  value={formData.Cd}
-                  onChange={(e) => setFormData({ ...formData, Cd: e.target.value })}
-                  className="mt-1"
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <Label htmlFor="city" className="text-sm font-medium text-slate-700">City</Label>
+                  <Input
+                    id="city"
+                    placeholder="Enter city"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="mt-1"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <Label htmlFor="latitude" className="text-sm font-medium text-slate-700">Latitude</Label>
+                    <Input
+                      id="latitude"
+                      type="number"
+                      step="0.000001"
+                      placeholder="0.000000"
+                      value={latitude}
+                      onChange={(e) => setLatitude(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="longitude" className="text-sm font-medium text-slate-700">Longitude</Label>
+                    <Input
+                      id="longitude"
+                      type="number"
+                      step="0.000001"
+                      placeholder="0.000000"
+                      value={longitude}
+                      onChange={(e) => setLongitude(e.target.value)}
+                      className="mt-1"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <Button className="w-full bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300">
-              Add Sample
+
+            {/* Heavy Metal Parameters */}
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-slate-800">Heavy Metal Parameters</h3>
+              
+              {/* Selected Metals */}
+              {selectedMetals.length > 0 && (
+                <div className="space-y-2">
+                  {selectedMetals.map(metalId => {
+                    const metal = METAL_FIELDS.find(m => m.id === metalId);
+                    if (!metal) return null;
+                    
+                    return (
+                      <div key={metalId} className="flex gap-2 items-end">
+                        <div className="flex-1">
+                          <Label htmlFor={metalId} className="text-sm font-medium text-slate-700">
+                            {metal.label} ({metal.unit})
+                          </Label>
+                          <Input
+                            id={metalId}
+                            type="number"
+                            step="0.001"
+                            placeholder="0.000"
+                            value={metalValues[metalId] || ''}
+                            onChange={(e) => handleMetalValueChange(metalId, e.target.value)}
+                            className="mt-1"
+                          />
+                        </div>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="icon"
+                          onClick={() => handleRemoveMetal(metalId)}
+                          className="flex-shrink-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Available Metals to Add */}
+              {METAL_FIELDS.filter(metal => !selectedMetals.includes(metal.id)).length > 0 && (
+                <div>
+                  <Label className="text-sm font-medium text-slate-700 mb-2 block">Add Metal Parameters</Label>
+                  <div className="flex flex-wrap gap-2">
+                    {METAL_FIELDS.filter(metal => !selectedMetals.includes(metal.id)).map(metal => (
+                      <Button
+                        key={metal.id}
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleAddMetal(metal.id)}
+                        className="text-brand hover:bg-brand hover:text-white transition-colors"
+                      >
+                        <Plus className="w-3 h-3 mr-1" />
+                        {metal.label}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Calculate Button */}
+            <Button 
+              onClick={handleManualCalculate}
+              className="w-full bg-gradient-to-r from-[#0A3D62] to-[#0d4a75] hover:from-[#0d4a75] hover:to-[#0A3D62] text-white shadow-lg hover:shadow-xl transition-all duration-300"
+              disabled={!stationId || selectedMetals.length === 0 || isCalculating}
+            >
+              {isCalculating ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Calculating...
+                </>
+              ) : (
+                'Calculate Indices'
+              )}
             </Button>
+
+            {selectedMetals.length === 0 && (
+              <p className="text-xs text-slate-500 text-center">
+                Add at least one metal parameter to continue
+              </p>
+            )}
           </TabsContent>
         </Tabs>
       </CardContent>

@@ -7,7 +7,7 @@ const PolicymakerLayout = () => {
   const navItems = getNavItemsForRole("policymaker");
 
   return (
-    <DashboardLayout navItems={navItems} userRole="policymaker">
+    <DashboardLayout navItems={navItems} userRole="policymaker" dashboardTitle="Policymaker Dashboard">
       <Outlet />
       <NIRAChatbot />
     </DashboardLayout>

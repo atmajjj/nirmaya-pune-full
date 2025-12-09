@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { Droplets } from "lucide-react";
 
 interface NavItem {
   title: string;
@@ -11,10 +12,9 @@ interface NavItem {
 interface SidebarProps {
   navItems: NavItem[];
   sidebarOpen: boolean;
-  dashboardTitle: string;
 }
 
-export const Sidebar = ({ navItems, sidebarOpen, dashboardTitle }: SidebarProps) => {
+export const Sidebar = ({ navItems, sidebarOpen }: SidebarProps) => {
   const location = useLocation();
 
   return (
@@ -25,18 +25,16 @@ export const Sidebar = ({ navItems, sidebarOpen, dashboardTitle }: SidebarProps)
       )}
     >
       {/* Header with Logo */}
-      <div className="h-16 px-4 flex items-center border-b border-brand-navy-light/40">
-        <div className="flex items-center gap-3">
-          <img
-            src="/jal-shakti-logo.png"
-            alt="Jal Shakti Logo"
-            className="w-12 h-12 object-contain flex-shrink-0"
-          />
-          {sidebarOpen && (
-            <div>
-              <p className="text-sm text-brand-surface font-medium capitalize">{dashboardTitle}</p>
-            </div>
-          )}
+      <div className="h-16 border-b border-brand-navy-light/40">
+        <div className="flex items-center justify-center w-full px-2 h-full">
+          <div className="flex items-center h-full py-2 gap-2">
+            <Droplets
+              className="w-12 h-12 text-brand-surface flex-shrink-0"
+            />
+            {sidebarOpen && (
+              <p className="text-lg text-brand-surface font-bold">NIRMAYA</p>
+            )}
+          </div>
         </div>
       </div>
 
