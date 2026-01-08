@@ -1,11 +1,11 @@
 import { useState, useRef } from "react";
-import { Upload, FileText, AlertCircle, CheckCircle, X, Download } from "lucide-react";
+import { Upload, FileText, AlertCircle, CheckCircle, X, Download, Info } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { dataSourceService } from "@/services/api";
 import { toast } from "@/hooks/use-toast";
 
@@ -169,6 +169,15 @@ const UploadDataset = () => {
           </div>
         </div>
       </div>
+
+      {/* Info Alert */}
+      <Alert className="border-blue-200 bg-blue-50">
+        <Info className="h-4 w-4 text-blue-600" />
+        <AlertTitle className="text-blue-900 font-semibold">Data Sharing</AlertTitle>
+        <AlertDescription className="text-blue-800">
+          Your uploaded data will be automatically shared with scientists on the platform for analysis and research purposes. This enables collaborative water quality monitoring and faster insights.
+        </AlertDescription>
+      </Alert>
 
       {/* Success Alert */}
       {uploadSuccess && (

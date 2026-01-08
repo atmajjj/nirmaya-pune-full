@@ -7,9 +7,6 @@ export interface MetalStandard {
   si: string;
   ii: string;
   mac: string;
-  unit: string;
-  description: string;
-  is_active: boolean;
   created_by?: number;
   created_at?: string;
   updated_by?: number | null;
@@ -24,8 +21,6 @@ export interface UpdateMetalStandardRequest {
   si?: number;
   ii?: number;
   mac?: number;
-  description?: string;
-  is_active?: boolean;
 }
 
 export const standardsService = {

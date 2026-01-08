@@ -74,40 +74,114 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     }, 100);
   };
 
+  // Detect data type based on what's calculated
+  const hasHPIData = calculations.some(calc => calc.hpi !== null && calc.hpi !== undefined);
+  const hasMIData = calculations.some(calc => calc.mi !== null && calc.mi !== undefined);
+  const hasWQIData = calculations.some(calc => calc.wqi !== null && calc.wqi !== undefined);
+
+  // Determine analysis type
+  const getAnalysisType = () => {
+    if (hasHPIData && hasMIData && hasWQIData) return 'HPI, MI & WQI Analysis';
+    if (hasHPIData && hasMIData) return 'Metal Pollution Analysis (HPI & MI)';
+    if (hasWQIData) return 'Water Quality Index (WQI) Analysis';
+    return 'Calculation Results';
+  };
+
   const getHPIBadgeColor = (hpi: number | null | undefined): string => {
     if (!hpi) return 'bg-slate-300 text-slate-700';
-    if (hpi > 100) return 'bg-red-600 text-white';
-    if (hpi > 50) return 'bg-orange-600 text-white';
-    if (hpi > 25) return 'bg-amber-500 text-white';
-    return 'bg-yellow-400 text-slate-800';
+    if (hpi > 100) return 'bg-red-500 text-white';
+    if (hpi > 75) return 'bg-orange-500 text-white';
+    if (hpi > 50) return 'bg-amber-500 text-white';
+    if (hpi > 25) return 'bg-yellow-500 text-slate-800';
+    return 'bg-green-500 text-white';
   };
-
+  const getHPITextColor = (hpi: number | null | undefined): string => {
+    if (!hpi) return 'text-slate-500';
+    if (hpi > 100) return 'text-red-600';
+    if (hpi > 75) return 'text-red-500';
+    if (hpi > 50) return 'text-orange-500';
+    if (hpi > 25) return 'text-yellow-600';
+    return 'text-green-600';
+  };
   const getHPILabel = (hpi: number | null | undefined): string => {
     if (!hpi) return 'N/A';
-    if (hpi > 100) return 'Critical';
-    if (hpi > 50) return 'High';
-    if (hpi > 25) return 'Medium';
-    return 'Low';
+    if (hpi > 75) return 'Unsafe';
+    if (hpi > 25) return 'Moderate';
+    return 'Safe';
   };
 
-  const getHEIBadgeColor = (heiClass: string | null | undefined): string => {
-    if (!heiClass) return 'bg-slate-300 text-slate-700';
-    const cls = heiClass.toLowerCase();
-    if (cls.includes('very high') || cls.includes('extremely')) return 'bg-red-600 text-white';
-    if (cls.includes('high')) return 'bg-orange-600 text-white';
-    if (cls.includes('moderate') || cls.includes('medium')) return 'bg-amber-500 text-white';
-    if (cls.includes('low')) return 'bg-yellow-400 text-slate-800';
-    if (cls.includes('pure') || cls.includes('very low')) return 'bg-green-500 text-white';
+  const getMIBadgeColor = (miClass: string | null | undefined): string => {
+    if (!miClass) return 'bg-slate-300 text-slate-700';
+    const cls = miClass.toLowerCase();
+    if (cls.includes('vi') || cls.includes('seriously')) return 'bg-red-500 text-white';
+    if (cls.includes('v') || cls.includes('strongly')) return 'bg-orange-500 text-white';
+    if (cls.includes('iv') || cls.includes('moderately')) return 'bg-amber-500 text-white';
+    if (cls.includes('iii') || cls.includes('slightly')) return 'bg-yellow-400 text-slate-800';
+    if (cls.includes('ii') || cls.includes('pure')) return 'bg-green-500 text-white';
+    if (cls.includes('i') || cls.includes('very pure')) return 'bg-emerald-600 text-white';
     return 'bg-slate-300 text-slate-700';
   };
 
-return (
+  const getMITextColor = (miClass: string | null | undefined): string => {
+    if (!miClass) return 'text-slate-500';
+    const cls = miClass.toLowerCase();
+    if (cls.includes('vi') || cls.includes('seriously')) return 'text-red-600';
+    if (cls.includes('v') || cls.includes('strongly')) return 'text-orange-500';
+    if (cls.includes('iv') || cls.includes('moderately')) return 'text-orange-500';
+    if (cls.includes('iii') || cls.includes('slightly')) return 'text-yellow-600';
+    if (cls.includes('ii') || cls.includes('pure')) return 'text-green-600';
+    if (cls.includes('i') || cls.includes('very pure')) return 'text-green-700';
+    return 'text-slate-500';
+  };
+
+  const getMIStatus = (miClass: string | null | undefined): string => {
+    if (!miClass) return 'N/A';
+    const cls = miClass.toLowerCase();
+    if (cls.includes('vi') || cls.includes('seriously')) return 'Critical';
+    if (cls.includes('v') || cls.includes('strongly')) return 'Moderate';
+    if (cls.includes('iv') || cls.includes('moderately')) return 'Moderate';
+    return 'Safe';
+  };
+
+  const getWQIBadgeColor = (wqi: number | null | undefined): string => {
+    if (!wqi) return 'bg-slate-300 text-slate-700';
+    if (wqi > 100) return 'bg-red-600 text-white';
+    if (wqi > 75) return 'bg-red-500 text-white';
+    if (wqi > 50) return 'bg-orange-500 text-white';
+    if (wqi > 25) return 'bg-green-500 text-white';
+    return 'bg-blue-500 text-white';
+  };
+
+  const getWQITextColor = (wqi: number | null | undefined): string => {
+    if (!wqi) return 'text-slate-500';
+    if (wqi > 100) return 'text-red-700';
+    if (wqi > 75) return 'text-red-600';
+    if (wqi > 50) return 'text-orange-500';
+    if (wqi > 25) return 'text-green-600';
+    return 'text-blue-600';
+  };
+
+  const getWQILabel = (wqi: number | null | undefined): string => {
+    if (!wqi) return 'N/A';
+    if (wqi > 100) return 'Unsuitable';
+    if (wqi > 75) return 'Very Poor';
+    if (wqi > 50) return 'Poor';
+    if (wqi > 25) return 'Good';
+    return 'Excellent';
+  };
+
+  return (
     <Card className="rounded-xl border border-slate-200 bg-white shadow-sm">
       <CardHeader className="border-b border-slate-100 pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-slate-800 text-lg font-semibold">Calculation Results</CardTitle>
-            <p className="text-sm text-slate-500 mt-1">{calculations.length} stations analyzed</p>
+            <CardTitle className="text-slate-800 text-lg font-semibold">{getAnalysisType()}</CardTitle>
+            <p className="text-sm text-slate-500 mt-1">
+              {calculations.length} stations analyzed
+              {hasHPIData && hasMIData && !hasWQIData && ' • Heavy Metal Pollution'}
+              {hasWQIData && !hasHPIData && !hasMIData && ' • Water Quality Parameters'}
+              {hasHPIData && hasWQIData && ' • Comprehensive Analysis'}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Button
@@ -206,62 +280,113 @@ return (
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm border-collapse border border-slate-300">
               <thead>
-                <tr className="border-b border-slate-200">
-                  <th className="text-left p-3 text-slate-700 font-semibold">Station ID</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">Location</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">District</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">State</th>
-                  <th className="text-center p-3 text-slate-700 font-semibold">Year</th>
-                  <th className="text-right p-3 text-slate-700 font-semibold">HPI</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">HPI Status</th>
-                  <th className="text-right p-3 text-slate-700 font-semibold">MI</th>
-                  <th className="text-left p-3 text-slate-700 font-semibold">MI Status</th>
-                  <th className="text-center p-3 text-slate-700 font-semibold">Actions</th>
+                <tr className="bg-slate-100 border-b-2 border-slate-300">
+                  <th className="text-left p-3 text-slate-700 font-bold border border-slate-300">Station ID</th>
+                  <th className="text-left p-3 text-slate-700 font-bold border border-slate-300">Location</th>
+                  <th className="text-left p-3 text-slate-700 font-bold border border-slate-300">District</th>
+                  <th className="text-left p-3 text-slate-700 font-bold border border-slate-300">State</th>
+                  <th className="text-center p-3 text-slate-700 font-bold border border-slate-300">Year</th>
+                  {hasHPIData && (
+                    <>
+                      <th className="text-right p-3 text-slate-700 font-bold border border-slate-300">HPI</th>
+                      <th className="text-center p-3 text-slate-700 font-bold border border-slate-300">HPI Status</th>
+                    </>
+                  )}
+                  {hasMIData && (
+                    <>
+                      <th className="text-right p-3 text-slate-700 font-bold border border-slate-300">MI</th>
+                      <th className="text-center p-3 text-slate-700 font-bold border border-slate-300">MI Class</th>
+                      <th className="text-center p-3 text-slate-700 font-bold border border-slate-300">MI Status</th>
+                    </>
+                  )}
+                  {hasWQIData && (
+                    <>
+                      <th className="text-right p-3 text-slate-700 font-bold border border-slate-300">WQI</th>
+                      <th className="text-center p-3 text-slate-700 font-bold border border-slate-300">WQI Status</th>
+                    </>
+                  )}
+                  {hasHPIData && hasMIData && (
+                    <th className="text-center p-3 text-slate-700 font-bold border border-slate-300">Metals</th>
+                  )}
+                  {hasWQIData && (
+                    <th className="text-center p-3 text-slate-700 font-bold border border-slate-300">Params</th>
+                  )}
                 </tr>
               </thead>
               <tbody>
-                {calculations.map((calc) => (
-                  <tr key={calc.id} className="border-b border-slate-100 hover:bg-slate-50">
-                    <td className="p-3 text-slate-600 font-mono text-xs">{calc.station_id}</td>
-                    <td className="p-3 text-slate-700">
-                      {calc.location || calc.city || 'N/A'}
+                {calculations.map((calc, index) => (
+                  <tr
+                    key={calc.id}
+                    className={`hover:bg-blue-50 transition-colors ${
+                      index % 2 === 0 ? 'bg-white' : 'bg-slate-50'
+                    }`}
+                  >
+                    <td className="p-3 text-slate-800 font-mono text-xs font-bold border border-slate-300">
+                      {calc.station_id}
                     </td>
-                    <td className="p-3 text-slate-700">
-                      {calc.district || '-'}
+                    <td className="p-3 text-slate-700 max-w-[200px] truncate border border-slate-300">
+                      {calc.location || calc.city || '-'}
                     </td>
-                    <td className="p-3 text-slate-700">
-                      {calc.state || '-'}
-                    </td>
-                    <td className="p-3 text-slate-700 text-center">
+                    <td className="p-3 text-slate-600 border border-slate-300">{calc.district || '-'}</td>
+                    <td className="p-3 text-slate-600 border border-slate-300">{calc.state || '-'}</td>
+                    <td className="p-3 text-slate-700 text-center font-semibold border border-slate-300">
                       {calc.year || '-'}
                     </td>
-                    <td className="p-3 text-slate-700 font-bold text-right">
-                      {calc.hpi?.toFixed(2) || 'N/A'}
-                    </td>
-                    <td className="p-3">
-                      <Badge
-                        variant="outline"
-                        className={`text-xs font-semibold border-0 ${getHPIBadgeColor(calc.hpi)}`}
-                      >
-                        {getHPILabel(calc.hpi)}
-                      </Badge>
-                    </td>
-                    <td className="p-3 text-slate-700 font-bold text-right">
-                      {calc.mi?.toFixed(2) || 'N/A'}
-                    </td>
-                    <td className="p-3">
-                      <Badge
-                        variant="outline"
-                        className={`text-xs font-semibold border-0 ${getHEIBadgeColor(calc.mi_class)}`}
-                      >
-                        {calc.mi_class || 'N/A'}
-                      </Badge>
-                    </td>
-                    <td className="p-3 text-slate-600 text-xs">
-                      {calc.metals_analyzed?.length || 0} metals
-                    </td>
+                    {hasHPIData && (
+                      <>
+                        <td className={`p-3 font-bold text-right text-lg border border-slate-300 ${getHPITextColor(calc.hpi)}`}>
+                          {calc.hpi?.toFixed(2) || 'N/A'}
+                        </td>
+                        <td className="p-3 text-center border border-slate-300">
+                          <Badge className={`${getHPIBadgeColor(calc.hpi)} border-0 font-bold text-xs`}>
+                            {getHPILabel(calc.hpi)}
+                          </Badge>
+                        </td>
+                      </>
+                    )}
+                    {hasMIData && (
+                      <>
+                        <td className={`p-3 font-bold text-right text-lg border border-slate-300 ${getMITextColor(calc.mi_class)}`}>
+                          {calc.mi?.toFixed(3) || 'N/A'}
+                        </td>
+                        <td className="p-3 text-center text-slate-600 text-xs border border-slate-300">
+                          {calc.mi_class || '-'}
+                        </td>
+                        <td className="p-3 text-center border border-slate-300">
+                          <Badge className={`${getMIBadgeColor(calc.mi_class)} border-0 font-bold text-xs`}>
+                            {getMIStatus(calc.mi_class)}
+                          </Badge>
+                        </td>
+                      </>
+                    )}
+                    {hasWQIData && (
+                      <>
+                        <td className={`p-3 font-bold text-right text-lg border border-slate-300 ${getWQITextColor(calc.wqi)}`}>
+                          {calc.wqi?.toFixed(2) || 'N/A'}
+                        </td>
+                        <td className="p-3 text-center border border-slate-300">
+                          <Badge className={`${getWQIBadgeColor(calc.wqi)} border-0 font-bold text-xs`}>
+                            {getWQILabel(calc.wqi)}
+                          </Badge>
+                        </td>
+                      </>
+                    )}
+                    {hasHPIData && hasMIData && (
+                      <td className="p-3 text-center border border-slate-300">
+                        <span className="text-xs text-slate-600 bg-slate-100 px-2 py-1 rounded">
+                          {calc.metals_analyzed?.length || 0}
+                        </span>
+                      </td>
+                    )}
+                    {hasWQIData && (
+                      <td className="p-3 text-center border border-slate-300">
+                        <span className="text-xs text-slate-600 bg-slate-100 px-2 py-1 rounded">
+                          {calc.params_analyzed?.length || 0}
+                        </span>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

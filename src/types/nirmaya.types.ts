@@ -32,6 +32,7 @@ export interface CSVPreviewResult {
   available_calculations: {
     hpi: AvailableCalculation;
     mi: AvailableCalculation;
+    wqi: AvailableCalculation;
   };
   warnings?: string[];
 }
@@ -54,6 +55,9 @@ export interface Calculation {
   mi: number | null;
   mi_classification: string | null;
   mi_class: string | null;
+  wqi: number | null;
+  wqi_classification: string | null;
+  params_analyzed: string[] | null;
   metals_analyzed: string[] | null;
   created_at: string;
   updated_at?: string;
@@ -75,6 +79,7 @@ export interface CalculationResult {
   available_indices?: {
     hpi: boolean;
     mi: boolean;
+    wqi: boolean;
   };
   metals_analyzed?: string[];
   warnings?: string[];
