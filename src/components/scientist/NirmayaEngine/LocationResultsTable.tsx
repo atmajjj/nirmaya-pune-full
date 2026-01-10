@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Loader2, Filter, X, Download } from "lucide-react";
+import { Plus, Loader2, Filter, X, Download, Sparkles } from "lucide-react";
 import { nirmayaEngineService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import type { Calculation } from "@/types/nirmaya.types";
@@ -20,6 +20,7 @@ interface LocationResultsTableProps {
 export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }: LocationResultsTableProps) => {
   const [calculations, setCalculations] = useState<Calculation[]>([]);
   const [loading, setLoading] = useState(false);
+  const [generatingReport, setGeneratingReport] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     district: '',
@@ -74,6 +75,60 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     setTimeout(() => {
       fetchCalculations();
     }, 100);
+  };
+
+  const handleGenerateAIReport = async () => {
+    if (!uploadId) return;
+    
+    setGeneratingReport(true);
+    try {
+      toast({
+        title: "Generating Report",
+        description: "Creating AI-powered report... This may take 20-30 seconds.",
+      });
+      
+      const token = tokenManager.getAccessToken();
+      const url = `${ENV.API_URL}/nirmaya-engine/ai-report`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ uploadId })
+      });
+      
+      if (!response.ok) {
+        throw new Error('Report generation failed');
+      }
+      
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.setAttribute('download', `ai-report-${uploadId}.pdf`);
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+      
+      toast({
+        title: "Success",
+        description: "AI-powered report generated and downloaded successfully!",
+      });
+    } catch (error) {
+      console.error('AI report generation error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate AI report. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setGeneratingReport(false);
+    }
   };
 
   const handleDownloadCSV = async () => {
@@ -250,6 +305,24 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
             >
               <Download className="w-4 h-4 mr-2" />
               Download CSV
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleGenerateAIReport}
+              disabled={!uploadId || calculations.length === 0 || generatingReport}
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+            >
+              {generatingReport ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  AI Report
+                </>
+              )}
             </Button>
             <Button
               size="sm"
