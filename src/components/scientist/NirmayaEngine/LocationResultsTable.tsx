@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Loader2, Filter, X } from "lucide-react";
+import { Plus, Loader2, Filter, X, Download } from "lucide-react";
 import { nirmayaEngineService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import type { Calculation } from "@/types/nirmaya.types";
+import { ENV } from "@/config/env";
+import { tokenManager } from "@/services/api/apiClient";
 
 interface LocationResultsTableProps {
   uploadId?: number;
@@ -72,6 +74,53 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     setTimeout(() => {
       fetchCalculations();
     }, 100);
+  };
+
+  const handleDownloadCSV = async () => {
+    if (!uploadId) return;
+    
+    try {
+      const token = tokenManager.getAccessToken();
+      const url = `${ENV.API_URL}/nirmaya-engine/uploads/${uploadId}/download`;
+      
+      // Create a temporary link and trigger download
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', '');
+      link.style.display = 'none';
+      
+      // Add authorization header by opening in new window with fetch
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error('Download failed');
+      }
+      
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      link.href = blobUrl;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+      
+      toast({
+        title: "Success",
+        description: "CSV file downloaded successfully",
+      });
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to download CSV file",
+        variant: "destructive",
+      });
+    }
   };
 
   // Detect data type based on what's calculated
@@ -191,6 +240,16 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
             >
               <Filter className="w-4 h-4 mr-2" />
               {showFilters ? 'Hide Filters' : 'Show Filters'}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleDownloadCSV}
+              disabled={!uploadId || calculations.length === 0}
+              className="text-green-600 border-green-600 hover:bg-green-50"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              Download CSV
             </Button>
             <Button
               size="sm"
