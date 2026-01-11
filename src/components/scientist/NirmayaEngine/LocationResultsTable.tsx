@@ -84,46 +84,24 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     try {
       toast({
         title: "Generating Report",
-        description: "Creating AI-powered report... This may take 20-30 seconds.",
+        description: "Preparing sample water quality report...",
       });
       
-      const token = tokenManager.getAccessToken();
-      const url = `${ENV.API_URL}/nirmaya-engine/ai-report`;
+      // Simulate processing delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
       
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ uploadId })
-      });
-      
-      if (!response.ok) {
-        throw new Error('Report generation failed');
-      }
-      
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-      
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.setAttribute('download', `ai-report-${uploadId}.pdf`);
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(blobUrl);
+      // Open the sample PDF directly
+      window.open('/ai-report-47.pdf', '_blank');
       
       toast({
         title: "Success",
-        description: "AI-powered report generated and downloaded successfully!",
+        description: "Sample report opened successfully!",
       });
     } catch (error) {
       console.error('AI report generation error:', error);
       toast({
         title: "Error",
-        description: "Failed to generate AI report. Please try again.",
+        description: "Failed to open report. Please try again.",
         variant: "destructive",
       });
     } finally {
