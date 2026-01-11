@@ -10,7 +10,8 @@ import type {
   GetReportResponse,
   ListReportsParams,
   ListReportsResponse,
-  ReportStatusResponse
+  ReportStatusResponse,
+  NirmayaReportListItem
 } from '@/types/nirmaya-report.types';
 
 const BASE_PATH = '/hmpi-report';
@@ -18,131 +19,210 @@ const BASE_PATH = '/hmpi-report';
 export const nirmayaReportService = {
   /**
    * Generate a new Nirmaya report
-   * POST /api/nirmaya-report/generate
-   * Falls back to sample PDF if API fails
+   * Returns sample PDF (API disabled for demo)
    */
   generateReport: async (data: GenerateReportRequest): Promise<GenerateReportResponse> => {
-    try {
-      return await apiClient.post<GenerateReportResponse>(`${BASE_PATH}/generate`, data);
-    } catch (error) {
-      console.warn('Report generation API failed, using fallback PDF:', error);
-      // Return a mock successful response that points to the fallback PDF
-      return {
-        success: true,
-        message: 'Using sample report (API unavailable)',
-        data: {
-          report_id: 47, // Match the PDF filename
-          status: 'completed',
-          report_title: data.report_title || 'Sample Water Quality Report',
+    console.log('Using sample report PDF (API disabled)');
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Return a mock successful response that points to the sample PDF
+    return {
+      success: true,
+      message: 'Sample Water Quality Report',
+      data: {
+        report: {
+          id: 47,
           upload_id: data.upload_id,
-          created_at: new Date().toISOString(),
-          pdf_url: '/ai-report-47.pdf'
-        }
-      };
-    }
+          report_title: 'Water Quality Analysis Report - Pune Region',
+          status: 'completed',
+          created_at: new Date().toISOString()
+        },
+        estimatedTime: '0 seconds'
+      }
+    };
   },
 
   /**
    * Get report details by ID
-   * GET /api/nirmaya-report/:reportId
-   * Falls back to sample PDF for report ID 47
+   * Returns sample report data
    */
   getReport: async (reportId: number): Promise<GetReportResponse> => {
-    try {
-      return await apiClient.get<GetReportResponse>(`${BASE_PATH}/${reportId}`);
-    } catch (error) {
-      console.warn('Get report API failed, using fallback for report 47:', error);
-      // Return sample report data
-      return {
-        success: true,
-        message: 'Sample report (API unavailable)',
-        data: {
-          id: 47,
-          report_title: 'Sample Water Quality Report',
-          upload_id: 1,
-          status: 'completed',
-          pdf_url: '/ai-report-47.pdf',
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          generated_at: new Date().toISOString(),
-          error_message: null
-        }
-      };
-    }
+    console.log('Using sample report data (API disabled)');
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Return sample report data
+    return {
+      success: true,
+      data: {
+        id: reportId,
+        upload_id: 1,
+        report_title: 'Water Quality Analysis Report - Pune Region',
+        report_type: 'comprehensive',
+        file_name: 'ai-report-47.pdf',
+        file_path: '/ai-report-47.pdf',
+        file_url: '/ai-report-47.pdf',
+        file_size: 1024000,
+        total_stations: 100,
+        avg_hpi: '45.67',
+        avg_mi: '0.42',
+        avg_wqi: '65.34',
+        status: 'completed',
+        error_message: null,
+        generated_at: new Date().toISOString(),
+        created_by: 1,
+        created_at: new Date().toISOString(),
+        updated_by: null,
+        updated_at: new Date().toISOString(),
+        is_deleted: false,
+        deleted_by: null,
+        deleted_at: null
+      }
+    };
   },
 
   /**
    * Get report status
-   * GET /api/nirmaya-report/:reportId/status
-   * Falls back to completed status for report 47
+   * Returns completed status with sample PDF
    */
   getReportStatus: async (reportId: number): Promise<ReportStatusResponse> => {
-    try {
-      return await apiClient.get<ReportStatusResponse>(`${BASE_PATH}/${reportId}/status`);
-    } catch (error) {
-      console.warn('Get report status API failed, using fallback:', error);
-      // Return completed status for fallback
-      return {
-        success: true,
-        message: 'Sample report status',
-        data: {
-          report_id: 47,
-          status: 'completed',
-          progress: 100,
-          pdf_url: '/ai-report-47.pdf'
-        }
-      };
-    }
+    console.log('Using sample report status (API disabled)');
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Return completed status
+    return {
+      success: true,
+      data: {
+        report_id: reportId,
+        status: 'completed',
+        progress: 100,
+        message: 'Report generated successfully'
+      }
+    };
   },
 
   /**
-   * Download report (redirects to S3 presigned URL)
-   * GET /api/nirmaya-report/:reportId/download
-   * Falls back to sample PDF if API fails
+   * Download report
+   * Opens sample PDF in new tab
    */
   downloadReport: async (reportId: number): Promise<void> => {
-    try {
-      const token = localStorage.getItem('accessToken');
-      const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
-      const url = `${baseUrl}${BASE_PATH}/${reportId}/download?token=${token}`;
-      
-      // Try to fetch the report
-      const response = await fetch(url);
-      
-      if (!response.ok) {
-        throw new Error('Report download failed');
-      }
-      
-      // If successful, open in new tab
-      window.open(url, '_blank');
-    } catch (error) {
-      console.warn('API report download failed, using fallback PDF:', error);
-      // Fallback to sample report
-      window.open('/ai-report-47.pdf', '_blank');
-    }
+    console.log('Downloading sample report PDF');
+    // Directly open the sample PDF
+    window.open('/ai-report-47.pdf', '_blank');
   },
 
   /**
    * List all reports with pagination and filters
-   * GET /api/nirmaya-report?page=1&limit=10&status=completed&sort_by=created_at&sort_order=desc
+   * Returns sample reports
    */
   listReports: async (params?: ListReportsParams): Promise<ListReportsResponse> => {
-    return apiClient.get<ListReportsResponse>(BASE_PATH, { 
-      params: params as Record<string, string | number | boolean | undefined>
-    });
+    console.log('Using sample reports list (API disabled)');
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    // Generate sample reports
+    const sampleReports: NirmayaReportListItem[] = [
+      {
+        id: 47,
+        upload_id: 1,
+        report_title: 'Water Quality Analysis Report - Pune Region',
+        status: 'completed',
+        report_type: 'comprehensive',
+        total_stations: 100,
+        avg_hpi: '45.67',
+        avg_mi: '0.42',
+        avg_wqi: '65.34',
+        file_size: 1024000,
+        created_at: new Date(Date.now() - 86400000).toISOString(),
+        generated_at: new Date(Date.now() - 86400000).toISOString()
+      },
+      {
+        id: 46,
+        upload_id: 2,
+        report_title: 'Groundwater Quality Assessment - Maharashtra',
+        status: 'completed',
+        report_type: 'comprehensive',
+        total_stations: 85,
+        avg_hpi: '52.34',
+        avg_mi: '0.56',
+        avg_wqi: '72.45',
+        file_size: 987000,
+        created_at: new Date(Date.now() - 172800000).toISOString(),
+        generated_at: new Date(Date.now() - 172800000).toISOString()
+      },
+      {
+        id: 45,
+        upload_id: 3,
+        report_title: 'Heavy Metal Contamination Study',
+        status: 'completed',
+        report_type: 'comprehensive',
+        total_stations: 120,
+        avg_hpi: '68.91',
+        avg_mi: '0.78',
+        avg_wqi: '81.23',
+        file_size: 1156000,
+        created_at: new Date(Date.now() - 259200000).toISOString(),
+        generated_at: new Date(Date.now() - 259200000).toISOString()
+      }
+    ];
+    
+    return {
+      success: true,
+      message: 'Sample reports',
+      data: sampleReports,
+      meta: {
+        pagination: {
+          page: params?.page || 1,
+          limit: params?.limit || 10,
+          total: sampleReports.length,
+          totalPages: 1
+        }
+      }
+    };
   },
 
   /**
    * List reports by upload ID
-   * GET /api/nirmaya-report/upload/:uploadId
+   * Returns sample reports
    */
   listReportsByUpload: async (
     uploadId: number,
     params?: Omit<ListReportsParams, 'upload_id'>
   ): Promise<ListReportsResponse> => {
-    return apiClient.get<ListReportsResponse>(`${BASE_PATH}/upload/${uploadId}`, { 
-      params: params as Record<string, string | number | boolean | undefined>
-    });
+    console.log('Using sample reports by upload (API disabled)');
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 400));
+    
+    return {
+      success: true,
+      message: 'Sample report for upload',
+      data: [
+        {
+          id: 47,
+          upload_id: uploadId,
+          report_title: 'Water Quality Analysis Report - Pune Region',
+          status: 'completed',
+          report_type: 'comprehensive',
+          total_stations: 100,
+          avg_hpi: '45.67',
+          avg_mi: '0.42',
+          avg_wqi: '65.34',
+          file_size: 1024000,
+          created_at: new Date().toISOString(),
+          generated_at: new Date().toISOString()
+        }
+      ],
+      meta: {
+        pagination: {
+          page: 1,
+          limit: 10,
+          total: 1,
+          totalPages: 1
+        }
+      }
+    };
   },
 
   /**
