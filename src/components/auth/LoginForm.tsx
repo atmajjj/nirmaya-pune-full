@@ -148,6 +148,32 @@ export const LoginForm = ({ onSubmit, isLoading, error, onClearError }: LoginFor
             )}
           </Button>
         </form>
+
+        {/* Test Credentials Section */}
+        <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200">
+          <p className="text-xs font-semibold text-slate-700 mb-3 flex items-center gap-2">
+            <AlertCircle className="w-3.5 h-3.5" />
+            Demo Credentials
+          </p>
+          <div className="space-y-2 text-xs text-slate-600">
+            <div className="flex items-center gap-2">
+              <span className="font-medium min-w-[90px]">Field Tech:</span>
+              <span className="text-slate-500">fieldtech@gmail.com / 12345678</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-medium min-w-[90px]">Scientist:</span>
+              <span className="text-slate-500">scientist@gmail.com / 12345678</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-medium min-w-[90px]">Researcher:</span>
+              <span className="text-slate-500">researcher@gmail.com / 12345678</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-medium min-w-[90px]">Policymaker:</span>
+              <span className="text-slate-500">policymaker@gmail.com / 12345678</span>
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );
