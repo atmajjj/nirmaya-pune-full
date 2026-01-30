@@ -282,4 +282,65 @@ All colors MUST be HSL.
   .translate-widget .goog-te-menu2-item:hover div {
     background-color: rgba(0, 168, 232, 0.2) !important;
   }
+
+  /* Hide Google Translate banner and ensure body position is correct */
+  .goog-te-banner-frame.skiptranslate {
+    display: none !important;
+  }
+  
+  body {
+    top: 0 !important;
+    position: static !important;
+  }
+
+  /* Hide the "Powered by" link */
+  .goog-logo-link {
+    display: none !important;
+  }
+
+  .goog-te-gadget span {
+    display: none !important;
+  }
+
+  .goog-te-gadget > span > a {
+    display: none !important;
+  }
+
+  /* Leaflet Map Z-Index Fix - Prevent map from overlapping other cards */
+  .leaflet-container {
+    z-index: 0 !important;
+    position: relative !important;
+  }
+
+  .leaflet-pane {
+    z-index: 1 !important;
+  }
+
+  .leaflet-tile-pane {
+    z-index: 1 !important;
+  }
+
+  .leaflet-overlay-pane {
+    z-index: 2 !important;
+  }
+
+  .leaflet-shadow-pane {
+    z-index: 3 !important;
+  }
+
+  .leaflet-marker-pane {
+    z-index: 4 !important;
+  }
+
+  .leaflet-tooltip-pane {
+    z-index: 5 !important;
+  }
+
+  .leaflet-popup-pane {
+    z-index: 6 !important;
+  }
+
+  .leaflet-control {
+    z-index: 7 !important;
+  }
 }

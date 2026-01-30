@@ -345,7 +345,7 @@ const InteractiveGeoMap = () => {
                   )}
 
                   {/* Map Legend Overlay */}
-                  <div className="absolute bottom-4 left-4 bg-white rounded-lg border border-slate-200 p-3 z-[1000]">
+                  <div className="absolute bottom-4 left-4 bg-white rounded-lg border border-slate-200 p-3 z-10">
                     <h4 className="text-xs font-semibold text-slate-700 mb-2">Risk Level</h4>
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
@@ -364,7 +364,7 @@ const InteractiveGeoMap = () => {
                   </div>
 
                   {/* Site Counter Overlay */}
-                  <div className="absolute top-4 right-4 bg-white rounded-lg border border-slate-200 px-3 py-2 z-[1000]">
+                  <div className="absolute top-4 right-4 bg-white rounded-lg border border-slate-200 px-3 py-2 z-10">
                     <span className="text-xs text-slate-500">Showing </span>
                     <span className="text-sm font-semibold text-brand">{stations.length}</span>
                     <span className="text-xs text-slate-500"> sites</span>

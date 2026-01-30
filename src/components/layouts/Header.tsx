@@ -78,7 +78,19 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout, dashboardTitle }: 
   useEffect(() => {
     // Initialize Google Translate widget when component mounts
     const initializeGoogleTranslate = () => {
-      if (window.google && window.google.translate && document.getElementById('google_translate_element')) {
+      const element = document.getElementById('google_translate_element');
+      if (!element) return;
+
+      // Check if already initialized
+      if (element.querySelector('.goog-te-gadget')) {
+        console.log('ℹ️ Google Translate already initialized');
+        return;
+      }
+
+      // Clear any existing content
+      element.innerHTML = '';
+
+      if (window.google && window.google.translate) {
         try {
           new window.google.translate.TranslateElement({
             pageLanguage: 'en',
@@ -86,28 +98,30 @@ export const Header = ({ userInfo, onToggleSidebar, onLogout, dashboardTitle }: 
             layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
             autoDisplay: false
           }, 'google_translate_element');
+          console.log('✅ Google Translate widget initialized successfully');
         } catch (error) {
-          console.error('Failed to initialize Google Translate:', error);
+          console.error('❌ Failed to initialize Google Translate:', error);
         }
       }
     };
 
-    // Check if Google Translate is already loaded
+    // Try to initialize immediately if Google Translate is loaded
     if (window.google && window.google.translate) {
-      initializeGoogleTranslate();
+      setTimeout(initializeGoogleTranslate, 100);
     } else {
-      // Wait for Google Translate to load
+      // Wait for Google Translate script to load
+      let attempts = 0;
       const checkGoogleTranslate = setInterval(() => {
+        attempts++;
         if (window.google && window.google.translate) {
           clearInterval(checkGoogleTranslate);
           initializeGoogleTranslate();
+        } else if (attempts > 50) {
+          // Stop after 5 seconds
+          clearInterval(checkGoogleTranslate);
+          console.warn('⚠️ Google Translate script failed to load');
         }
       }, 100);
-
-      // Timeout after 10 seconds
-      setTimeout(() => {
-        clearInterval(checkGoogleTranslate);
-      }, 10000);
     }
   }, []);
 
