@@ -25,6 +25,7 @@ const ScientistOverview = lazy(() => import("./pages/scientist/Overview"));
 const DataSources = lazy(() => import("./pages/scientist/DataSources"));
 const NirmayaEngine = lazy(() => import("./pages/scientist/NirmayaEngine"));
 const Standards = lazy(() => import("./pages/scientist/Standards"));
+const FormulaEditor = lazy(() => import("./pages/scientist/FormulaEditor"));
 const ScientistGeoMap = lazy(() => import("./pages/scientist/GeoMap"));
 
 const RiskAlerts = lazy(() => import("./pages/policymaker/RiskAlerts"));
@@ -86,6 +87,7 @@ const App = () => (
                   <Route path="data-sources" element={<DataSources />} />
                   <Route path="nirmaya-engine" element={<NirmayaEngine />} />
                   <Route path="standards" element={<Standards />} />
+                  <Route path="formula-editor" element={<FormulaEditor />} />
                   <Route path="geo-map" element={<ScientistGeoMap />} />
                 </Route>
 

@@ -27,6 +27,7 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     year: '',
     state: '',
     city: '',
+    station_id: '',
   });
   const { toast } = useToast();
 
@@ -50,6 +51,7 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
         ...(filters.year && { year: parseInt(filters.year) }),
         ...(filters.state && { state: filters.state }),
         ...(filters.city && { city: filters.city }),
+        ...(filters.station_id && { station_id: filters.station_id }),
       });
 
       setCalculations(data);
@@ -71,7 +73,7 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
   };
 
   const handleClearFilters = () => {
-    setFilters({ district: '', year: '', state: '', city: '' });
+    setFilters({ district: '', year: '', state: '', city: '', station_id: '' });
     setTimeout(() => {
       fetchCalculations();
     }, 100);
@@ -354,6 +356,18 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
                   placeholder="e.g., 2024"
                   value={filters.year}
                   onChange={(e) => setFilters({ ...filters, year: e.target.value })}
+                  className="mt-1"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+              <div>
+                <Label htmlFor="filter-station-id" className="text-xs font-semibold">Station ID</Label>
+                <Input
+                  id="filter-station-id"
+                  placeholder="Search by station ID"
+                  value={filters.station_id}
+                  onChange={(e) => setFilters({ ...filters, station_id: e.target.value })}
                   className="mt-1"
                 />
               </div>

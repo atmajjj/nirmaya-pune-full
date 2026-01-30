@@ -283,7 +283,7 @@ export const DataInputPanel = ({ onUploadComplete, onPreviewComplete }: DataInpu
                     Calculating Indices...
                   </>
                 ) : (
-                  'Calculate HPI & HEI'
+                  'Calculate'
                 )}
               </Button>
             )}

@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Gauge, Loader2, Save, X, Edit2, Beaker, Calculator, Info } from "lucide-react";
+import { Gauge, Loader2, Save, X, Edit2, Beaker, Calculator, Info, Droplet } from "lucide-react";
 import { standardsService, MetalStandard } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -112,13 +112,23 @@ const Standards = () => {
       {/* Info Alert */}
       <Alert className="border-blue-200 bg-blue-50">
         <Info className="h-4 w-4 text-blue-600" />
-        <AlertTitle className="text-blue-900 font-semibold">About Metal Standards</AlertTitle>
+        <AlertTitle className="text-blue-900 font-semibold">Understanding Water Quality Standards</AlertTitle>
         <AlertDescription className="text-blue-800">
-          These standards are based on BIS 10500:2012 and WHO Guidelines. All values are in <strong>ppb (µg/L)</strong>.
-          <div className="mt-2 space-y-1">
-            <div><strong>Si:</strong> Standard Permissible Limit - Maximum safe concentration for drinking water</div>
-            <div><strong>Ii:</strong> Ideal Value - Optimal concentration with no adverse effects</div>
-            <div><strong>MAC:</strong> Maximum Allowable Concentration - Critical threshold for MI calculations</div>
+          This page displays all standards used for water quality calculations (BIS 10500:2012 & WHO Guidelines).
+          <div className="mt-3">
+            <div className="font-semibold mb-1">Heavy Metal Standards (HPI/MI):</div>
+            <div className="ml-4 space-y-1 text-sm">
+              <div><strong>Si:</strong> Standard Permissible Limit (ppb) - Maximum safe concentration</div>
+              <div><strong>Ii:</strong> Ideal Value (ppb) - Optimal concentration with no adverse effects</div>
+              <div><strong>MAC:</strong> Maximum Allowable Concentration (ppb) - Critical threshold for MI</div>
+            </div>
+          </div>
+          <div className="mt-3">
+            <div className="font-semibold mb-1">WQI Standards (Water Quality Index):</div>
+            <div className="ml-4 space-y-1 text-sm">
+              <div><strong>Sn:</strong> Standard Permissible Limit - Maximum safe concentration for drinking water</div>
+              <div><strong>Vo:</strong> Ideal/Optimal Value - Baseline for quality rating calculation</div>
+            </div>
           </div>
         </AlertDescription>
       </Alert>
@@ -127,10 +137,14 @@ const Standards = () => {
       <Card>
         <CardContent className="p-6">
           <Tabs defaultValue="metals" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsList className="grid w-full grid-cols-3 mb-6">
               <TabsTrigger value="metals" className="flex items-center gap-2">
                 <Gauge className="h-4 w-4" />
                 Heavy Metal Standards
+              </TabsTrigger>
+              <TabsTrigger value="wqi" className="flex items-center gap-2">
+                <Droplet className="h-4 w-4" />
+                WQI Standards
               </TabsTrigger>
               <TabsTrigger value="calculator" className="flex items-center gap-2">
                 <Calculator className="h-4 w-4" />
@@ -238,6 +252,183 @@ const Standards = () => {
                     ))}
                   </TableBody>
                 </Table>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="font-semibold text-sm mb-3 text-blue-900">BIS 10500:2012 & WHO Guidelines - Heavy Metal Limits (Si & Ii Values)</div>
+                <div className="bg-white rounded-lg overflow-hidden border border-blue-200">
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="bg-slate-100 hover:bg-slate-100">
+                        <TableHead className="font-semibold text-xs">Symbol</TableHead>
+                        <TableHead className="font-semibold text-xs">Metal Name</TableHead>
+                        <TableHead className="font-semibold text-xs">Si (ppb)</TableHead>
+                        <TableHead className="font-semibold text-xs">Ii (ppb)</TableHead>
+                        <TableHead className="font-semibold text-xs">MAC (ppb)</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">As</TableCell><TableCell className="text-xs">Arsenic</TableCell><TableCell className="font-mono text-xs">50</TableCell><TableCell className="font-mono text-xs">10</TableCell><TableCell className="font-mono text-xs">50</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Cu</TableCell><TableCell className="text-xs">Copper</TableCell><TableCell className="font-mono text-xs">1500</TableCell><TableCell className="font-mono text-xs">50</TableCell><TableCell className="font-mono text-xs">1500</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Zn</TableCell><TableCell className="text-xs">Zinc</TableCell><TableCell className="font-mono text-xs">15000</TableCell><TableCell className="font-mono text-xs">5000</TableCell><TableCell className="font-mono text-xs">15000</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Hg</TableCell><TableCell className="text-xs">Mercury</TableCell><TableCell className="font-mono text-xs">2</TableCell><TableCell className="font-mono text-xs">1</TableCell><TableCell className="font-mono text-xs">1</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Cd</TableCell><TableCell className="text-xs">Cadmium</TableCell><TableCell className="font-mono text-xs">10</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">3</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Ni</TableCell><TableCell className="text-xs">Nickel</TableCell><TableCell className="font-mono text-xs">70</TableCell><TableCell className="font-mono text-xs">20</TableCell><TableCell className="font-mono text-xs">20</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Pb</TableCell><TableCell className="text-xs">Lead</TableCell><TableCell className="font-mono text-xs">50</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">10</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Cr</TableCell><TableCell className="text-xs">Chromium</TableCell><TableCell className="font-mono text-xs">50</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">50</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Fe</TableCell><TableCell className="text-xs">Iron</TableCell><TableCell className="font-mono text-xs">1000</TableCell><TableCell className="font-mono text-xs">300</TableCell><TableCell className="font-mono text-xs">300</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Mn</TableCell><TableCell className="text-xs">Manganese</TableCell><TableCell className="font-mono text-xs">300</TableCell><TableCell className="font-mono text-xs">100</TableCell><TableCell className="font-mono text-xs">100</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Al</TableCell><TableCell className="text-xs">Aluminum</TableCell><TableCell className="font-mono text-xs">200</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">200</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Ba</TableCell><TableCell className="text-xs">Barium</TableCell><TableCell className="font-mono text-xs">700</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">700</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Se</TableCell><TableCell className="text-xs">Selenium</TableCell><TableCell className="font-mono text-xs">10</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">10</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Ag</TableCell><TableCell className="text-xs">Silver</TableCell><TableCell className="font-mono text-xs">100</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">100</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Mo</TableCell><TableCell className="text-xs">Molybdenum</TableCell><TableCell className="font-mono text-xs">70</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">70</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Sb</TableCell><TableCell className="text-xs">Antimony</TableCell><TableCell className="font-mono text-xs">20</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">20</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">Co</TableCell><TableCell className="text-xs">Cobalt</TableCell><TableCell className="font-mono text-xs">50</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">50</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">V</TableCell><TableCell className="text-xs">Vanadium</TableCell><TableCell className="font-mono text-xs">100</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">100</TableCell></TableRow>
+                      <TableRow className="hover:bg-slate-50"><TableCell className="font-mono text-xs">U</TableCell><TableCell className="text-xs">Uranium</TableCell><TableCell className="font-mono text-xs">30</TableCell><TableCell className="font-mono text-xs">0</TableCell><TableCell className="font-mono text-xs">30</TableCell></TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+                <div className="mt-3 text-xs text-blue-700">
+                  <strong>Note:</strong> All values in ppb (parts per billion) = µg/L (micrograms per liter). Si = Standard Permissible Limit, Ii = Ideal Value, MAC = Maximum Allowable Concentration for MI calculations.
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="wqi" className="space-y-4">
+              <Alert className="border-blue-200 bg-blue-50">
+                <Info className="h-4 w-4 text-blue-600" />
+                <AlertTitle className="text-blue-900 font-semibold">About WQI Standards</AlertTitle>
+                <AlertDescription className="text-blue-800">
+                  These standards are based on BIS 10500:2012 for Water Quality Index (WQI) calculations.
+                  <div className="mt-2 space-y-1">
+                    <div><strong>Sn:</strong> Standard Permissible Limit - Maximum safe concentration for drinking water</div>
+                    <div><strong>Vo:</strong> Ideal/Optimal Value - Baseline value for quality rating calculation</div>
+                  </div>
+                </AlertDescription>
+              </Alert>
+
+              <div className="rounded-lg border bg-white overflow-hidden">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-slate-50 hover:bg-slate-50">
+                      <TableHead className="font-semibold">Symbol</TableHead>
+                      <TableHead className="font-semibold">Parameter Name</TableHead>
+                      <TableHead className="font-semibold">Sn (Standard Limit)</TableHead>
+                      <TableHead className="font-semibold">Vo (Ideal Value)</TableHead>
+                      <TableHead className="font-semibold">Unit</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">pH</TableCell>
+                      <TableCell className="font-medium">pH</TableCell>
+                      <TableCell><span className="font-mono">8.5</span></TableCell>
+                      <TableCell><span className="font-mono">7.0</span></TableCell>
+                      <TableCell className="text-slate-600">unitless</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">TDS</TableCell>
+                      <TableCell className="font-medium">Total Dissolved Solids</TableCell>
+                      <TableCell><span className="font-mono">500</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">TH</TableCell>
+                      <TableCell className="font-medium">Total Hardness</TableCell>
+                      <TableCell><span className="font-mono">300</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">Ca</TableCell>
+                      <TableCell className="font-medium">Calcium</TableCell>
+                      <TableCell><span className="font-mono">75</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">Mg</TableCell>
+                      <TableCell className="font-medium">Magnesium</TableCell>
+                      <TableCell><span className="font-mono">30</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">Cl</TableCell>
+                      <TableCell className="font-medium">Chloride</TableCell>
+                      <TableCell><span className="font-mono">250</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">NO₃</TableCell>
+                      <TableCell className="font-medium">Nitrate</TableCell>
+                      <TableCell><span className="font-mono">45</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">F</TableCell>
+                      <TableCell className="font-medium">Fluoride</TableCell>
+                      <TableCell><span className="font-mono">1.0</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">SO₄</TableCell>
+                      <TableCell className="font-medium">Sulfate</TableCell>
+                      <TableCell><span className="font-mono">200</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">Turb</TableCell>
+                      <TableCell className="font-medium">Turbidity</TableCell>
+                      <TableCell><span className="font-mono">5</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">NTU</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">AK</TableCell>
+                      <TableCell className="font-medium">Alkalinity</TableCell>
+                      <TableCell><span className="font-mono">300</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L as CaCO₃</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">Fe</TableCell>
+                      <TableCell className="font-medium">Iron</TableCell>
+                      <TableCell><span className="font-mono">0.3</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">mg/L</TableCell>
+                    </TableRow>
+                    <TableRow className="hover:bg-slate-50">
+                      <TableCell className="font-mono font-semibold text-blue-700">EC</TableCell>
+                      <TableCell className="font-medium">Electrical Conductivity</TableCell>
+                      <TableCell><span className="font-mono">300</span></TableCell>
+                      <TableCell><span className="font-mono">0</span></TableCell>
+                      <TableCell className="text-slate-600">µS/cm</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="font-semibold text-sm mb-2 text-blue-900">WQI Formula:</div>
+                <div className="bg-white p-3 rounded font-mono text-sm mb-3">
+                  WQI = Σ(Wi × Qi) / ΣWi
+                </div>
+                <div className="text-sm space-y-1 text-blue-800">
+                  <div><strong>Wi</strong> = ki / Σ(ki), where ki = K / Sn</div>
+                  <div><strong>Qi</strong> = ((Vi - Vo) / (Sn - Vo)) × 100 (Quality rating)</div>
+                  <div><strong>Vi</strong> = Measured value of parameter</div>
+                  <div><strong>Vo</strong> = Ideal value</div>
+                  <div><strong>Sn</strong> = Standard permissible limit</div>
+                  <div><strong>K</strong> = Constant (typically 1)</div>
+                </div>
               </div>
             </TabsContent>
 
