@@ -74,10 +74,15 @@ export interface GetReportResponse {
 export interface ReportStatusResponse {
   success: boolean;
   data: {
-    report_id: number;
+    reportId: number;
     status: ReportStatus;
     progress: number;
-    message: string;
+    errorMessage: string | null;
+    createdAt: string;
+    generatedAt: string | null;
+    isComplete: boolean;
+    isFailed: boolean;
+    canDownload: boolean;
   };
 }
 

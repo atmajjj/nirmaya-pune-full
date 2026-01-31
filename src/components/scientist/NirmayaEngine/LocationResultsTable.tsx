@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Plus, Loader2, Filter, X, Download, Sparkles } from "lucide-react";
-import { nirmayaEngineService } from "@/services/api";
+import { nirmayaEngineService, nirmayaReportService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import type { Calculation } from "@/types/nirmaya.types";
 import { ENV } from "@/config/env";
@@ -86,24 +86,38 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
     try {
       toast({
         title: "Generating Report",
-        description: "Preparing sample water quality report...",
+        description: "Analyzing water quality data. Please wait (~15 seconds)...",
       });
       
-      // Simulate processing delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Open the sample PDF directly
-      window.open('/ai-report-47.pdf', '_blank');
-      
-      toast({
-        title: "Success",
-        description: "Sample report opened successfully!",
+      // Generate the report - wait for it to complete
+      const generateResponse = await nirmayaReportService.generateReport({
+        upload_id: uploadId,
+        report_type: 'comprehensive'
       });
+      
+      console.log('Full generate response:', generateResponse);
+      
+      // Get file_url directly from the response (the report is already completed)
+      const fileUrl = (generateResponse?.data?.report as any)?.file_url;
+      
+      if (fileUrl) {
+        console.log('Opening file URL:', fileUrl);
+        window.open(fileUrl, '_blank');
+        toast({
+          title: "Success",
+          description: "Water Quality Report opened in new tab!",
+        });
+      } else {
+        // If no file_url in response, show error with debug info
+        console.error('No file_url in response:', generateResponse);
+        throw new Error('Report generated but file URL not available. Check console for details.');
+      }
     } catch (error) {
       console.error('AI report generation error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to generate report';
       toast({
         title: "Error",
-        description: "Failed to open report. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
