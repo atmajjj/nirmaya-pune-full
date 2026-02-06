@@ -135,5 +135,77 @@ export const nirmayaReportService = {
 
       poll();
     });
+  },
+
+  /**
+   * Generate AI-powered professional multilingual report
+   * Supports: English (en), Hindi (hi), Marathi (mr)
+   */
+  generateAIReport: async (data: {
+    uploadId: number;
+    language?: 'en' | 'hi' | 'mr';
+  }): Promise<Blob> => {
+    const token = tokenManager.getAccessToken();
+    
+    console.log('generateAIReport called:', {
+      uploadId: data.uploadId,
+      language: data.language,
+      hasToken: !!token,
+    });
+    
+    if (!token) {
+      throw new Error('Authentication required. Please log in again.');
+    }
+    
+    const response = await fetch(`${ENV.API_URL}/nirmaya-engine/ai-report`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        uploadId: data.uploadId,
+        language: data.language || 'en',
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({ message: 'Failed to generate report' }));
+      // Extract message from nested error structure (backend returns { success, error: { message } })
+      let errorMessage = errorData?.error?.message || errorData?.message || 'Failed to generate AI report';
+      
+      // Provide helpful error messages for common issues
+      if (response.status === 401) {
+        errorMessage = 'Session expired. Please log in again to generate reports.';
+      } else if (response.status === 403) {
+        errorMessage = 'Access denied. Only scientists, policymakers, and admins can generate AI reports.';
+      } else if (response.status === 404) {
+        errorMessage = 'No calculations found. Please run analysis first before generating a report.';
+      }
+      
+      console.error('AI Report Generation Error:', response.status, errorData);
+      throw new Error(errorMessage);
+    }
+
+    return response.blob();
+  },
+
+  /**
+   * Get available AI report options (languages and report types)
+   */
+  getAIReportOptions: async (): Promise<{
+    languages: { code: string; name: string; nativeName: string }[];
+    reportTypes: { code: string; name: string; description: string }[];
+    defaults: { language: string; reportType: string };
+  }> => {
+    const response = await apiClient.get<{
+      success: boolean;
+      data: {
+        languages: { code: string; name: string; nativeName: string }[];
+        reportTypes: { code: string; name: string; description: string }[];
+        defaults: { language: string; reportType: string };
+      };
+    }>('/nirmaya-engine/ai-report/options');
+    return response.data;
   }
 };

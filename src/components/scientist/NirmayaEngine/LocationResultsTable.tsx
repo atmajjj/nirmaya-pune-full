@@ -4,12 +4,26 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, Loader2, Filter, X, Download, Sparkles } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Plus, Loader2, Filter, X, Download, Sparkles, Globe } from "lucide-react";
 import { nirmayaEngineService, nirmayaReportService } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import type { Calculation } from "@/types/nirmaya.types";
 import { ENV } from "@/config/env";
 import { tokenManager } from "@/services/api/apiClient";
+
+// Language options for AI report
+const LANGUAGE_OPTIONS = [
+  { code: 'en', name: 'English', nativeName: 'English' },
+  { code: 'hi', name: 'Hindi', nativeName: 'हिंदी' },
+  { code: 'mr', name: 'Marathi', nativeName: 'मराठी' },
+];
 
 interface LocationResultsTableProps {
   uploadId?: number;
@@ -22,6 +36,7 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
   const [loading, setLoading] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<'en' | 'hi' | 'mr'>('en');
   const [filters, setFilters] = useState({
     district: '',
     year: '',
@@ -80,38 +95,56 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
   };
 
   const handleGenerateAIReport = async () => {
-    if (!uploadId) return;
+    if (!uploadId) {
+      toast({
+        title: "Error",
+        description: "No upload ID found. Please upload data first.",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setGeneratingReport(true);
     try {
+      const langName = LANGUAGE_OPTIONS.find(l => l.code === selectedLanguage)?.nativeName || 'English';
+      
+      console.log('Generating AI Report:', { uploadId, language: selectedLanguage });
+      
       toast({
-        title: "Generating Report",
-        description: "Analyzing water quality data. Please wait (~15 seconds)...",
+        title: "Generating AI Report",
+        description: `Creating professional report in ${langName}. Please wait (~15-30 seconds)...`,
       });
       
-      // Generate the report - wait for it to complete
-      const generateResponse = await nirmayaReportService.generateReport({
-        upload_id: uploadId,
-        report_type: 'comprehensive'
+      // Generate the AI report with selected language
+      const pdfBlob = await nirmayaReportService.generateAIReport({
+        uploadId: uploadId,
+        language: selectedLanguage,
       });
       
-      console.log('Full generate response:', generateResponse);
+      console.log('AI Report generated successfully, blob size:', pdfBlob.size);
       
-      // Get file_url directly from the response (the report is already completed)
-      const fileUrl = (generateResponse?.data?.report as any)?.file_url;
+      // Create download link and trigger download
+      const url = window.URL.createObjectURL(pdfBlob);
+      const filename = `water-quality-report-${selectedLanguage}-${uploadId}-${Date.now()}.pdf`;
       
-      if (fileUrl) {
-        console.log('Opening file URL:', fileUrl);
-        window.open(fileUrl, '_blank');
-        toast({
-          title: "Success",
-          description: "Water Quality Report opened in new tab!",
-        });
-      } else {
-        // If no file_url in response, show error with debug info
-        console.error('No file_url in response:', generateResponse);
-        throw new Error('Report generated but file URL not available. Check console for details.');
-      }
+      // Open in new tab
+      const newWindow = window.open(url, '_blank');
+      
+      // Also create download link
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Cleanup URL after a delay
+      setTimeout(() => window.URL.revokeObjectURL(url), 10000);
+      
+      toast({
+        title: "Success! 🎉",
+        description: `Professional Water Quality Report in ${langName} downloaded successfully!`,
+      });
     } catch (error) {
       console.error('AI report generation error:', error);
       const errorMessage = error instanceof Error ? error.message : 'Failed to generate report';
@@ -300,6 +333,22 @@ export const LocationResultsTable = ({ uploadId, refreshTrigger, onNewAnalysis }
               <Download className="w-4 h-4 mr-2" />
               Download CSV
             </Button>
+            
+            {/* Language Selection */}
+            <Select value={selectedLanguage} onValueChange={(v) => setSelectedLanguage(v as 'en' | 'hi' | 'mr')}>
+              <SelectTrigger className="w-[130px] h-9">
+                <Globe className="w-4 h-4 mr-2 text-blue-600" />
+                <SelectValue placeholder="Language" />
+              </SelectTrigger>
+              <SelectContent>
+                {LANGUAGE_OPTIONS.map((lang) => (
+                  <SelectItem key={lang.code} value={lang.code}>
+                    {lang.nativeName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            
             <Button
               size="sm"
               onClick={handleGenerateAIReport}
