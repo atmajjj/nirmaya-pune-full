@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Layers, Loader2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { geomapService, GeomapStation } from "@/services/api";
 import { useToast } from "@/hooks/use-toast";
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import html2canvas from 'html2canvas';
 
 // Get marker color based on API risk level
 const getMarkerColor = (riskLevel: 'safe' | 'moderate' | 'unsafe') => {
@@ -42,6 +43,7 @@ const InteractiveGeoMap = () => {
   const [timeRange, setTimeRange] = useState("last-30-days");
   const [metalFilter, setMetalFilter] = useState("all");
   const [riskFilter, setRiskFilter] = useState("all");
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
   // Fetch geomap data from API
   useEffect(() => {
@@ -81,9 +83,79 @@ const InteractiveGeoMap = () => {
     safe: stations.filter(s => s.risk_level === 'safe').length,
   };
 
+  // Refresh handler
+  const handleRefresh = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const filters: Record<string, string> = {};
+      if (riskFilter !== "all") {
+        filters.risk_level = riskFilter;
+      }
+      const data = await geomapService.getStations(filters);
+      setStations(data);
+      toast({
+        title: "Data Refreshed",
+        description: "Geomap data has been updated successfully.",
+      });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Failed to refresh data";
+      setError(errorMessage);
+      toast({
+        title: "Refresh Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, [riskFilter, toast]);
+
+  // Export map handler
+  const handleExport = useCallback(async () => {
+    if (!mapContainerRef.current) {
+      toast({
+        title: "Export Failed",
+        description: "Map container not found.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      toast({
+        title: "Exporting...",
+        description: "Generating map image, please wait.",
+      });
+      
+      const canvas = await html2canvas(mapContainerRef.current, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+      });
+      
+      const link = document.createElement('a');
+      link.download = `geomap-export-${new Date().toISOString().split('T')[0]}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      
+      toast({
+        title: "Export Successful",
+        description: "Map image has been downloaded.",
+      });
+    } catch (err) {
+      console.error('Export error:', err);
+      toast({
+        title: "Export Failed",
+        description: "Could not export map. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [toast]);
+
   return (
     <div className="space-y-6 bg-slate-50 min-h-screen p-6">
-      <GeoMapHeader />
+      <GeoMapHeader onRefresh={handleRefresh} onExport={handleExport} isLoading={loading} />
       
       {error && (
         <Alert variant="destructive">
@@ -218,8 +290,8 @@ const InteractiveGeoMap = () => {
 
           {/* Main Map Area */}
           <div className="xl:col-span-3 space-y-4">
-            <Card className="bg-white border border-slate-200 rounded-lg">
-              <CardContent className="p-0">
+            <Card className="bg-white border border-slate-200 rounded-lg relative" style={{ isolation: 'isolate' }}>
+              <CardContent className="p-0" ref={mapContainerRef}>
                 {/* Map Header */}
                 <div className="flex items-center justify-between p-3 border-b border-slate-200">
                   <div className="flex items-center gap-2">
@@ -263,7 +335,7 @@ const InteractiveGeoMap = () => {
                 </div>
 
                 {/* Leaflet Map */}
-                <div className="relative w-full h-[550px]">
+                <div className="relative w-full h-[550px]" style={{ zIndex: 0 }}>
                   {loading ? (
                     <div className="flex items-center justify-center h-full bg-slate-50">
                       <div className="text-center">
