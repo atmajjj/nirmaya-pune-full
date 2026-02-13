@@ -33,20 +33,45 @@ export const LoginForm = ({ onSubmit, isLoading, error, onClearError }: LoginFor
   };
 
   return (
-    <Card className="w-full max-w-md border border-slate-200/80 shadow-lg bg-white rounded-2xl">
-      <CardContent className="p-8 lg:p-10">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="w-12 h-12 bg-gradient-to-br from-brand to-brand-light rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-            <Droplets className="w-6 h-6 text-white" />
-          </div>
-          <h2 className="text-2xl font-bold mb-2 text-slate-800">
-            Welcome Back
-          </h2>
-          <p className="text-sm text-slate-500">
-            Sign in to access your dashboard
-          </p>
+    <div className="w-full max-w-md relative">
+      {/* SVG Filter for Liquid Effect */}
+      <svg className="absolute w-0 h-0">
+        <defs>
+          <filter id="gooey-liquid">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="gooey" />
+            <feComposite in="SourceGraphic" in2="gooey" operator="atop"/>
+          </filter>
+        </defs>
+      </svg>
+
+      {/* Animated Liquid Blobs Background */}
+      <div className="absolute inset-0 rounded-2xl overflow-hidden opacity-20 pointer-events-none">
+        <div className="absolute top-0 -left-4 w-24 h-24 bg-brand rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-24 h-24 bg-brand-light rounded-full mix-blend-multiply filter blur-xl animate-blob" style={{ animationDelay: "2s" }}></div>
+        <div className="absolute -bottom-8 left-20 w-24 h-24 bg-brand-accent rounded-full mix-blend-multiply filter blur-xl animate-blob" style={{ animationDelay: "4s" }}></div>
+      </div>
+
+      <Card className="w-full border border-slate-200/60 shadow-2xl bg-white/80 backdrop-blur-xl rounded-2xl relative overflow-hidden">
+        {/* Liquid Shimmer Effect */}
+        <div className="absolute inset-0 rounded-2xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-brand/5 via-transparent to-brand-light/5"></div>
+          <div className="absolute -inset-full animate-shimmer bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"></div>
         </div>
+
+        <CardContent className="p-8 lg:p-10 relative z-10">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-12 h-12 bg-gradient-to-br from-brand to-brand-light rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg animate-float">
+              <Droplets className="w-6 h-6 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold mb-2 text-slate-800">
+              Welcome Back
+            </h2>
+            <p className="text-sm text-slate-500">
+              Sign in to access your dashboard
+            </p>
+          </div>
 
         {/* Error Alert */}
         {error && (
@@ -148,33 +173,8 @@ export const LoginForm = ({ onSubmit, isLoading, error, onClearError }: LoginFor
             )}
           </Button>
         </form>
-
-        {/* Test Credentials Section */}
-        <div className="mt-6 p-4 rounded-xl bg-slate-50 border border-slate-200">
-          <p className="text-xs font-semibold text-slate-700 mb-3 flex items-center gap-2">
-            <AlertCircle className="w-3.5 h-3.5" />
-            Demo Credentials
-          </p>
-          <div className="space-y-2 text-xs text-slate-600">
-            <div className="flex items-center gap-2">
-              <span className="font-medium min-w-[90px]">Field Tech:</span>
-              <span className="text-slate-500">fieldtech@gmail.com / 12345678</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium min-w-[90px]">Scientist:</span>
-              <span className="text-slate-500">scientist@gmail.com / 12345678</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium min-w-[90px]">Researcher:</span>
-              <span className="text-slate-500">researcher@gmail.com / 12345678</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium min-w-[90px]">Policymaker:</span>
-              <span className="text-slate-500">policymaker@gmail.com / 12345678</span>
-            </div>
-          </div>
-        </div>
       </CardContent>
     </Card>
+    </div>
   );
 };
