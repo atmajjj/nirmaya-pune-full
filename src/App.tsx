@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/common/ProtectedRoute";
 import Loading from "./components/common/Loading";
+import LandingPage from "./components/landing/LandingPage";
 
 // Public pages
 const AcceptInvitation = lazy(() => import("./pages/AcceptInvitation"));
@@ -61,7 +62,8 @@ const App = () => (
           <AuthProvider>
             <Suspense fallback={<Loading message="Loading page..." />}>
               <Routes>
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<Login />} />
                 <Route path="/accept-invitation" element={<AcceptInvitation />} />
 
                 {/* Profile Route (shared across all roles) */}

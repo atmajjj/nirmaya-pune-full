@@ -4,9 +4,9 @@
  */
 
 export const ENV = {
-  // API Base URL - full URL including /api
+  // API Base URL - full URL including /api or relative /api for dev proxy
   // Example: http://localhost:8000/api
-  API_URL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api',
+  API_URL: import.meta.env.VITE_API_URL || '/api',
   
   // App environment
   IS_DEV: import.meta.env.DEV,

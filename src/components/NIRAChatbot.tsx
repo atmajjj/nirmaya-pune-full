@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageCircle, X, Bot, Expand, Shrink } from 'lucide-react';
-import { ChatMessage, ChatInput, type Message } from '@/components/chatbot';
+import { ChatMessage, type Message } from '@/components/chatbot';
+import { ChatInputWithVoice } from '@/components/chatbot/ChatInputWithVoice';
 import { chatbotService } from '@/services/api';
 import { showErrorToast } from '@/lib/toast-utils';
 
@@ -226,7 +227,7 @@ const NIRAChatbot: React.FC<NIRAChatbotProps> = ({ className = '' }) => {
               </div>
 
               {/* Input Area */}
-              <ChatInput 
+              <ChatInputWithVoice 
                 onSend={handleSendMessage} 
                 isDisabled={isThinking} 
                 isFullScreen={isFullScreen} 

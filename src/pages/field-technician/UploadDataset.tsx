@@ -6,12 +6,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { VoiceNotes } from "@/components/field-technician/VoiceNotes";
 import { dataSourceService } from "@/services/api";
 import { toast } from "@/hooks/use-toast";
 
 const UploadDataset = () => {
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
+  const [voiceNotes, setVoiceNotes] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState("");
@@ -88,8 +90,13 @@ const UploadDataset = () => {
     setUploadError("");
 
     try {
-      // Upload file using data source service with optional description
-      const dataSource = await dataSourceService.upload(file, description || undefined);
+      // Combine description with voice notes if available
+      const finalDescription = [description, voiceNotes]
+        .filter(Boolean)
+        .join('\n\n---\nVoice Notes:\n');
+
+      // Upload file using data source service with combined description
+      const dataSource = await dataSourceService.upload(file, finalDescription || undefined);
 
       // Success - show success message
       setUploadSuccess(true);
@@ -104,6 +111,7 @@ const UploadDataset = () => {
       // Reset form
       setFile(null);
       setDescription("");
+      setVoiceNotes("");
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -220,6 +228,14 @@ const UploadDataset = () => {
                   />
                   <p className="text-xs text-slate-500">Brief description including location, date range, or any relevant details</p>
                 </div>
+
+                {/* Voice Notes */}
+                <VoiceNotes 
+                  onTranscriptionComplete={(text) => {
+                    setVoiceNotes(text);
+                  }}
+                  isDisabled={uploading}
+                />
 
                 {/* File Upload */}
                 <div className="space-y-2">

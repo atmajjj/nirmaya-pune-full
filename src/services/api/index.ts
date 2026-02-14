@@ -18,6 +18,7 @@ export type { GeomapStation, GeomapFilters } from './geomapService';
 export { chatbotService } from './chatbotService';
 export { researcherApplicationService } from './researcherApplicationService';
 export { invitationService } from './invitationService';
+export { smsAlertsService } from './smsAlertsService';
 export type { 
   ResearcherApplication, 
   GetApplicationsParams, 

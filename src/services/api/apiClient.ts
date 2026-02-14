@@ -95,7 +95,10 @@ function buildUrl(
 ): string {
   // Combine base URL and endpoint
   const fullUrl = `${baseURL}${endpoint}`.replace(/([^:]\/)\/+/g, '$1');
-  const url = new URL(fullUrl);
+  const isAbsolute = /^https?:\/\//i.test(fullUrl);
+  const url = isAbsolute
+    ? new URL(fullUrl)
+    : new URL(fullUrl, window.location.origin);
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {

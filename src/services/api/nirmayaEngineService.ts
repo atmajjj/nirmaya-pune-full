@@ -4,6 +4,7 @@
  */
 
 import { apiClient } from './apiClient';
+import { ENV } from '@/config/env';
 import type {
   CSVPreviewResult,
   CalculationResult,
@@ -109,15 +110,17 @@ export const nirmayaEngineService = {
    */
   async downloadResults(uploadId: number): Promise<void> {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}${BASE_URL}/uploads/${uploadId}/download`,
-        {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          },
-        }
-      );
+      const downloadUrl = new URL(
+        `${ENV.API_URL}${BASE_URL}/uploads/${uploadId}/download`,
+        window.location.origin
+      ).toString();
+
+      const response = await fetch(downloadUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+      });
 
       if (!response.ok) {
         throw new Error('Failed to download results');
